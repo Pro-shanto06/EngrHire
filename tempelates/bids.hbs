@@ -1,0 +1,341 @@
+<html>
+
+<head>
+  <title>Profile</title>
+  <link href="/logo.png" rel="icon" />
+ 
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet" />
+
+
+  <link href="/vendor/aos/aos.css" rel="stylesheet" />
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+  <link href="/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+  <link href="/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
+  <link href="/vendor/remixicon/remixicon.css" rel="stylesheet" />
+  <link href="/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/css/client_profile.css" />
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+      <script src="https://unpkg.com/phosphor-icons"></script>
+      <div class="logo">
+        <h1><a href="/" ><img  src="/logo.png" alt="">EngrHire BD</a></h1>
+ 
+      </div>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="/">Home</a></li>
+          {{#if user}}
+          {{#if isClient}}
+          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          {{/if}}
+
+          {{#if isEngineer}}
+          <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+          {{/if}}
+          {{else}}
+          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+
+          {{/if}}
+
+          <li><a class="nav-link scrollto" href="#services">Services</a></li>
+          <li><a class="nav-link scrollto" href="#about">About</a></li>
+
+          <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li>
+          <li><a class="nav-link scrollto" href="#team">Team</a></li>
+
+          <li class="dropdown">
+            <a href="#"><span>Account</span>
+              <i class="bi bi-chevron-down"></i>
+            </a>
+            <ul>
+              {{#if user}}
+              {{#if isClient}}
+              <li class="dropdown">
+                <a href="/client-profile/{{userId}}/1"><span>User Profile</span>
+                  <i class="bi bi-chevron-right"></i>
+                </a>
+                <ul>
+                  <li><a href="#">Notifications</a></li>
+                  <li><a href="/client-profile/{{userId}}/1">Profile</a></li>
+                  <li><a href="/post-job">Post a Job</a></li>
+                </ul>
+              </li>
+              <li><a href="/logout">Logout</a></li>
+      
+              {{else}}
+              <li class="dropdown">
+                <a href="/profile/{{userId}}/1"><span>User Profile</span>
+                  <i class="bi bi-chevron-right"></i>
+                </a>
+                <ul>
+                  <li><a href="#">Notifications</a></li>
+                  <li><a href="/profile/{{userId}}/1">Profile</a></li>
+                  <li><a href="/job-list/all">Find a Job</a></li>
+                </ul>
+              </li>
+              <li><a href="/logout">Logout</a></li>
+
+              {{/if}}
+              {{else}}
+              <li><a href="/login">Login</a></li>
+              <li><a href="/select" class="btn-signup">Sign Up</a></li>
+              {{/if}}
+            </ul>
+
+          </li>
+
+          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+
+          <div class="search">
+            <input type="text" class="search-box" placeholder="Search..." />
+            <button class="search-btn"><i class="ph-magnifying-glass-bold"></i></button>
+            <button class="close-btn"><i class="ph-x-bold"></i></button>
+          </div>
+
+          {{#if isClient}}
+          <li>
+            <a class="getstarted scrollto" href="/client-profile/{{userId}}/1">
+              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{user.full_name}}</span>
+            </a>
+          </li>
+          {{/if}}
+
+          {{#if isEngineer}}
+          <li>
+            <a class="getstarted scrollto" href="/profile/{{userId}}/1">
+              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{user.full_name}}</span>
+            </a>
+          </li>
+          {{/if}}
+
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+  <br /><br /><br /><br />
+     <div class="sidebar open">
+    <div class="logo-details">
+      <i class="bx bx-grid-alt icon"></i>
+      <div class="logo_name">Dashboard</div>
+      <i class="bx bx-menu" id="btn"></i>
+    </div>
+    <ul class="nav-list">
+      
+      <li>
+        <a href="/client-profile/{{clientId}}/1">
+          <i class="bx bx-user"></i>
+          <span class="links_name">My Profile</span>
+        </a>
+        <span class="tooltip">Profile</span>
+      </li>
+      <li>
+        <a href="#">
+          <i class="bx bx-bell"></i>
+          <span class="links_name">Notification </span>
+        </a>
+        <span class="tooltip">Notification</span>
+      </li>
+      <li>
+         <a href="/client-profile/{{clientId}}/3">
+          <i class="bx bx-pie-chart-alt-2"></i>
+          <span class="links_name">Manage Post</span>
+        </a>
+        <span class="tooltip">Post</span>
+      </li>
+      <li>
+       <a href="/bids/{{clientId}}">
+          <i class="bx bx-dollar"></i>
+          <span class="links_name">Bid’s</span>
+        </a>
+        <span class="tooltip">Bid’s</span>
+      </li>
+      <li>
+        <a href="/client-profile/{{clientId}}/5">
+          <i class="bx bx-credit-card"></i>
+          <span class="links_name">Payments</span>
+        </a>
+        <span class="tooltip">Payments</span>
+      </li>
+      <li>
+        <a href="/rating">
+          <i class="bx bx-heart"></i>
+          <span class="links_name">Rating & Reviews</span>
+        </a>
+        <span class="tooltip">Ratings</span>
+      </li>
+      {{#if isClient}}
+      <li class="profile">
+        <a class="getstarted scrollto" href="/client-profile/{{clientId}}/1">
+          <div class="profile-details">
+            <img src="{{user.profilePicPath}}" alt="Profile Picture" />
+            <div class="name_job">
+              <div class="name">{{user.full_name}}</div>
+            </div>
+          </div>
+          <i class="bx bx-log-out" id="log_out"></i>
+      </li>
+      {{/if}}
+    </ul>
+  </div>
+    
+
+   <div class="dcont container">
+      <div class="main-body">
+        <div class="row gutters-sm">
+          
+       
+        <hr>
+          <div class="titleBid">
+          <h2>Bid List</h2>
+      </div>
+      <hr>
+      <ul id="pending-bids-list">
+      {{#each pendingBids}}
+      <li>
+       
+    <div class="container mt-5 mb-5">
+      <div class="d-flex justify-content-center row">
+        <div class="col-md-10">
+            <div class="row p-2 bg-white border rounded bid-card">
+                <div class="col-md-6 mt-1">
+                    <h4>{{this.jobTitle}}</h5>
+                    <h5>{{this.jobDeadline}}</h5>
+                    <div class="d-flex flex-row">
+                        <div class="ratings mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div><span>{{this.engineerFullName}}</span>
+                    </div>
+                    
+                    <p class="text-justify text-truncate para mb-0">{{this.bidDetails}}<br><br></p>
+                </div>
+                <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                    <div class="d-flex flex-row align-items-center">
+                        <h4 class="mr-1">{{this.bidAmount}}</h4>
+                    </div>
+                  
+                    <div class="d-flex flex-column mt-4 bid-actions">
+                      <button class="btn btn-primary btn-sm accept-bid" class="" data-bidid="{{this._id}}" data-jobid="{{this.job}}"
+                      onclick="acceptBid('{{this._id}}', '{{this.job}}')">Accept</button>
+
+                      <button class="btn btn-outline-primary btn-sm mt-2 reject-bid" class="" data-bidid="{{this._id}}" data-jobid="{{this.job}}"
+                      onclick="rejectBid('{{this._id}}', '{{this.job}}')">Reject</button>
+
+                      
+                      </div>
+                </div>
+        </div>
+      </div>
+      </div>
+      </li>
+      {{/each}}
+        </ul>
+
+        </div>
+      </div>
+      </div>
+           
+
+       
+      <div class="dcont container">
+      <div class="main-body">
+        <div class="row gutters-sm">  
+   <hr>
+<div class="titleBid">
+  <h2>Accepted Bids:</h2>
+</div>
+<ul id="accepted-bids-list">
+  {{#each acceptedBids}}
+    <li>
+      <div class="container mt-5 mb-5">
+        <div class="d-flex justify-content-center row">
+          <div class="col-md-10">
+            <div class="row p-2 bg-white border rounded bid-card">
+              <div class="col-md-6 mt-1">
+                <h4>{{this.jobTitle}}</h4>
+                <h5>{{this.jobDeadline}}</h5>
+                <div class="d-flex flex-row">
+                  <div class="ratings mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+                  <span>{{this.engineerFullName}}</span>
+                </div>
+                <p class="text-justify text-truncate para mb-0">{{this.bidDetails}}<br><br></p>
+              </div>
+              <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                <div class="d-flex flex-row align-items-center">
+                  <h4 class="mr-1">{{this.bidAmount}}</h4>
+                </div>
+                <a class="btn btn-primary btn-sm" href="/work/{{this.workId}}">View Work</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+  {{/each}}
+</ul>
+</div>
+        </div>
+      </div>
+
+  
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../bids.js"></script>
+
+    <a
+      href="#"
+      class="back-to-top d-flex align-items-center justify-content-center"
+    ><i class="bi bi-arrow-up-short"></i></a>
+
+
+    <script src="/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="/vendor/aos/aos.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="/vendor/php-email-form/validate.js"></script>
+
+
+   
+
+
+       <script>
+    let sidebar = document.querySelector(".sidebar");
+    let closeBtn = document.querySelector("#btn");
+
+
+    closeBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("open");
+      menuBtnChange();
+    });
+
+  
+
+ 
+    function menuBtnChange() {
+      if (sidebar.classList.contains("open")) {
+        closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+      } else {
+        closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+      }
+    }
+  </script>
+
+  </body>
+
+</html>

@@ -1,0 +1,340 @@
+<html>
+
+<head>
+  <title>Profile</title>
+  <link href="/logo.png" rel="icon" />
+  
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet" />
+
+
+  <link href="/vendor/aos/aos.css" rel="stylesheet" />
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+  <link href="/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+  <link href="/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
+  <link href="/vendor/remixicon/remixicon.css" rel="stylesheet" />
+  <link href="/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/css/client_profile.css" />
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+      <script src="https://unpkg.com/phosphor-icons"></script>
+      <div class="logo">
+        <h1><a href="/" ><img  src="/logo.png" alt="">EngrHire BD</a></h1>
+        
+      </div>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="/">Home</a></li>
+          {{#if user}}
+          {{#if isClient}}
+          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          {{/if}}
+
+          {{#if isEngineer}}
+          <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+          {{/if}}
+          {{else}}
+          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+
+          {{/if}}
+
+          <li><a class="nav-link scrollto" href="#services">Services</a></li>
+          <li><a class="nav-link scrollto" href="#about">About</a></li>
+
+          <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li>
+          <li><a class="nav-link scrollto" href="#team">Team</a></li>
+
+          <li class="dropdown">
+            <a href="#"><span>Account</span>
+              <i class="bi bi-chevron-down"></i>
+            </a>
+            <ul>
+              {{#if user}}
+              {{#if isClient}}
+              <li class="dropdown">
+                <a href="/client-profile/{{userId}}/1"><span>User Profile</span>
+                  <i class="bi bi-chevron-right"></i>
+                </a>
+                <ul>
+                  <li><a href="#">Notifications</a></li>
+                  <li><a href="/client-profile/{{userId}}/1">Profile</a></li>
+                  <li><a href="/post-job">Post a Job</a></li>
+                </ul>
+              </li>
+              <li><a href="/logout">Logout</a></li>
+   
+              {{else}}
+              <li class="dropdown">
+                <a href="/profile/{{userId}}/1"><span>User Profile</span>
+                  <i class="bi bi-chevron-right"></i>
+                </a>
+                <ul>
+                  <li><a href="#">Notifications</a></li>
+                  <li><a href="/profile/{{userId}}/1">Profile</a></li>
+                  <li><a href="/job-list/all">Find a Job</a></li>
+                </ul>
+              </li>
+              <li><a href="/logout">Logout</a></li>
+       
+              {{/if}}
+              {{else}}
+              <li><a href="/login">Login</a></li>
+              <li><a href="/select" class="btn-signup">Sign Up</a></li>
+              {{/if}}
+            </ul>
+
+          </li>
+
+          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+
+          <div class="search">
+            <input type="text" class="search-box" placeholder="Search..." />
+            <button class="search-btn"><i class="ph-magnifying-glass-bold"></i></button>
+            <button class="close-btn"><i class="ph-x-bold"></i></button>
+          </div>
+
+          {{#if isClient}}
+          <li>
+            <a class="getstarted scrollto" href="/client-profile/{{userId}}/1">
+              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{user.full_name}}</span>
+            </a>
+          </li>
+          {{/if}}
+
+          {{#if isEngineer}}
+          <li>
+            <a class="getstarted scrollto" href="/profile/{{userId}}/1">
+              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{user.full_name}}</span>
+            </a>
+          </li>
+          {{/if}}
+
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <br /><br /><br /><br />
+
+
+   <div class="sidebar open">
+    <div class="logo-details">
+      <i class="bx bx-grid-alt icon"></i>
+      <div class="logo_name">Work Dashboard</div>
+      <i class="bx bx-menu" id="btn"></i>
+    </div>
+      <button><a href="/work/{{workId}}/chat">Chat</a></button>
+    <ul class="nav-list">
+      
+      <li><a href="#client-info">Client Info</a></li>
+  
+            <li><a href="#engineer-info">Engineer Info</a></li>
+    
+      <li><a href="#job-info">Job Info</a></li>
+
+           <li><a href="#bid-info">Bid Info</a></li>
+    
+
+      <li><a href="/work/{{workId}}/chat">Chat</a></li>
+   
+     
+               <li><a href="#payments">Payments</a></li>
+   
+      {{#if isClient}}
+      <li class="profile">
+        <a class="getstarted scrollto" href="/client-profile/{{userId}}/1">
+          <div class="profile-details">
+            <img src="{{user.profilePicPath}}" alt="Profile Picture" />
+            <div class="name_job">
+              <div class="name">{{user.full_name}}</div>
+           
+            </div>
+          </div>
+          <i class="bx bx-log-out" id="log_out"></i>
+      </li>
+      {{/if}}
+    </ul>
+
+
+      </div>
+
+    
+
+    <section class="home-section" id="client-info" class="info-card">
+       <div class="row gutters-sm">
+
+        <div class="main">
+      
+            <div class="card">
+  <h2>Client Information</h2>
+  <div class="card-content">
+    <p>Full Name: {{client.full_name}}</p>
+    <p>Email: {{client.email}}</p>
+    <p>Contact Mobile: {{client.contact_mobile}}</p>
+    <p>Website: {{client.website}}</p>
+  
+  </div>
+  </div>
+      </div>
+    </div>
+        
+</section>
+
+<section class="home-section" id="engineer-info" >
+  
+
+        <div class="main">
+      
+            <div class="card">
+  <h2>Engineer Information</h2>
+  <div class="card-content">
+    <p>Full Name: {{engineer.full_name}}</p>
+    <p>Email: {{engineer.email}}</p>
+    <p>Designation: {{engineer.designation}}</p>
+    <p>Field of Expertise: {{engineer.field_of_expertise}}</p>
+
+   </div>
+
+      </div>
+    </div>
+</section>
+
+<section class="home-section" id="job-info">
+  <div class="row gutters-sm">
+
+        <div class="main">
+      
+            <div class="card">
+  <h2>Job Information</h2>
+  <div class="card-content">
+    <p>Job Title: {{job.jobTitle}}</p>
+    <p>Category: {{job.category}}</p>
+    <p>Job Details: {{job.jobDetails}}</p>
+    <p>Job Requirements: {{job.jobRequirements}}</p>
+
+ </div>
+  </div>
+      </div>
+    </div>
+</section>
+
+<section class="home-section" id="bid-info" class="info-card">
+  <div class="row gutters-sm">
+
+        <div class="main">
+      
+            <div class="card">
+  <h2>Bid Information</h2>
+  <div class="card-content">
+    <p>Bid Amount: ${{bid.bidAmount}}</p>
+    <p>Status: {{bid.status}}</p>
+
+ </div>
+  </div>
+      </div>
+    </div>
+</section>
+
+
+
+<script>
+  const navLinks = document.querySelectorAll('.nav-list a');
+  const contentSections = document.querySelectorAll('.home-section');
+
+  contentSections.forEach((section, index) => {
+    if (index > 0) {
+      section.style.display = 'none';
+    }
+  });
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      contentSections.forEach(section => {
+        section.style.display = 'none';
+      });
+
+      const targetSectionId = link.getAttribute('href').substring(1); 
+      const activeSection = document.getElementById(targetSectionId);
+
+      if (activeSection) {
+        activeSection.style.display = 'block';
+      }
+    });
+  });
+</script>
+
+
+
+ <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript">
+
+  </script>
+
+
+
+
+  <script src="/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="/vendor/aos/aos.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="/vendor/php-email-form/validate.js"></script>
+
+
+  
+  <script>
+    let sidebar = document.querySelector(".sidebar");
+    let closeBtn = document.querySelector("#btn");
+
+
+    closeBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("open");
+      menuBtnChange();
+    });
+
+  
+
+
+    function menuBtnChange() {
+      if (sidebar.classList.contains("open")) {
+        closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+      } else {
+        closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+      }
+    }
+  </script>
+
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../bids.js"></script>
+
+    <a
+      href="#"
+      class="back-to-top d-flex align-items-center justify-content-center"
+    ><i class="bi bi-arrow-up-short"></i></a>
+
+   
+
+    
+</body>
+
+</html>

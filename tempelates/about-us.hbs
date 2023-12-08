@@ -1,0 +1,226 @@
+<html>
+
+<head>
+  <title>Profile</title>
+  <link href="/logo.png" rel="icon" />
+
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet" />
+
+
+  <link href="/vendor/aos/aos.css" rel="stylesheet" />
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+  <link href="/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+  <link href="/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
+  <link href="/vendor/remixicon/remixicon.css" rel="stylesheet" />
+  <link href="/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+
+  <link href="assets/css/style.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+      <script src="https://unpkg.com/phosphor-icons"></script>
+      <div class="logo">
+        <h1><a href="/" ><img  src="/logo.png" alt="">EngrHire BD</a></h1>
+    
+      </div>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="/">Home</a></li>
+          {{#if user}}
+          {{#if isClient}}
+          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          {{/if}}
+
+          {{#if isEngineer}}
+          <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+          {{/if}}
+          {{else}}
+          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+
+          {{/if}}
+
+          <li><a class="nav-link scrollto" href="#services">Services</a></li>
+          <li><a class="nav-link scrollto" href="#about">About</a></li>
+
+          <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li>
+          <li><a class="nav-link scrollto" href="#team">Team</a></li>
+
+          <li class="dropdown">
+            <a href="#"><span>Account</span>
+              <i class="bi bi-chevron-down"></i>
+            </a>
+            <ul>
+              {{#if user}}
+              {{#if isClient}}
+              <li class="dropdown">
+                <a href="/client-profile/{{clientId}}"><span>User Profile</span>
+                  <i class="bi bi-chevron-right"></i>
+                </a>
+                <ul>
+                  <li><a href="#">Notifications</a></li>
+                  <li><a href="/client-profile/{{clientId}}">Profile</a></li>
+                  <li><a href="/post-job">Post a Job</a></li>
+                </ul>
+              </li>
+              <li><a href="/logout">Logout</a></li>
+       
+              {{else}}
+              <li class="dropdown">
+                <a href="/profile/{{engineerId}}"><span>User Profile</span>
+                  <i class="bi bi-chevron-right"></i>
+                </a>
+                <ul>
+                  <li><a href="#">Notifications</a></li>
+                  <li><a href="/profile/{{engineerId}}">Profile</a></li>
+                  <li><a href="/job-list/all">Find a Job</a></li>
+                </ul>
+              </li>
+              <li><a href="/logout">Logout</a></li>
+
+              {{/if}}
+              {{else}}
+              <li><a href="/login">Login</a></li>
+              <li><a href="/select" class="btn-signup">Sign Up</a></li>
+              {{/if}}
+            </ul>
+
+          </li>
+
+          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+
+          <div class="search">
+            <input type="text" class="search-box" placeholder="Search..." />
+            <button class="search-btn"><i class="ph-magnifying-glass-bold"></i></button>
+            <button class="close-btn"><i class="ph-x-bold"></i></button>
+          </div>
+
+          {{#if isClient}}
+          <li>
+            <a class="getstarted scrollto" href="/client-profile/{{clientId}}/1">
+              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{user.full_name}}</span>
+            </a>
+          </li>
+          {{/if}}
+
+          {{#if isEngineer}}
+          <li>
+            <a class="getstarted scrollto" href="/profile/{{engineerId}}/1">
+              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{user.full_name}}</span>
+            </a>
+          </li>
+          {{/if}}
+
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+      <!-- ======= About Us Section ======= -->
+      <section id="about" class="about">
+        <div class="container">
+          <br><br><br><br><br><br><br><br>
+
+          <div class="section-title" data-aos="fade-up">
+            <h2>About Us</h2>
+          </div>
+
+          <div class="row content">
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="50">
+              <p>
+                At our platform, we've created a dynamic and dedicated
+                freelancing hub for construction professionals.
+              </p>
+              <ul>
+                <li><i class="ri-check-double-line"></i>
+                  Streamlined Project Matching</li>
+                <li><i class="ri-check-double-line"></i>
+                  Specialized Construction Tools</li>
+                <li><i class="ri-check-double-line"></i>
+                  Secure and Collaborative Environment</li>
+              </ul>
+            </div>
+            <div
+              class="col-lg-6 pt-4 pt-lg-0"
+              data-aos="fade-up"
+              data-aos-delay="50"
+            >
+              <p>
+                Our platform connects construction professionals and clients,
+                streamlining the project process. Our platform offers a secure,
+                collaborative environment with project listings and contractor
+                profiles. Whether you're a professional seeking projects or a
+                client looking for experts, we're your trusted construction
+                network
+              </p>
+              <p>At our platform, we pride ourselves on being the bridge that connects construction professionals and clients, simplifying and enhancing the entire project lifecycle. Our robust platform is designed to provide a seamless and efficient experience for both professionals and clients involved in the construction industry.
+One of the key features of our platform is the creation of a secure and collaborative environment. We understand the importance of trust and confidentiality in the construction business. Therefore, our platform employs state-of-the-art security measures to ensure that all interactions and data exchange remain confidential and protected.
+Within this secure space, users have access to detailed project listings that cover a wide range of construction needs. Whether it's a residential, commercial, or industrial project, our platform is a comprehensive marketplace where professionals can find exciting opportunities to contribute their expertise. For clients, this means having a diverse pool of qualified and experienced contractors at their fingertips.
+To facilitate informed decision-making, we provide detailed contractor profiles. These profiles highlight the skills, qualifications, and past project experiences of each professional, empowering clients to make well-informed choices when selecting experts for their projects. On the flip side, professionals can showcase their skills and credentials, making it easier for them to connect with clients seeking their specific expertise.
+Whether you're a seasoned professional seeking new and exciting projects or a client in search of construction experts, our platform is your trusted construction network. We are committed to fostering collaboration, transparency, and success within the construction industry. Join us, and let's build the future together.
+              </p>
+      
+            </div>
+          </div>
+
+        </div>
+      </section><!-- End About Us Section -->
+
+      
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer">
+      <div class="container">
+        <div class="row d-flex align-items-center">
+          <div class="col-lg-6 text-lg-left text-center">
+            <div class="copyright">
+              &copy; Copyright
+              <strong>EngrHire BD</strong>. All Rights Reserved
+            </div>
+           
+          </div>
+          <div class="col-lg-6">
+            <nav class="footer-links text-lg-right text-center pt-2 pt-lg-0">
+              <a href="#intro" class="scrollto">Home</a>
+              <a href="#about" class="scrollto">About</a>
+              <a href="#">Privacy Policy</a>
+              <a href="#">Terms of Use</a>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </footer><!-- End Footer -->
+
+    <a
+      href="#"
+      class="back-to-top d-flex align-items-center justify-content-center"
+    ><i class="bi bi-arrow-up-short"></i></a>
+
+   
+    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="assets/vendor/aos/aos.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+
+ 
+    <script src="assets/js/main.js"></script>
+
+  </body>
+
+</html>

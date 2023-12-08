@@ -1,0 +1,105 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <style>
+
+    .card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 16px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Admin Dashboard</h1>
+
+
+  <h2>Jobs</h2>
+  <div class="cards-container">
+    {{#each jobs}}
+      <div class="card">
+        <p><strong>Job ID:</strong> {{this._id}}</p>
+        <p><strong>Title:</strong> {{this.jobTitle}}</p>
+        <p><strong>Client Name:</strong> {{this.clientName}}</p>
+        
+        <form method="POST" action="/admin/delete-job/{{this._id}}">
+          <button type="submit">Delete</button>
+        </form>
+      </div>
+    {{/each}}
+  </div>
+
+  <!-- Clients Cards -->
+  <h2>Clients</h2>
+  <div class="cards-container">
+    {{#each clients}}
+      <div class="card">
+        <p><strong>Client ID:</strong> {{this._id}}</p>
+        <p><strong>Email:</strong> {{this.email}}</p>
+        <p><strong>Full Name:</strong> {{this.full_name}}</p>
+       
+        <form method="POST" action="/admin/delete-client/{{this._id}}">
+          <button type="submit">Delete</button>
+        </form>
+      </div>
+    {{/each}}
+  </div>
+
+  <!-- Engineers Cards -->
+  <h2>Engineers</h2>
+  <div class="cards-container">
+    {{#each engineers}}
+      <div class="card">
+        <p><strong>Engineer ID:</strong> {{this._id}}</p>
+        <p><strong>Email:</strong> {{this.email}}</p>
+        <p><strong>Full Name:</strong> {{this.full_name}}</p>
+     
+        <form method="POST" action="/admin/delete-engineer/{{this._id}}">
+          <button type="submit">Delete</button>
+        </form>
+      </div>
+    {{/each}}
+  </div>
+
+  <!-- Bids Cards -->
+  <h2>Bids</h2>
+  <div class="cards-container">
+    {{#each bids}}
+      <div class="card">
+        <p><strong>Bid ID:</strong> {{this._id}}</p>
+        <p><strong>Job Title:</strong> {{this.jobTitle}}</p>
+        <p><strong>Engineer Name:</strong> {{this.engineerFullName}}</p>
+       
+        <form method="POST" action="/admin/delete-bid/{{this._id}}">
+          <button type="submit">Delete</button>
+        </form>
+      </div>
+    {{/each}}
+  </div>
+
+  <!-- Works Cards -->
+  <h2>Works</h2>
+  <div class="cards-container">
+    {{#each works}}
+      <div class="card">
+        <p><strong>Work ID:</strong> {{this._id}}</p>
+        <p><strong>Engineer Name:</strong> {{this.engineer.email}}</p>
+        <p><strong>Job Title:</strong> {{this.job.jobTitle}}</p>
+      
+        <form method="POST" action="/admin/delete-work/{{this._id}}">
+          <button type="submit">Delete</button>
+        </form>
+      </div>
+    {{/each}}
+  </div>
+
+</body>
+</html>

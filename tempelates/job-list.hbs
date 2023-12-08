@@ -1,0 +1,287 @@
+
+
+<head>
+  <title>Profile</title>
+  <link href="/logo.png" rel="icon" />
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet" />
+
+
+  <link href="/vendor/aos/aos.css" rel="stylesheet" />
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+  <link href="/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+  <link href="/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
+  <link href="/vendor/remixicon/remixicon.css" rel="stylesheet" />
+  <link href="/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/job-listings.css" /><html>
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+      <script src="https://unpkg.com/phosphor-icons"></script>
+      <div class="logo">
+        <h1><a href="/" ><img  src="/logo.png" alt="">EngrHire BD</a></h1>
+       
+      </div>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="/">Home</a></li>
+          {{#if user}}
+          {{#if isClient}}
+          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          {{/if}}
+
+          {{#if isEngineer}}
+          <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+          {{/if}}
+          {{else}}
+          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+
+          {{/if}}
+
+          <li><a class="nav-link scrollto" href="#services">Services</a></li>
+          <li><a class="nav-link scrollto" href="#about">About</a></li>
+
+          <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li>
+          <li><a class="nav-link scrollto" href="#team">Team</a></li>
+
+          <li class="dropdown">
+            <a href="#"><span>Account</span>
+              <i class="bi bi-chevron-down"></i>
+            </a>
+            <ul>
+              {{#if user}}
+              {{#if isClient}}
+              <li class="dropdown">
+                <a href="/client-profile/{{userId}}/1"><span>User Profile</span>
+                  <i class="bi bi-chevron-right"></i>
+                </a>
+                <ul>
+                  <li><a href="#">Notifications</a></li>
+                  <li><a href="/client-profile/{{userId}}/1">Profile</a></li>
+                  <li><a href="/post-job">Post a Job</a></li>
+                </ul>
+              </li>
+              <li><a href="/logout">Logout</a></li>
+          
+              {{else}}
+              <li class="dropdown">
+                <a href="/profile/{{userId}}/1"><span>User Profile</span>
+                  <i class="bi bi-chevron-right"></i>
+                </a>
+                <ul>
+                  <li><a href="#">Notifications</a></li>
+                  <li><a href="/profile/{{userId}}/1">Profile</a></li>
+                  <li><a href="/job-list/all">Find a Job</a></li>
+                </ul>
+              </li>
+              <li><a href="/logout">Logout</a></li>
+         
+              {{/if}}
+              {{else}}
+              <li><a href="/login">Login</a></li>
+              <li><a href="/select" class="btn-signup">Sign Up</a></li>
+              {{/if}}
+            </ul>
+
+          </li>
+
+          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+
+          <div class="search">
+            <input type="text" class="search-box" placeholder="Search..." />
+            <button class="search-btn"><i class="ph-magnifying-glass-bold"></i></button>
+            <button class="close-btn"><i class="ph-x-bold"></i></button>
+          </div>
+
+          {{#if isClient}}
+          <li>
+            <a class="getstarted scrollto" href="/client-profile/{{userId}}/1">
+              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{user.full_name}}</span>
+            </a>
+          </li>
+          {{/if}}
+
+          {{#if isEngineer}}
+          <li>
+            <a class="getstarted scrollto" href="/profile/{{userId}}/1">
+              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{user.full_name}}</span>
+            </a>
+          </li>
+          {{/if}}
+
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+    <hr />
+    <section id="breadcrumbs" class="breadcrumbs">
+      <div>
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Services</h2>
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#">Services</a></li>
+          </ol>
+        </div>
+
+      </div>
+    </section>
+    <hr />
+
+    <div class="sidebar">
+      <label for="category-filter">Filter by Category:</label>
+      <select id="category-filter" onchange="viewJobList(this.value)">
+        <option value="all" selected>Select Category</option>
+        <option value="all">All</option>
+        <option value="Architect">Architect</option>
+        <option value="Construction">Construction</option>
+        <option value="Interior_Design">Interior Design</option>
+        <option value="Floor_Plan">Floor Plan</option>
+        <option value="Architectural_Design_And_Drafting">Architectural Design
+          And Drafting</option>
+        <option value="Structural_Engineering">Structural Engineering</option>
+        <option value="Electrical_Installation">Electrical Installation</option>
+        <option value="Plumbing_and_Sanitary Works">Plumbing and Sanitary Works</option>
+        <option value="Design_and_Decoration">Design and Decoration</option>
+        <option value="Construction_Project_Management">Construction Project
+          Management</option>
+        <option value="Structural_Renovation_and_Retrofitting">Structural
+          Renovation and Retrofitting</option>
+        <option value="Building_Inspection_and_Code_Compliance">Building
+          Inspection and Code Compliance</option>
+      </select>
+      <label for="sort">Sort by date:</label>
+      <select id="sort">
+        <option value="asc">Ascending
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </option>
+        <option value="desc">Descending</option>
+      </select>
+      <label for="">Price</label>
+      <br />
+      <label for="minPrice">From:</label>
+      <input
+        type="number"
+        id="minPrice"
+        min="0"
+        max="2500"
+        step="100"
+        value="0"
+      />
+
+      <label for="maxPrice">To:</label>
+      <input
+        type="number"
+        id="maxPrice"
+        min="0"
+        max="2500"
+        step="100"
+        value="2500"
+      />
+    </div>
+
+    <div class="content">
+      <div id="post-container">
+
+        <div class="main">
+          {{#each jobs}}
+          
+            <div class="card">
+              <div class="title-card">
+                <strong>Title:</strong>
+                {{jobTitle}}
+              </div>
+
+              <div class="job-details">
+
+                <div class="job-details">
+                  <img src="/img/placeholder_819814.png" alt="" />
+                  <strong>Location:</strong>
+                  {{jobLocation}}
+                </div>
+
+                <div class="job-details">
+                  <img src="/img/options_718970.png" alt="" />
+                  <strong>Category:</strong>
+                  {{category}}
+                </div>
+
+                <div class="job-details">
+                  <img src="/img/campaign_10139087.png" alt="" />
+                  <strong>Deadline:</strong>
+                  {{jobDeadline}}
+                </div>
+
+                <div class="job-details">
+                  <img src="/img/coin_7891996.png" alt="" />
+                  <strong>Price Range:</strong>
+                  {{jobPriceRange}}
+                </div>
+
+                <div class="job-details">
+                  <strong>Client Name:</strong>
+                  <a
+                    class="j-d-a"
+                    onclick="viewClientProfile('{{client._id}}')"
+                  >{{clientName}}</a>
+                </div>
+              </div>
+              <button class="button" onclick="viewJobDetails('{{_id}}')">View
+                Details</button>
+
+            </div>
+
+          {{/each}}
+
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function viewJobDetails(jobId) { window.location.href =
+      `/job-details/${jobId}`; }
+    </script>
+
+    <script>
+      function viewClientProfile(client) { console.log(client);
+      window.location.href = `/client-profile/${client}/1`; }
+    </script>
+
+    <script>
+
+      function viewJobList(categoryName) { const url = categoryName === 'all' ?
+      '/job-list/all' : `/job-list/${categoryName}`; console.log(url);
+      window.location.href = url; }
+
+    </script>
+
+
+    <script src="/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="/vendor/aos/aos.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="/vendor/php-email-form/validate.js"></script>
+
+
+    <script src="/main.js"></script>
+  </body>
+
+</html>

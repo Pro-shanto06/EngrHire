@@ -1,0 +1,73 @@
+/* Add general styles for the entire page */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+/* Style the header */
+#header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 0;
+  text-align: center;
+}
+
+#header .logo {
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff;
+}
+
+/* Add padding to the top and sides */
+#header .container {
+  padding: 10px;
+}
+
+/* Style the profile image container */
+.profile-container {
+  text-align: center;
+}
+
+.profile-image {
+  max-width: 100%;
+  border-radius: 50%;
+}
+
+/* Style the main content container */
+.main-body {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the edit profile form */
+.card {
+  margin-bottom: 20px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.form-control {
+  margin-bottom: 10px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* Add more custom styles as needed */

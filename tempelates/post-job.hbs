@@ -1,0 +1,210 @@
+<html>
+
+<head>
+  <title>Profile</title>
+  <link href="/logo.png" rel="icon" />
+ 
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet" />
+
+
+  <link href="/vendor/aos/aos.css" rel="stylesheet" />
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+  <link href="/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+  <link href="/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
+  <link href="/vendor/remixicon/remixicon.css" rel="stylesheet" />
+  <link href="/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/post_job.css" />
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+      <script src="https://unpkg.com/phosphor-icons"></script>
+      <div class="logo">
+        <h1><a href="/" ><img  src="/logo.png" alt="">EngrHire BD</a></h1>
+     
+      </div>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="/">Home</a></li>
+          {{#if user}}
+          {{#if isClient}}
+          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          {{/if}}
+
+          {{#if isEngineer}}
+          <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+          {{/if}}
+          {{else}}
+          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+
+          {{/if}}
+
+          <li><a class="nav-link scrollto" href="#services">Services</a></li>
+          <li><a class="nav-link scrollto" href="#about">About</a></li>
+
+          <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li>
+          <li><a class="nav-link scrollto" href="#team">Team</a></li>
+
+          <li class="dropdown">
+            <a href="#"><span>Account</span>
+              <i class="bi bi-chevron-down"></i>
+            </a>
+            <ul>
+              {{#if user}}
+              {{#if isClient}}
+              <li class="dropdown">
+                <a href="/client-profile/{{clientId}}/1"><span>User Profile</span>
+                  <i class="bi bi-chevron-right"></i>
+                </a>
+                <ul>
+                  <li><a href="#">Notifications</a></li>
+                  <li><a href="/client-profile/{{clientId}}/1">Profile</a></li>
+                  <li><a href="/post-job">Post a Job</a></li>
+                </ul>
+              </li>
+              <li><a href="/logout">Logout</a></li>
+  
+              {{else}}
+              <li class="dropdown">
+                <a href="/profile/{{engineerId}}/"><span>User Profile</span>
+                  <i class="bi bi-chevron-right"></i>
+                </a>
+                <ul>
+                  <li><a href="#">Notifications</a></li>
+                  <li><a href="/profile/{{engineerId}}/1">Profile</a></li>
+                  <li><a href="/job-list/all">Find a Job</a></li>
+                </ul>
+              </li>
+              <li><a href="/logout">Logout</a></li>
+      
+              {{/if}}
+              {{else}}
+              <li><a href="/login">Login</a></li>
+              <li><a href="/select" class="btn-signup">Sign Up</a></li>
+              {{/if}}
+            </ul>
+
+          </li>
+
+          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+
+          <div class="search">
+            <input type="text" class="search-box" placeholder="Search..." />
+            <button class="search-btn"><i class="ph-magnifying-glass-bold"></i></button>
+            <button class="close-btn"><i class="ph-x-bold"></i></button>
+          </div>
+
+          {{#if isClient}}
+          <li>
+            <a class="getstarted scrollto" href="/client-profile/{{clientId}}/1">
+              <img src="{{client.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{client.full_name}}</span>
+            </a>
+          </li>
+          {{/if}}
+
+          {{#if isEngineer}}
+          <li>
+            <a class="getstarted scrollto" href="/profile/{{engineerId}}/1">
+              <img src="{{engineer.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{engineer.full_name}}</span>
+            </a>
+          </li>
+          {{/if}}
+
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+    <div class="post-job-container">
+      <h1>Post a Job</h1>
+      <form action="/post-job" method="post">
+        <label for="job_title">Title:</label>
+        <input type="text" id="job_title" name="job_title" required />
+
+        <label for="category">Category:</label>
+        <select id="category" name="category" required>
+
+          <option value="Architect">Architect</option>
+          <option value="Construction">Construction</option>
+          <option value="Interior_Design">Interior Design</option>
+          <option value="Floor_Plan">Floor Plan</option>
+          <option value="Architectural_Design_And_Drafting">Architectural Design
+            And Drafting</option>
+          <option value="Structural_Engineering">Structural Engineering</option>
+          <option value="Electrical_Installation">Electrical Installation</option>
+          <option value="Plumbing_and_Sanitary Works">Plumbing and Sanitary
+            Works</option>
+          <option value="Design_and_Decoration">Design and Decoration</option>
+          <option value="Construction_Project_Management">Construction Project
+            Management</option>
+          <option value="Structural_Renovation_and_Retrofitting">Structural
+            Renovation and Retrofitting</option>
+          <option value="Building_Inspection_and_Code_Compliance">Building
+            Inspection and Code Compliance</option>
+        </select>
+
+        <label for="specified_category">Specify the category (If needed):</label>
+        <input type="text" id="specified_category" name="specified_category" />
+
+        <label for="job_details">Details about the Job:</label>
+        <textarea
+          id="job_details"
+          name="job_details"
+          rows="5"
+          required
+        ></textarea>
+
+        <label for="job_requirements">Job Requirements:</label>
+        <textarea
+          id="job_requirements"
+          name="job_requirements"
+          rows="5"
+          required
+        ></textarea>
+
+        <label for="job_location">Job Location:</label>
+        <input type="text" id="job_location" name="job_location" required />
+
+        <label for="job_deadline">Deadline:</label>
+        <input type="date" id="job_deadline" name="job_deadline" required />
+
+        <label for="job_price_range">Price Range (ex: From 💵 1000 to 💵 2000):</label>
+        <input
+          type="text"
+          id="job_price_range"
+          name="job_price_range"
+          required
+        />
+
+        <button type="submit">Post Job</button>
+      </form>
+    </div>
+
+    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="assets/vendor/aos/aos.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
+
+  </body>
+
+</html>
