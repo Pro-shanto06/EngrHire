@@ -27,6 +27,12 @@ body::before {
   background-size: cover;
 }
 
+.success-message{
+  color: #00d40b;
+  font-size: large;
+  font-weight: bold;
+}
+
 .wrapper {
   z-index: 2;
   width: 400px;

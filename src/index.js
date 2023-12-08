@@ -471,8 +471,8 @@ app.post("/login", async (req, res) => {
       return res.status(401).send("Invalid email or password. User not found.");
     }
 
-
-    if (!user.isVerified) {
+    // Skip profile verification check for admin
+    if (role !== "Admin" && !user.isVerified) {
       return res.status(401).send("Profile not verified. Please check your email for verification.");
     }
 
@@ -499,6 +499,7 @@ app.post("/login", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
 
 
 app.get("/logout", (req, res) => {
@@ -1193,28 +1194,17 @@ if (!user) {
 });
 
 app.get("/bids/:clientId", isAuthenticated, async (req, res) => {
-
-  let userId = req.params.clientId;
-
-   
-
-let  user = await Client.findById(userId);
+  const clientId = req.params.clientId;
 
   try {
-    const bids = await Bid.find({ client: userId });
-
-    if (user && user.profilePicPath) {
-      user.profilePicPath =
-        "/" + user.profilePicPath.replace(/\\/g, "/");
-    }
-    
+    const bids = await Bid.find({ client: clientId });
 
     if (bids) {
       res.render("bids", {
-        userId,
-        user: user,
+        user: this.user,
         isClient: req.session.user?.role === "Client",
         isEngineer: req.session.user?.role === "Engineer",
+        clientId: req.session.user._id,
         bids,
       });
     } else {
@@ -1231,36 +1221,54 @@ app.post("/accept-bid", async (req, res) => {
   try {
     const { bidId } = req.body;
 
-    await Bid.findByIdAndUpdate(bidId, { status: "accepted" });
+  
+    if (!bidId) {
+      return res.status(400).json({ error: "Bid ID is required" });
+    }
 
+    
+    const updatedBid = await Bid.findByIdAndUpdate(bidId, { status: "accepted" });
+
+    
+    if (!updatedBid) {
+      return res.status(404).json({ error: "Bid not found or not updated" });
+    }
+
+    
     const acceptedBid = await Bid.findById(bidId);
 
+   
     if (!acceptedBid) {
-
       return res.status(404).json({ error: "Accepted bid not found" });
     }
 
+    
     const clientId = acceptedBid.client;
     const engineerId = acceptedBid.engineer;
     const jobId = acceptedBid.job;
 
-    const client = await Client.findById(clientId);
-    const engineer = await Engineer.findById(engineerId);
-    const job = await Job.findById(jobId);
+    const [client, engineer, job] = await Promise.all([
+      Client.findById(clientId),
+      Engineer.findById(engineerId),
+      Job.findById(jobId),
+    ]);
 
+   
     if (!client || !engineer || !job) {
       return res.status(404).json({ error: "Related data not found" });
     }
 
+    
     const newWork = new Work({
       client: client,
       engineer: engineer,
       job: job,
       bid: acceptedBid,
-
     });
 
+
     const savedWork = await newWork.save();
+
 
     res.json({
       jobTitle: acceptedBid.jobTitle,
@@ -1268,7 +1276,6 @@ app.post("/accept-bid", async (req, res) => {
       engineerFullName: acceptedBid.engineerFullName,
       bidAmount: acceptedBid.bidAmount,
       bidDetails: acceptedBid.bidDetails,
-    
     });
   } catch (error) {
     console.error(error);
@@ -1276,15 +1283,24 @@ app.post("/accept-bid", async (req, res) => {
   }
 });
 
+
 app.post("/reject-bid", async (req, res) => {
   try {
     const { bidId } = req.body;
 
-    await Bid.findByIdAndUpdate(bidId, { status: "rejected" });
+    if (!bidId) {
+      return res.status(400).json({ error: "Bid ID is required" });
+    }
+
+    const updatedBid = await Bid.findByIdAndUpdate(bidId, { status: "rejected" });
+
+    if (!updatedBid) {
+      return res.status(404).json({ error: "Bid not found or not updated" });
+    }
 
     const rejectedBid = await Bid.findById(bidId);
 
-    if (!rejectedBid) {
+      if (!rejectedBid) {
       return res.status(404).json({ error: "Bid not found" });
     }
 
@@ -1293,9 +1309,12 @@ app.post("/reject-bid", async (req, res) => {
     const engineerId = rejectedBid.engineer;
     const jobId = rejectedBid.job;
 
-    const client = await Client.findById(clientId);
-    const engineer = await Engineer.findById(engineerId);
-    const job = await Job.findById(jobId);
+
+    const [client, engineer, job] = await Promise.all([
+      Client.findById(clientId),
+      Engineer.findById(engineerId),
+      Job.findById(jobId),
+    ]);
 
     if (!client || !engineer || !job) {
       return res.status(404).json({ error: "Related data not found" });
@@ -1366,26 +1385,41 @@ app.get("/api/accepted-bids", isAuthenticated, async (req, res) => {
 app.get("/api/rejected-bids", isAuthenticated, async (req, res) => {
 
   try {
+    const userRole = req.session.user.role;
+    const userId = req.session.user._id;
 
-  
+    const rejectedBids = await Bid.find({
+      status: "rejected",
+      [userRole === "Client" ? "client" : "engineer"]: userId,
+    }).exec();
 
-    if (req.session.user.role == "Client") {
-      const rejectedBids = await Bid.find({
-        status: "rejected",
-        client: req.session.user._id, 
-      }).exec();
-      res.json(rejectedBids);
-    } else {
-      const rejectedBids = await Bid.find({
-        status: "rejected",
-        
-      }).exec();
-      res.json(rejectedBids);
-    }
+    const bidsWithWorkIds = await Promise.all(
+      rejectedBids.map(async (bid) => {
+        const work = await Work.findOne({ bid: bid._id }); 
+
+        if (!work) {
+          return null; 
+        }
+
+        return {
+          workId: work._id,
+          jobTitle: bid.jobTitle,
+          jobDeadline: bid.jobDeadline,
+          engineerFullName: bid.engineerFullName,
+          bidAmount: bid.bidAmount,
+          bidDetails: bid.bidDetails,
+         
+        };
+      })
+    );
+
+    res.json(bidsWithWorkIds.filter((bid) => bid !== null));
   } catch (err) {
     res.status(500).json({ error: "Error fetching rejected bids" });
   }
 });
+
+
 
 
 app.get("/api/pending-bids", async (req, res) => {
@@ -1393,7 +1427,7 @@ app.get("/api/pending-bids", async (req, res) => {
     if (req.session.user.role == "Client") {
       const pendingBids = await Bid.find({
         status: "pending",
-        client: this.user._id,
+        client: req.session.user._id, 
       }).exec();
      
       res.json(pendingBids);
@@ -1408,6 +1442,7 @@ app.get("/api/pending-bids", async (req, res) => {
     res.status(500).json({ error: "Error fetching pending bids" });
   }
 });
+
 
 app.get("/work/:workId",isAuthenticated, async (req, res) => {
 

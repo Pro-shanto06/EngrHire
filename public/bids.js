@@ -43,7 +43,7 @@ function rejectBid(bidId, jobId) {
     },
     error: function (error) {
       console.log("AJAX request failed.");
-      console.error(error); // Log the error to the console for more details
+      console.error(error); 
       alert("Error rejecting the bid.");
     },
   });
@@ -226,8 +226,8 @@ function updatePendingBids(pendingBids) {
                     <div class="d-flex flex-column mt-4 bid-actions">
                       <button class="btn btn-primary btn-sm accept-bid" class="" data-bidid="${bid._id}" data-jobid="${bid.job}"
                       onclick="acceptBid('${bid._id}', '${bid.job}')">Accept</button>
-                      <button class="btn btn-outline-primary btn-sm mt-2 reject-bid" class="" data-bidid="{{this._id}}" data-jobid="{{this.job}}"
-                      onclick="rejectBid('{{this._id}}', '{{this.job}}')">Reject</button>
+                      <button class="btn btn-primary btn-sm reject-bid" class="" data-bidid="${bid._id}" data-jobid="${bid.job}"
+                      onclick="rejectBid('${bid._id}', '${bid.job}')">Reject</button>
 
                       
                       </div>
