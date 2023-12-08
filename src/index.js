@@ -46,9 +46,6 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-
-
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/'); 
@@ -320,6 +317,10 @@ app.get("/", async (req, res) => {
 });
 
 
+
+
+
+
 app.post("/signup", upload.single("profilePic"), async (req, res) => {
   try {
     const engineerData = {
@@ -335,12 +336,35 @@ app.post("/signup", upload.single("profilePic"), async (req, res) => {
     const newEngineer = new Engineer(engineerData);
     await newEngineer.save();
 
-    res.redirect("/login");
+   
+    const verificationToken = jwt.sign({ id: newEngineer._id }, jwtSecret, { expiresIn: "1d" });
+    newEngineer.verificationToken = verificationToken;
+    await newEngineer.save();
+
+    const verificationLink = `http://localhost:4000/verify-profile/${verificationToken}`;
+    const verificationMailOptions = {
+      from: "2014751020@uits.edu.bd",
+      to: newEngineer.email,
+      subject: "Profile Verification",
+      text: `Click on the following link to verify your profile: ${verificationLink}`,
+    };
+
+    await transporter.sendMail(verificationMailOptions);
+
+   
+    res.render('signup', {
+      successMessage: 'Sign up successful. Please check your email for profile verification.',
+    });
   } catch (error) {
-    console.error("Error saving to the database:", error);
-    res.status(500).send("Internal Server Error");
+    console.error('Error saving to the database:', error);
+    res.status(500).send('Internal Server Error');
   }
 });
+
+
+
+
+
 
 app.post("/signup2", upload.single("profilePic"), async (req, res) => {
   try {
@@ -357,36 +381,99 @@ app.post("/signup2", upload.single("profilePic"), async (req, res) => {
     const newClient = new Client(clientData);
     await newClient.save();
 
-    res.redirect("/login");
+    const verificationToken = jwt.sign({ id: newClient._id }, jwtSecret, { expiresIn: '1d' });
+    newClient.verificationToken = verificationToken;
+    await newClient.save();
+
+    const verificationLink = `http://localhost:4000/verify-client/${verificationToken}`;
+    const verificationMailOptions = {
+      from: '2014751020@uits.edu.bd', 
+      to: newClient.email,
+      subject: 'Profile Verification',
+      text: `Click on the following link to verify your profile: ${verificationLink}`,
+    };
+
+    await transporter.sendMail(verificationMailOptions);
+
+    res.render('signup2', {
+      successMessage: 'Sign up successful. Please check your email for profile verification.',
+    });
   } catch (error) {
-    console.error("Error saving to the database:", error);
-    res.status(500).send("Internal Server Error");
+    console.error('Error saving to the database:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/verify-profile/:token', async (req, res) => {
+  const token = req.params.token;
+
+  try {
+    const decoded = jwt.verify(token, jwtSecret);
+
+    
+    const user = await Engineer.findById(decoded.id);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    user.isVerified = true;
+    await user.save();
+
+    res.redirect("/login?verificationSuccess=true");
+  } catch (error) {
+    console.error('Token Verification Error:', error);
+    res.status(400).send('Invalid or expired token');
+  }
+});
+
+app.get('/verify-client/:token', async (req, res) => {
+  const token = req.params.token;
+
+  try {
+    const decoded = jwt.verify(token, jwtSecret);
+
+    
+    const user = await Client.findById(decoded.id);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    user.isVerified = true;
+    await user.save();
+
+    res.redirect("/login?verificationSuccess=true");
+  } catch (error) {
+    console.error('Token Verification Error:', error);
+    res.status(400).send('Invalid or expired token');
   }
 });
 
 
 
 app.post("/login", async (req, res) => {
-  const { email, password} = req.body;
+  const { email, password } = req.body;
 
   try {
-   
-    let user = await Engineer.findOne({ email: email });
+    let user = await Engineer.findOne({ email });
     let role = "Engineer";
 
-    
     if (!user) {
-      user = await Client.findOne({ email: email });
+      user = await Client.findOne({ email });
       role = "Client";
     }
 
     if (!user) {
-      user = await Admin.findOne({ email: email });
+      user = await Admin.findOne({ email });
       role = "Admin";
     }
 
     if (!user) {
       return res.status(401).send("Invalid email or password. User not found.");
+    }
+
+
+    if (!user.isVerified) {
+      return res.status(401).send("Profile not verified. Please check your email for verification.");
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -395,11 +482,10 @@ app.post("/login", async (req, res) => {
       return res.status(401).send("Invalid email or password.");
     }
 
-
     req.session.user = {
       email: user.email,
       role: role,
-      _id:user._id
+      _id: user._id,
     };
 
     if (role === "Engineer" || role === "Client") {
@@ -413,6 +499,7 @@ app.post("/login", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
 
 app.get("/logout", (req, res) => {
   req.session.destroy((err) => {

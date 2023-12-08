@@ -127,8 +127,11 @@ const engineerSchema = new mongoose.Schema({
   profilePicPath: {
     type: String, 
   },
-
-
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+  verificationToken: String,
   resetPasswordToken: String,
   resetPasswordExpires: Date,
   
@@ -214,6 +217,11 @@ const clientSchema = new mongoose.Schema({
   profilePicPath: {
     type: String, 
   },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+  verificationToken: String,
   resetPasswordToken: String,
   resetPasswordExpires: Date,
 });

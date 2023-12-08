@@ -159,7 +159,13 @@
       </div>
     </header><!-- End Header -->
 
-    <div class="wrapper">
+   <div class="wrapper">
+     {{#if successMessage}}
+  <div class="success-message">
+    <p>{{successMessage}}</p>
+    <p><a href="/login">Login</a></p>
+  </div>
+{{else}}
       <form action="/signup2" method="post" enctype="multipart/form-data">
         <h2>Sign Up</h2>
         <div class="input-field">
@@ -173,7 +179,7 @@
           />
         </div>
         <div class="input-field">
-          {{! <label for="email">Email</label> }}
+      
           <input
             id="email"
             name="email"
@@ -208,6 +214,7 @@
         </div>
       </form>
     </div>
+    {{/if}}
 
 
     <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>

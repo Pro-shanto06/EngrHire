@@ -165,71 +165,82 @@
       </div>
     </header><!-- End Header -->
 
-    <div class="wrapper">
-      <form action="/signup" method="post">
-        <h2 class="text-center">Engineer Sign Up</h2>
-        <div class="input-field">
-          <input
-            type="text"
-            name="full_name"
-            id="full_name"
-            required
-            placeholder="Full Name"
-          />
-        </div>
-        <div class="input-field">
-          <input
-            type="text"
-            name="designation"
-            id="designation"
-            required
-            placeholder="Designation"
-          />
-        </div>
-        <div class="input-field">
-          <input
-            type="text"
-            name="mobile"
-            id="mobile"
-            required
-            placeholder="Mobile"
-          />
-        </div>
-        <div class="input-field">
-          <input
-            type="email"
-            name="email"
-            id="email"
-            required
-            placeholder="Email"
-          />
-        </div>
-        <div class="input-field">
-          <input
-            type="password"
-            name="password"
-            id="password"
-            required
-            placeholder="Password"
-          />
-        </div>
-        <div class="input-field">
-          <input
-            type="text"
-            name="field_of_expertise"
-            id="field_of_expertise"
-            required
-            placeholder="Field of Expertise"
-          />
-        </div>
-        <input class="submit-btn" type="submit" value="Signup" />
+    
+  <div class="wrapper">
+     {{#if successMessage}}
+  <div class="success-message">
+    <p>{{successMessage}}</p>
+    <p><a href="/login">Login</a></p>
+  </div>
+{{else}}
+    <form action="/signup" method="post">
+      <h2 class="text-center">Engineer Sign Up</h2>
+      
+      <div class="input-field">
+        <input
+          type="text"
+          name="full_name"
+          id="full_name"
+          required
+          placeholder="Full Name"
+        />
+      </div>
+      <div class="input-field">
+        <input
+          type="text"
+          name="designation"
+          id="designation"
+          required
+          placeholder="Designation"
+        />
+      </div>
+      <div class="input-field">
+        <input
+          type="text"
+          name="mobile"
+          id="mobile"
+          required
+          placeholder="Mobile"
+        />
+      </div>
+      <div class="input-field">
+        <input
+          type="email"
+          name="email"
+          id="email"
+          required
+          placeholder="Email"
+        />
+      </div>
+      <div class="input-field">
+        <input
+          type="password"
+          name="password"
+          id="password"
+          required
+          placeholder="Password"
+        />
+      </div>
+      <div class="input-field">
+        <input
+          type="text"
+          name="field_of_expertise"
+          id="field_of_expertise"
+          required
+          placeholder="Field of Expertise"
+        />
+      </div>
+      <input class="submit-btn" type="submit" value="Signup" />
 
-        <div class="register text-center">
-          <p>Already have an account?
-            <a href="./login"><strong>Login</strong></a></p>
-        </div>
-      </form>
-    </div>
+      <div class="register text-center">
+        <p>Already have an account?
+          <a href="./login"><strong>Login</strong></a>
+        </p>
+      </div>
+    </form>
+  </div>
+{{/if}}
+
 
 
     <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
