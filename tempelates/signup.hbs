@@ -1,19 +1,22 @@
+
+ 
 <html lang="en">
 
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-    <title>Sign Up</title>
+    <title>EngrHire BD</title>
     <meta content="" name="description" />
     <meta content="" name="keywords" />
 
-    
+    <!-- Logo -->
+    <link href="assets/img/logo.png" rel="icon" />
+   
     <link
       href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
       rel="stylesheet"
     />
-
 
     <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
     <link
@@ -34,20 +37,19 @@
 
 
     <link rel="stylesheet" href="assets/css/dev_signup_style.css" />
-    <script src="https://unpkg.com/phosphor-icons"></script>
 
-
+ 
   </head>
 
   <body>
 
-
+    <!-- ======= Header ======= -->
     <header id="header" class="fixed-top d-flex align-items-center">
       <div class="container d-flex align-items-center justify-content-between">
         <script src="https://unpkg.com/phosphor-icons"></script>
         <div class="logo">
-          <h1><a href="/">EngrHire BD</a></h1>
-         
+          <h1><a href="/" ><img  src="assets/img/logo.png" alt="">EngrHire BD</a></h1>
+      
         </div>
 
         <nav id="navbar" class="navbar">
@@ -68,13 +70,24 @@
             {{/if}}
 
             <li><a class="nav-link scrollto" href="#services">Services</a></li>
-            <li><a class="nav-link scrollto" href="#about">About</a></li>
+            
 
-            <li><a
-                class="nav-link scrollto"
-                href="#portfolio"
-              >Portfolio</a></li>
-            <li><a class="nav-link scrollto" href="#team">Team</a></li>
+
+             <li class="dropdown">
+              <a href="#"><span>Help</span>
+                <i class="bi bi-chevron-down"></i>
+              </a>
+              <ul>
+                 
+                <li><a class="nav-link scrollto" href="#about">About</a></li>
+                <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                <li><a class="nav-link scrollto" href="#faq">FAQ</a></li>
+               
+              </ul>
+
+            </li>
+
+       
 
             <li class="dropdown">
               <a href="#"><span>Account</span>
@@ -84,32 +97,32 @@
                 {{#if user}}
                   {{#if isClient}}
                     <li class="dropdown">
-                      <a href="/client-profile/{{clientId}}"><span>User Profile</span>
+                      <a href="/client-profile/{{userId}}/1"><span>User Profile</span>
                         <i class="bi bi-chevron-right"></i>
                       </a>
                       <ul>
                         <li><a href="#">Notifications</a></li>
                         <li><a
-                            href="/client-profile/{{clientId}}"
+                            href="/client-profile/{{userId}}/1"
                           >Profile</a></li>
                         <li><a href="/post-job">Post a Job</a></li>
                       </ul>
                     </li>
                     <li><a href="/logout">Logout</a></li>
-               
+            
                   {{else}}
                     <li class="dropdown">
-                      <a href="/profile/{{engineerId}}"><span>User Profile</span>
+                      <a href="/profile/{{userId}}/1"><span>User Profile</span>
                         <i class="bi bi-chevron-right"></i>
                       </a>
                       <ul>
                         <li><a href="#">Notifications</a></li>
-                        <li><a href="/profile/{{engineerId}}">Profile</a></li>
+                        <li><a href="/profile/{{userId}}/1">Profile</a></li>
                         <li><a href="/job-list/all">Find a Job</a></li>
                       </ul>
                     </li>
                     <li><a href="/logout">Logout</a></li>
-                 
+        
                   {{/if}}
                 {{else}}
                   <li><a href="/login">Login</a></li>
@@ -119,7 +132,7 @@
 
             </li>
 
-            <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+          
 
             <div class="search">
               <input type="text" class="search-box" placeholder="Search..." />
@@ -133,27 +146,27 @@
               <li>
                 <a
                   class="getstarted scrollto"
-                  href="/client-profile/{{clientId}}"
+                  href="/client-profile/{{userId}}/1"
                 >
                   <img
-                    src="{{client.profilePicPath}}"
+                    src="{{user.profilePicPath}}"
                     alt="Profile Picture"
                     class="rounded-circle profile-picture"
                   />
-                  <span class="profile-name">{{client.full_name}}</span>
+                  <span class="profile-name" style="font-size: 2px;">{{user.full_name}}</span>
                 </a>
               </li>
             {{/if}}
 
             {{#if isEngineer}}
               <li>
-                <a class="getstarted scrollto" href="/profile/{{engineerId}}">
+                <a class="getstarted scrollto" href="/profile/{{userId}}/1">
                   <img
-                    src="{{engineer.profilePicPath}}"
+                    src="{{user.profilePicPath}}"
                     alt="Profile Picture"
                     class="rounded-circle profile-picture"
                   />
-                  <span class="profile-name">{{engineer.full_name}}</span>
+                  <span class="profile-name">{{user.full_name}}</span>
                 </a>
               </li>
             {{/if}}
@@ -164,6 +177,7 @@
 
       </div>
     </header><!-- End Header -->
+
 
     
   <div class="wrapper">
@@ -253,6 +267,7 @@
 
 
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/search.js"></script>
 
   </body>
 

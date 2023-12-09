@@ -266,7 +266,6 @@ function isAuthenticated(req, res, next) {
   
   
 
-
 app.get("/signup", (req, res) => {
   res.render("signup");
 });

@@ -16,8 +16,9 @@
       rel="stylesheet"
     />
 
-    {{!-- <link href="assets/vendor/aos/aos.css" rel="stylesheet" /> --}}
-    <link href="assets/vendor/bootstrap/css/bootstrap.min.css"
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
+    <link
+      href="assets/vendor/bootstrap/css/bootstrap.min.css"
       rel="stylesheet"
     />
     <link
@@ -25,10 +26,10 @@
       rel="stylesheet"
     />
     <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
-    {{!-- <link
+    <link
       href="assets/vendor/glightbox/css/glightbox.min.css"
       rel="stylesheet"
-    /> --}}
+    />
     <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
     <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
 
@@ -41,7 +42,7 @@
   <body>
 
     <!-- ======= Header ======= -->
-    <header id="header" class="fixed-top d-flex align-items-center h-10">
+    <header id="header" class="fixed-top d-flex align-items-center">
       <div class="container d-flex align-items-center justify-content-between">
         <script src="https://unpkg.com/phosphor-icons"></script>
         <div class="logo">
@@ -67,7 +68,22 @@
             {{/if}}
 
             <li><a class="nav-link scrollto" href="#services">Services</a></li>
-            <li><a class="nav-link scrollto" href="#about">About</a></li>
+            
+
+
+             <li class="dropdown">
+              <a href="#"><span>Help</span>
+                <i class="bi bi-chevron-down"></i>
+              </a>
+              <ul>
+                 
+                <li><a class="nav-link scrollto" href="#about">About</a></li>
+                <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                <li><a class="nav-link scrollto" href="#faq">FAQ</a></li>
+               
+              </ul>
+
+            </li>
 
        
 
@@ -114,7 +130,7 @@
 
             </li>
 
-            <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+          
 
             <div class="search">
               <input type="text" class="search-box" placeholder="Search..." />
@@ -135,7 +151,7 @@
                     alt="Profile Picture"
                     class="rounded-circle profile-picture"
                   />
-                  <span class="profile-name">{{user.full_name}}</span>
+                  <span class="profile-name" style="font-size: 2px;">{{user.full_name}}</span>
                 </a>
               </li>
             {{/if}}
@@ -1104,7 +1120,7 @@
 
 
     <script src="assets/js/main.js"></script>
-     <script src="assets/js/search.js"></script>
+    <script src="assets/js/search.js"></script>
 
   </body>
 

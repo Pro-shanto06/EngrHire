@@ -164,11 +164,14 @@ h6 {
 .navbar .getstarted,
 .navbar .getstarted:focus {
   background: #3498db;
-  padding: 8px 25px;
+  padding: 8px;
   margin-left: 30px;
   border-radius: 50px;
   color: #fff;
+  
 }
+
+
 
 .navbar .getstarted:hover,
 .navbar .getstarted:focus:hover {
@@ -229,6 +232,7 @@ h6 {
   left: 100%;
   visibility: visible;
 }
+
 
 @media (max-width: 1366px) {
   .navbar .dropdown .dropdown ul {
@@ -1650,16 +1654,16 @@ section {
 --------------------------------------------------------------*/
 
 .profile-picture {
-  width: 30px; /* Set the desired width */
-  height: 30px; /* Set the desired height */
-  border-radius: 50%; /* Make it circular (for a rounded profile picture) */
-  border: 3px solid #52e7c2; /* Add a border with your desired color */
+  width: 25px; /* Set the desired width */
+  height: 25px; /* Set the desired height */
+  border-radius: 50%; 
 }
 
 .profile-name {
-  font-size: 16px; /* Set the font size for the name */
-  color: #333; /* Set the text color */
-  margin-left: 10px; /* Add spacing between the picture and name */
+  font-size: 14px; 
+  margin-left: 10px;
+  color: black; 
+
 }
 
 /*--------------------------------------------------------------

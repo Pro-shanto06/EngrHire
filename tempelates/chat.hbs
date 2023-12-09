@@ -1,20 +1,176 @@
-<!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ChitChat</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-  <link rel="stylesheet" href="/css/chat.css" />
-  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>EngrHire BD</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+
+    <!-- Logo -->
+    <link href="assets/img/logo.png" rel="icon" />
+   
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"
+    />
+
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
+    <link
+      href="assets/vendor/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+    <link
+      href="assets/vendor/glightbox/css/glightbox.min.css"
+      rel="stylesheet"
+    />
+    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+
+
+<link rel="stylesheet" href="/css/chat.css" />
+ <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
   <script src="https://kit.fontawesome.com/25c9d39a22.js" crossorigin="anonymous"></script>
-</head>
 
-<body>
+ 
+  </head>
+
+  <body>
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top d-flex align-items-center">
+      <div class="container d-flex align-items-center justify-content-between">
+        <script src="https://unpkg.com/phosphor-icons"></script>
+        <div class="logo">
+          <h1><a href="/" ><img  src="assets/img/logo.png" alt="">EngrHire BD</a></h1>
+      
+        </div>
+
+        <nav id="navbar" class="navbar">
+          <ul>
+            <li><a class="nav-link scrollto active" href="/">Home</a></li>
+            {{#if user}}
+              {{#if isClient}}
+                <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+              {{/if}}
+
+              {{#if isEngineer}}
+                <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+              {{/if}}
+            {{else}}
+              <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+              <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+
+            {{/if}}
+
+            <li><a class="nav-link scrollto" href="#services">Services</a></li>
+            <li><a class="nav-link scrollto" href="#about">About</a></li>
+
+       
+
+            <li class="dropdown">
+              <a href="#"><span>Account</span>
+                <i class="bi bi-chevron-down"></i>
+              </a>
+              <ul>
+                {{#if user}}
+                  {{#if isClient}}
+                    <li class="dropdown">
+                      <a href="/client-profile/{{userId}}/1"><span>User Profile</span>
+                        <i class="bi bi-chevron-right"></i>
+                      </a>
+                      <ul>
+                        <li><a href="#">Notifications</a></li>
+                        <li><a
+                            href="/client-profile/{{userId}}/1"
+                          >Profile</a></li>
+                        <li><a href="/post-job">Post a Job</a></li>
+                      </ul>
+                    </li>
+                    <li><a href="/logout">Logout</a></li>
+            
+                  {{else}}
+                    <li class="dropdown">
+                      <a href="/profile/{{userId}}/1"><span>User Profile</span>
+                        <i class="bi bi-chevron-right"></i>
+                      </a>
+                      <ul>
+                        <li><a href="#">Notifications</a></li>
+                        <li><a href="/profile/{{userId}}/1">Profile</a></li>
+                        <li><a href="/job-list/all">Find a Job</a></li>
+                      </ul>
+                    </li>
+                    <li><a href="/logout">Logout</a></li>
+        
+                  {{/if}}
+                {{else}}
+                  <li><a href="/login">Login</a></li>
+                  <li><a href="/select" class="btn-signup">Sign Up</a></li>
+                {{/if}}
+              </ul>
+
+            </li>
+
+            <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+
+            <div class="search">
+              <input type="text" class="search-box" placeholder="Search..." />
+              <button class="search-btn"><i
+                  class="ph-magnifying-glass-bold"
+                ></i></button>
+              <button class="close-btn"><i class="ph-x-bold"></i></button>
+            </div>
+
+            {{#if isClient}}
+              <li>
+                <a
+                  class="getstarted scrollto"
+                  href="/client-profile/{{userId}}/1"
+                >
+                  <img
+                    src="{{user.profilePicPath}}"
+                    alt="Profile Picture"
+                    class="rounded-circle profile-picture"
+                  />
+                  <span class="profile-name">{{user.full_name}}</span>
+                </a>
+              </li>
+            {{/if}}
+
+            {{#if isEngineer}}
+              <li>
+                <a class="getstarted scrollto" href="/profile/{{userId}}/1">
+                  <img
+                    src="{{user.profilePicPath}}"
+                    alt="Profile Picture"
+                    class="rounded-circle profile-picture"
+                  />
+                  <span class="profile-name">{{user.full_name}}</span>
+                </a>
+              </li>
+            {{/if}}
+
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav><!-- .navbar -->
+
+      </div>
+    </header><!-- End Header -->
+
+
+
+
+ 
+
+
   <div class="main-container">
     <section class="chat-section">
       <div class="brand">
@@ -93,6 +249,25 @@
       }
     });
   </script>
-</body>
+
+ <a
+      href="#"
+      class="back-to-top d-flex align-items-center justify-content-center"
+    ><i class="bi bi-arrow-up-short"></i></a>
+
+
+    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="assets/vendor/aos/aos.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/search.js"></script>
+
+  </body>
 
 </html>
