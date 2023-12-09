@@ -135,45 +135,67 @@
    <div class="sidebar open">
     <div class="logo-details">
       <i class="bx bx-grid-alt icon"></i>
-      <div class="logo_name">Work Dashboard</div>
+      <div class="logo_name">Dashboard</div>
       <i class="bx bx-menu" id="btn"></i>
     </div>
-      <button><a href="/work/{{workId}}/chat">Chat</a></button>
+
+    <button><a href="/work/{{workId}}/chat">Chat</a></button>
+
     <ul class="nav-list">
       
-      <li><a href="#client-info">Client Info</a></li>
-  
-            <li><a href="#engineer-info">Engineer Info</a></li>
-    
-      <li><a href="#job-info">Job Info</a></li>
-
-           <li><a href="#bid-info">Bid Info</a></li>
-    
-
-      <li><a href="/work/{{workId}}/chat">Chat</a></li>
-   
-     
-               <li><a href="#payments">Payments</a></li>
-   
-      {{#if isClient}}
-      <li class="profile">
-        <a class="getstarted scrollto" href="/client-profile/{{userId}}/1">
-          <div class="profile-details">
-            <img src="{{user.profilePicPath}}" alt="Profile Picture" />
-            <div class="name_job">
-              <div class="name">{{user.full_name}}</div>
-           
-            </div>
-          </div>
-          <i class="bx bx-log-out" id="log_out"></i>
+      <li>
+        <a href="#client-info">
+          <i class="bx bx-user"></i>
+          <span class="links_name">Client Info</span>
+        </a>
+        <span class="tooltip">Client Info</span>
       </li>
-      {{/if}}
+
+      <li>
+      <a href="#engineer-info">
+          <i class="bx bx-bell"></i>
+          <span class="links_name">Engineer Info</span>
+        </a>
+        <span class="tooltip">Engineer Info</span>
+      </li>
+
+      <li>
+         <a href="#job-info">
+          <i class="bx bx-pie-chart-alt-2"></i>
+          <span class="links_name">Job Info</span>
+        </a>
+        <span class="tooltip">Job Info</span>
+      </li>
+
+
+
+      <li>
+       <a href="#bid-info">
+          <i class="bx bx-dollar"></i>
+          <span class="links_name">Bid Info</span>
+        </a>
+        <span class="tooltip">Bid Info</span>
+      </li>
+
+
+      <li>
+       <a href="#payments">
+        <i class="bx bx-dollar"></i>
+          <span class="links_name">Payments</span>
+        </a>
+        <span class="tooltip">Payments</span>
+      </li>
+
+
+      <li>
+        <a href="/rating">
+          <i class="bx bx-heart"></i>
+          <span class="links_name">Rating & Reviews</span>
+        </a>
+        <span class="tooltip">Ratings</span>
+      </li>
     </ul>
-
-
-      </div>
-
-    
+  </div>
 
     <section class="home-section" id="client-info" class="info-card">
        <div class="row gutters-sm">

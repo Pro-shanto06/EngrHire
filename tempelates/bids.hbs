@@ -151,6 +151,7 @@
         </a>
         <span class="tooltip">Notification</span>
       </li>
+
       <li>
          <a href="/client-profile/{{clientId}}/3">
           <i class="bx bx-pie-chart-alt-2"></i>
@@ -158,6 +159,7 @@
         </a>
         <span class="tooltip">Post</span>
       </li>
+
       <li>
        <a href="/bids/{{clientId}}">
           <i class="bx bx-dollar"></i>
@@ -179,27 +181,14 @@
         </a>
         <span class="tooltip">Ratings</span>
       </li>
-      {{#if isClient}}
-      <li class="profile">
-        <a class="getstarted scrollto" href="/client-profile/{{clientId}}/1">
-          <div class="profile-details">
-            <img src="{{user.profilePicPath}}" alt="Profile Picture" />
-            <div class="name_job">
-              <div class="name">{{user.full_name}}</div>
-            </div>
-          </div>
-          <i class="bx bx-log-out" id="log_out"></i>
-      </li>
-      {{/if}}
     </ul>
   </div>
     
+<section class="home-section">
 
    <div class="dcont container">
       <div class="main-body">
         <div class="row gutters-sm">
-          
-       
         <hr>
           <div class="titleBid">
           <h2>Bid List</h2>
@@ -228,10 +217,10 @@
                     </div>
                   
                     <div class="d-flex flex-column mt-4 bid-actions">
-                      <button class="btn btn-primary btn-sm accept-bid" class="" data-bidid="{{this._id}}" data-jobid="{{this.job}}"
+                      <button class="btn accept-bid" style="color: green;" class="" data-bidid="{{this._id}}" data-jobid="{{this.job}}"
                       onclick="acceptBid('{{this._id}}', '{{this.job}}')">Accept</button>
 
-                      <button class="btn btn-primary btn-sm reject-bid" class="" data-bidid="{{this._id}}" data-jobid="{{this.job}}"
+                     <button class="btn  reject-bid" style="color: red;"  class="" data-bidid="{{this._id}}" data-jobid="{{this.job}}"
                       onclick="rejectBid('{{this._id}}', '{{this.job}}')">Reject</button>
 
                       
@@ -244,19 +233,11 @@
       {{/each}}
         </ul>
 
-        </div>
-      </div>
-      </div>
-           
-
-       
-      <div class="dcont container">
-      <div class="main-body">
-        <div class="row gutters-sm">  
    <hr>
 <div class="titleBid">
   <h2>Accepted Bids:</h2>
 </div>
+ <hr>
 <ul id="accepted-bids-list">
   {{#each acceptedBids}}
     <li>
@@ -286,12 +267,11 @@
     </li>
   {{/each}}
 </ul>
-</div>
-        </div>
-      </div>
 
-  
     </div>
+      </div>
+      </div>
+      </section>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../bids.js"></script>

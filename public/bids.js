@@ -224,9 +224,9 @@ function updatePendingBids(pendingBids) {
                     </div>
                   
                     <div class="d-flex flex-column mt-4 bid-actions">
-                      <button class="btn btn-primary btn-sm accept-bid" class="" data-bidid="${bid._id}" data-jobid="${bid.job}"
+                    <button class="btn accept-bid" style="color: green;" class="" data-bidid="${bid._id}" data-jobid="${bid.job}"
                       onclick="acceptBid('${bid._id}', '${bid.job}')">Accept</button>
-                      <button class="btn btn-primary btn-sm reject-bid" class="" data-bidid="${bid._id}" data-jobid="${bid.job}"
+                      <button class="btn  reject-bid" style="color: red;" class="" data-bidid="${bid._id}" data-jobid="${bid.job}"
                       onclick="rejectBid('${bid._id}', '${bid.job}')">Reject</button>
 
                       

@@ -5,107 +5,92 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ChatMe</title>
-
+  <title>ChitChat</title>
 
   <link rel="stylesheet" href="/css/chat.css" />
-  
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
- 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
-
-  
   <script src="https://kit.fontawesome.com/25c9d39a22.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
   <div class="main-container">
     <section class="chat-section">
-      
       <div class="brand">
-        <h2>ChatMe</h2>
+        <h2>ChitChat</h2>
       </div>
-
-      <div class="message-container">
-        <div class="message-area">
-        
-        </div>
+      <div class="message-area" id="message-area">
       </div>
-
-      <hr />
-
       <div class="messenger">
         <div id="textarea" contenteditable="true" placeholder="Chat here.."></div>
         <button id="send-btn" type="submit" style="float:right">
-          <i class="fa fa-paper-plane" aria-hidden="true"></i> Send
+          <i class="fa fa-paper-plane" aria-hidden="true"></i>
         </button>
       </div>
     </section>
   </div>
 
- 
   <script src="https://cdn.socket.io/4.1.3/socket.io.min.js"></script>
-
-  
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const socket = io('http://localhost:4000');
+      const currentUserRole = '{{user.role}}';
+      const messageArea = document.getElementById('message-area');
+      const textarea = document.getElementById('textarea');
+      const sendBtn = document.getElementById('send-btn');
 
-      
       function renderMessage(senderRole, message) {
-        const messageArea = document.querySelector('.message-area');
         const messageElement = document.createElement('div');
-
-       
-        const messageClass = senderRole.toLowerCase() === 'client' ? 'user-message' : 'other-message';
+        const messageClass = senderRole.toLowerCase() === currentUserRole.toLowerCase() ? 'outgoing' : 'incoming';
         messageElement.classList.add(messageClass);
-
-        
-        messageElement.textContent = `[${senderRole}] ${message}`;
+        messageElement.textContent = `${senderRole}: ${message}`;
         messageArea.appendChild(messageElement);
+
+     
+        messageArea.scrollTop = messageArea.scrollHeight;
       }
 
-      
       socket.on('chat message', function (data) {
         if (data.senderRole && data.message) {
-          
           renderMessage(data.senderRole, data.message);
         }
       });
 
-     
       const workId = '{{workId}}';
       fetch(`/api/work/${workId}/chat-messages`)
         .then(response => response.json())
         .then(messages => {
-          
           messages.forEach(message => {
             renderMessage(message.senderRole, message.message);
           });
         })
         .catch(error => console.error('Error fetching messages:', error));
 
-     
-      const sendBtn = document.getElementById('send-btn');
-      sendBtn.addEventListener('click', function () {
-        const textarea = document.getElementById('textarea');
-        const message = textarea.textContent;
-        const senderRole = '{{user.role}}';
+      sendBtn.addEventListener('click', sendMessage);
+      
 
-        if (!senderRole) {
-          console.error('Sender role not defined');
+      textarea.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' && !event.shiftKey) {
+          event.preventDefault();
+          sendMessage();
+        }
+      });
+
+      function sendMessage() {
+        const message = textarea.textContent.trim(); 
+        const senderRole = currentUserRole;
+
+        if (!senderRole || !message) {
+          console.error('Sender role not defined or message is empty');
           return;
         }
 
         const workId = '{{workId}}';
-
-       
         socket.emit('chat message', { senderRole, message, workId });
 
-        
         textarea.textContent = '';
-      });
+      }
     });
   </script>
 </body>

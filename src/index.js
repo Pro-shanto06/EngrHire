@@ -192,22 +192,22 @@ function isAuthenticated(req, res, next) {
         return res.status(404).json({ error: 'Work not found' });
       }
   
-      
+     
       const allChatMessages = [
-        ...work.clientChatMessages.map(message => ({ senderRole: 'Client', message: message.message })),
-        ...work.engineerChatMessages.map(message => ({ senderRole: 'Engineer', message: message.message })),
+        ...work.clientChatMessages.map(message => ({ senderRole: 'Client', message: message.message, timestamp: message.timestamp })),
+        ...work.engineerChatMessages.map(message => ({ senderRole: 'Engineer', message: message.message, timestamp: message.timestamp })),
       ];
   
-      
+  
       allChatMessages.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
   
-     
       res.json(allChatMessages);
     } catch (error) {
       console.error('Error fetching chat messages:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
-  });
+});
+
 
   io.on('connection', (socket) => {
     console.log('A user connected');
@@ -471,7 +471,6 @@ app.post("/login", async (req, res) => {
       return res.status(401).send("Invalid email or password. User not found.");
     }
 
-    // Skip profile verification check for admin
     if (role !== "Admin" && !user.isVerified) {
       return res.status(401).send("Profile not verified. Please check your email for verification.");
     }
@@ -1194,17 +1193,49 @@ if (!user) {
 });
 
 app.get("/bids/:clientId", isAuthenticated, async (req, res) => {
-  const clientId = req.params.clientId;
+
+  let clientId = req.params.clientId;
+  let client = null;
+
+  let userId = null;
+   
+if (req.session.user) {
+  userId = req.session.user._id;
+}
+
+let user = await Engineer.findById(userId);
+
+if (!user) {
+    user = await Client.findById(userId);
+  }
+
+
 
   try {
+
+    if (req.session.user.role === "Client") {
+      client = await Client.findById(clientId);
+}
+
+      if (user && user.profilePicPath) {
+        user.profilePicPath =
+          "/" + user.profilePicPath.replace(/\\/g, "/");
+      }
+      if (client && client.profilePicPath) {
+        client.profilePicPath =
+          "/" + client.profilePicPath.replace(/\\/g, "/");
+      }
+
     const bids = await Bid.find({ client: clientId });
 
     if (bids) {
       res.render("bids", {
-        user: this.user,
+        userId,
+        user: user,
         isClient: req.session.user?.role === "Client",
         isEngineer: req.session.user?.role === "Engineer",
-        clientId: req.session.user._id,
+        clientId: clientId,
+        client,
         bids,
       });
     } else {
