@@ -152,9 +152,21 @@ h2 {
   color: rgba(255, 255, 255, 0.315);
 }
 
+
+
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
+a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #5faee3;
+  text-decoration: none;
+}
+
 #header {
   z-index: 997;
   transition: all 0.5s;
@@ -431,7 +443,6 @@ h2 {
   display: block;
 }
 
-
 /*--------------------------------------------------------------
 # profile
 --------------------------------------------------------------*/
@@ -443,9 +454,9 @@ h2 {
 }
 
 .profile-name {
-  font-size: 14px; 
+  font-size: 16px; 
   margin-left: 10px;
-  color: black; 
+  color: rgb(255, 255, 255); 
 
 }
 
@@ -490,7 +501,7 @@ h2 {
 }
 
 .search-box::placeholder {
-  color: #ffffff; /* Change the color to your desired color */
+  color: #ffffff;
 }
 
 .active .search-box {
@@ -505,4 +516,9 @@ h2 {
 .active .close-btn {
   z-index: 0;
   transform: translate(250px, 2px);
+}
+.material-symbols-outlined a {
+  color: #007bff; 
+  text-decoration: none; 
+  font-size: 24px;
 }

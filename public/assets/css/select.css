@@ -31,6 +31,16 @@ body::before {
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
+a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #5faee3;
+  text-decoration: none;
+}
+
 #header {
   z-index: 997;
   transition: all 0.5s;
@@ -318,9 +328,9 @@ body::before {
 }
 
 .profile-name {
-  font-size: 14px; 
+  font-size: 16px; 
   margin-left: 10px;
-  color: black; 
+  color: rgb(255, 255, 255); 
 
 }
 
@@ -365,7 +375,7 @@ body::before {
 }
 
 .search-box::placeholder {
-  color: #ffffff; /* Change the color to your desired color */
+  color: #ffffff;
 }
 
 .active .search-box {
@@ -380,6 +390,11 @@ body::before {
 .active .close-btn {
   z-index: 0;
   transform: translate(250px, 2px);
+}
+.material-symbols-outlined a {
+  color: #007bff; 
+  text-decoration: none; 
+  font-size: 24px;
 }
 
 

@@ -23,9 +23,8 @@
   <link href="/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
   <link href="/vendor/remixicon/remixicon.css" rel="stylesheet" />
   <link href="/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
-   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
-  <link rel="stylesheet" href="assets/css/post_job.css" />
+  <link rel="stylesheet" href="/css/engr-post.css" />
 
 </head>
 
@@ -152,9 +151,9 @@
       </header><!-- End Header -->
 
     <div class="post-job-container">
-      <h1>Post a Job</h1>
+      <h1>Find Jobs Form</h1>
       <form action="/post-job" method="post">
-        <label for="job_title">Title:</label>
+        <label for="job_title">Name</label>
         <input type="text" id="job_title" name="job_title" required />
 
         <label for="category">Category:</label>
@@ -179,10 +178,8 @@
             Inspection and Code Compliance</option>
         </select>
 
-        <label for="specified_category">Specify the category (If needed):</label>
-        <input type="text" id="specified_category" name="specified_category" />
-
-        <label for="job_details">Details about the Job:</label>
+      
+        <label for="job_details">Details about you</label>
         <textarea
           id="job_details"
           name="job_details"
@@ -190,36 +187,20 @@
           required
         ></textarea>
 
-        <label for="job_requirements">Job Requirements:</label>
+        <label for="job_requirements">Your Exprience</label>
         <textarea
           id="job_requirements"
           name="job_requirements"
           rows="5"
           required
-        ></textarea>
+        ></textarea><br>
 
-        <label for="job_location">Job Location:</label>
-        <input type="text" id="job_location" name="job_location" required />
 
-        <label for="job_deadline">Deadline:</label>
-        <input type="date" id="job_deadline" name="job_deadline" required />
-
-        <label for="job_price_range">Price Range (ex: From 💵 1000 to 💵 2000):</label>
-        <input
-          type="text"
-          id="job_price_range"
-          name="job_price_range"
-          required
-        />
-
-        <button type="submit">Post Job</button>
+        <button type="submit">Post for jobs</button>
       </form>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../bids.js"></script>
-
-    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+<script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
     <script src="assets/vendor/aos/aos.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>

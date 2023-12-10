@@ -263,8 +263,13 @@ function isAuthenticated(req, res, next) {
       console.log('User disconnected');
     });
   });
+
+
   
   
+  app.get("/engineer-post", (req, res) => {
+    res.render("engineer-post");
+  });
 
 app.get("/signup", (req, res) => {
   res.render("signup");

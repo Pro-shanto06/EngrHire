@@ -1660,9 +1660,9 @@ section {
 }
 
 .profile-name {
-  font-size: 14px; 
+  font-size: 16px; 
   margin-left: 10px;
-  color: black; 
+  color: rgb(255, 255, 255); 
 
 }
 
@@ -1707,7 +1707,7 @@ section {
 }
 
 .search-box::placeholder {
-  color: #ffffff; /* Change the color to your desired color */
+  color: #ffffff;
 }
 
 .active .search-box {
@@ -1723,3 +1723,11 @@ section {
   z-index: 0;
   transform: translate(250px, 2px);
 }
+.material-symbols-outlined a {
+  color: #007bff; 
+  text-decoration: none; 
+  font-size: 24px;
+}
+
+
+

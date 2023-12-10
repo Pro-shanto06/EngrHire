@@ -14,10 +14,11 @@ body {
   background-color: #e2e8f0;
 }
 
-/* --------------------------------------------------------------
+
+
+/*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
-
 a {
   color: #3498db;
   text-decoration: none;
@@ -28,20 +29,12 @@ a:hover {
   text-decoration: none;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Raleway", sans-serif;
-}
-
 #header {
   z-index: 997;
   transition: all 0.5s;
-  padding: 10px 0;
+  padding: 22px 0;
   background: #fff;
+  height: 60px;
 }
 
 #header.header-scrolled {
@@ -50,7 +43,7 @@ h6 {
 }
 
 #header .logo h1 {
-  font-size: 30px;
+  font-size: 20px;
   margin: 0;
   padding: 0;
   line-height: 1;
@@ -67,7 +60,7 @@ h6 {
 #header .logo img {
   padding: 0;
   margin: 0;
-  max-height: 40px;
+  max-height: 30px;
 }
 
 /*--------------------------------------------------------------
@@ -122,11 +115,14 @@ h6 {
 .navbar .getstarted,
 .navbar .getstarted:focus {
   background: #3498db;
-  padding: 8px 25px;
+  padding: 8px;
   margin-left: 30px;
   border-radius: 50px;
   color: #fff;
+  
 }
+
+
 
 .navbar .getstarted:hover,
 .navbar .getstarted:focus:hover {
@@ -187,6 +183,7 @@ h6 {
   left: 100%;
   visibility: visible;
 }
+
 
 @media (max-width: 1366px) {
   .navbar .dropdown .dropdown ul {
@@ -307,6 +304,24 @@ h6 {
 .navbar-mobile .dropdown > .dropdown-active {
   display: block;
 }
+
+/*--------------------------------------------------------------
+# profile
+--------------------------------------------------------------*/
+
+.profile-picture {
+  width: 25px; /* Set the desired width */
+  height: 25px; /* Set the desired height */
+  border-radius: 50%; 
+}
+
+.profile-name {
+  font-size: 16px; 
+  margin-left: 10px;
+  color: rgb(255, 255, 255); 
+
+}
+
 /*--------------------------------------------------------------
 # Search
 --------------------------------------------------------------*/
@@ -314,7 +329,7 @@ h6 {
 .search-btn,
 .close-btn {
   width: 40px;
-  height: 45px;
+  height: 35px;
   font-size: 25px;
   background-color: #ffffff;
   color: rgb(0, 0, 0);
@@ -348,7 +363,7 @@ h6 {
 }
 
 .search-box::placeholder {
-  color: #ffffff; /* Change the color to your desired color */
+  color: #ffffff;
 }
 
 .active .search-box {
@@ -356,17 +371,18 @@ h6 {
 }
 
 .active .search-btn {
-  transform: translate(210px, -4px) scale(0.8);
+  transform: translate(210px, 2px) scale(0.8);
   background-color: transparent;
 }
 
 .active .close-btn {
   z-index: 0;
-  transform: translate(250px, -3px);
+  transform: translate(250px, 2px);
 }
-
-.input-field::placeholder {
-  line-height: 50;
+.material-symbols-outlined a {
+  color: #007bff; 
+  text-decoration: none; 
+  font-size: 24px;
 }
 
 .main-body {

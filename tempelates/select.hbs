@@ -53,27 +53,44 @@
         <nav id="navbar" class="navbar">
           <ul>
             <li><a class="nav-link scrollto active" href="/">Home</a></li>
-            {{#if user}}
-              {{#if isClient}}
+          {{#if user}}
+           {{#if isClient}}
                 <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
-              {{/if}}
+  {{/if}}
+   {{#if isEngineer}}
+                <li><a class="nav-link scrollto" href="/engineer-post">Post Jobs</a></li>
+  {{/if}}
+   {{else}}
+<li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+ {{/if}}
+              <li class="dropdown">
+              <a href="#"><span>Explore</span>
+              </a>
+            <ul>
+                {{#if user}}
+  {{#if isEngineer}}
+    <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+    <li><a class="nav-link scrollto" href="#services">Services</a></li>
+  {{/if}}
 
-              {{#if isEngineer}}
-                <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
-              {{/if}}
-            {{else}}
-              <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
-              <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+  {{#if isClient}}
+    <li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
+    <li><a class="nav-link scrollto" href="#services">Services</a></li>
+  {{/if}}
+    {{else}}
+     <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+<li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
+    <li><a class="nav-link scrollto" href="#services">Services</a></li>
+     {{/if}}
 
-            {{/if}}
+</ul>
 
-            <li><a class="nav-link scrollto" href="#services">Services</a></li>
-            
 
+            </li>
 
              <li class="dropdown">
               <a href="#"><span>Help</span>
-                <i class="bi bi-chevron-down"></i>
+              
               </a>
               <ul>
                  
@@ -86,51 +103,16 @@
             </li>
 
        
+{{#unless user}}
 
-            <li class="dropdown">
-              <a href="#"><span>Account</span>
-                <i class="bi bi-chevron-down"></i>
-              </a>
-              <ul>
-                {{#if user}}
-                  {{#if isClient}}
-                    <li class="dropdown">
-                      <a href="/client-profile/{{userId}}/1"><span>User Profile</span>
-                        <i class="bi bi-chevron-right"></i>
-                      </a>
-                      <ul>
-                        <li><a href="#">Notifications</a></li>
-                        <li><a
-                            href="/client-profile/{{userId}}/1"
-                          >Profile</a></li>
-                        <li><a href="/post-job">Post a Job</a></li>
-                      </ul>
-                    </li>
-                    <li><a href="/logout">Logout</a></li>
-            
-                  {{else}}
-                    <li class="dropdown">
-                      <a href="/profile/{{userId}}/1"><span>User Profile</span>
-                        <i class="bi bi-chevron-right"></i>
-                      </a>
-                      <ul>
-                        <li><a href="#">Notifications</a></li>
-                        <li><a href="/profile/{{userId}}/1">Profile</a></li>
-                        <li><a href="/job-list/all">Find a Job</a></li>
-                      </ul>
-                    </li>
-                    <li><a href="/logout">Logout</a></li>
-        
-                  {{/if}}
-                {{else}}
-                  <li><a href="/login">Login</a></li>
-                  <li><a href="/select" class="btn-signup">Sign Up</a></li>
-                {{/if}}
-              </ul>
 
-            </li>
+    <ul>
+      <li><a href="/login">Login</a></li>
+      <li><a href="/select" class="btn-signup">Sign Up</a></li>
+    </ul>
 
-          
+{{/unless}}
+
 
             <div class="search">
               <input type="text" class="search-box" placeholder="Search..." />
@@ -140,34 +122,37 @@
               <button class="close-btn"><i class="ph-x-bold"></i></button>
             </div>
 
-            {{#if isClient}}
-              <li>
-                <a
-                  class="getstarted scrollto"
-                  href="/client-profile/{{userId}}/1"
-                >
-                  <img
-                    src="{{user.profilePicPath}}"
-                    alt="Profile Picture"
-                    class="rounded-circle profile-picture"
-                  />
-                  <span class="profile-name" style="font-size: 2px;">{{user.full_name}}</span>
-                </a>
-              </li>
-            {{/if}}
+        {{#if isClient}}
+  <li>
+    <a class="getstarted scrollto" href="/client-profile/{{userId}}/1">
+      <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+      <span class="profile-name">{{user.full_name}}</span>
+      
+    </a>
+  </li>
 
-            {{#if isEngineer}}
-              <li>
-                <a class="getstarted scrollto" href="/profile/{{userId}}/1">
-                  <img
-                    src="{{user.profilePicPath}}"
-                    alt="Profile Picture"
-                    class="rounded-circle profile-picture"
-                  />
-                  <span class="profile-name">{{user.full_name}}</span>
-                </a>
-              </li>
-            {{/if}}
+ <span class="material-symbols-outlined">
+  <a href="/logout">Logout</a>
+</span>
+
+{{/if}}
+
+{{#if isEngineer}}
+  <li>
+    <a class="getstarted scrollto" href="/profile/{{userId}}/1">
+      <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+      <span class="profile-name">{{user.full_name}}</span>
+    </a>
+  </li>
+
+   <span class="material-symbols-outlined">
+  <a href="/logout">Logout</a>
+</span>
+  
+{{/if}}
+
+
+
 
           </ul>
           <i class="bi bi-list mobile-nav-toggle"></i>

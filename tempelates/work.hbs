@@ -1,9 +1,17 @@
-<html>
+<html lang="en">
 
-<head>
-  <title>Profile</title>
-  <link href="/logo.png" rel="icon" />
-  
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>EngrHire BD</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+
+    <!-- Logo -->
+    <link href="assets/img/logo.png" rel="icon" />
+
+
   <link
     href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
     rel="stylesheet" />
@@ -16,118 +24,133 @@
   <link href="/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
   <link href="/vendor/remixicon/remixicon.css" rel="stylesheet" />
   <link href="/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+ 
 
   <link rel="stylesheet" href="/css/client_profile.css" />
-
+ <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 
 <body>
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top d-flex align-items-center">
-    <div class="container d-flex align-items-center justify-content-between">
-      <script src="https://unpkg.com/phosphor-icons"></script>
-      <div class="logo">
-        <h1><a href="/" ><img  src="/logo.png" alt="">EngrHire BD</a></h1>
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top d-flex align-items-center">
+        <div class="container d-flex align-items-center justify-content-between">
+          <script src="https://unpkg.com/phosphor-icons"></script>
+          <div class="logo">
+            <h1><a href="/" ><img  src="/img/logo.png" alt="">EngrHire BD</a></h1>
         
-      </div>
-
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a class="nav-link scrollto active" href="/">Home</a></li>
-          {{#if user}}
-          {{#if isClient}}
-          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
-          {{/if}}
-
-          {{#if isEngineer}}
-          <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
-          {{/if}}
-          {{else}}
-          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
-          <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
-
-          {{/if}}
-
-          <li><a class="nav-link scrollto" href="#services">Services</a></li>
-          <li><a class="nav-link scrollto" href="#about">About</a></li>
-
-          <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li>
-          <li><a class="nav-link scrollto" href="#team">Team</a></li>
-
-          <li class="dropdown">
-            <a href="#"><span>Account</span>
-              <i class="bi bi-chevron-down"></i>
-            </a>
-            <ul>
-              {{#if user}}
-              {{#if isClient}}
-              <li class="dropdown">
-                <a href="/client-profile/{{userId}}/1"><span>User Profile</span>
-                  <i class="bi bi-chevron-right"></i>
-                </a>
-                <ul>
-                  <li><a href="#">Notifications</a></li>
-                  <li><a href="/client-profile/{{userId}}/1">Profile</a></li>
-                  <li><a href="/post-job">Post a Job</a></li>
-                </ul>
-              </li>
-              <li><a href="/logout">Logout</a></li>
-   
-              {{else}}
-              <li class="dropdown">
-                <a href="/profile/{{userId}}/1"><span>User Profile</span>
-                  <i class="bi bi-chevron-right"></i>
-                </a>
-                <ul>
-                  <li><a href="#">Notifications</a></li>
-                  <li><a href="/profile/{{userId}}/1">Profile</a></li>
-                  <li><a href="/job-list/all">Find a Job</a></li>
-                </ul>
-              </li>
-              <li><a href="/logout">Logout</a></li>
-       
-              {{/if}}
-              {{else}}
-              <li><a href="/login">Login</a></li>
-              <li><a href="/select" class="btn-signup">Sign Up</a></li>
-              {{/if}}
-            </ul>
-
-          </li>
-
-          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-
-          <div class="search">
-            <input type="text" class="search-box" placeholder="Search..." />
-            <button class="search-btn"><i class="ph-magnifying-glass-bold"></i></button>
-            <button class="close-btn"><i class="ph-x-bold"></i></button>
           </div>
-
+  
+          <nav id="navbar" class="navbar">
+            <ul>
+              <li><a class="nav-link scrollto active" href="/">Home</a></li>
+            {{#if user}}
+             {{#if isClient}}
+                  <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+    {{/if}}
+     {{#if isEngineer}}
+                  <li><a class="nav-link scrollto" href="/engineer-post">Post Jobs</a></li>
+    {{/if}}
+     {{else}}
+  <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+   {{/if}}
+                <li class="dropdown">
+                <a href="#"><span>Explore</span>
+                </a>
+              <ul>
+                  {{#if user}}
+    {{#if isEngineer}}
+      <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+      <li><a class="nav-link scrollto" href="#services">Services</a></li>
+    {{/if}}
+  
+    {{#if isClient}}
+      <li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
+      <li><a class="nav-link scrollto" href="#services">Services</a></li>
+    {{/if}}
+      {{else}}
+       <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+  <li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
+      <li><a class="nav-link scrollto" href="#services">Services</a></li>
+       {{/if}}
+  
+  </ul>
+  
+  
+              </li>
+  
+               <li class="dropdown">
+                <a href="#"><span>Help</span>
+                
+                </a>
+                <ul>
+                   
+                  <li><a class="nav-link scrollto" href="#about">About</a></li>
+                  <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                  <li><a class="nav-link scrollto" href="#faq">FAQ</a></li>
+                 
+                </ul>
+  
+              </li>
+  
+         
+  {{#unless user}}
+  
+  
+      <ul>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/select" class="btn-signup">Sign Up</a></li>
+      </ul>
+  
+  {{/unless}}
+  
+  
+              <div class="search">
+                <input type="text" class="search-box" placeholder="Search..." />
+                <button class="search-btn"><i
+                    class="ph-magnifying-glass-bold"
+                  ></i></button>
+                <button class="close-btn"><i class="ph-x-bold"></i></button>
+              </div>
+  
           {{#if isClient}}
-          <li>
-            <a class="getstarted scrollto" href="/client-profile/{{userId}}/1">
-              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
-              <span class="profile-name">{{user.full_name}}</span>
-            </a>
-          </li>
-          {{/if}}
-
-          {{#if isEngineer}}
-          <li>
-            <a class="getstarted scrollto" href="/profile/{{userId}}/1">
-              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
-              <span class="profile-name">{{user.full_name}}</span>
-            </a>
-          </li>
-          {{/if}}
-
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
-
-    </div>
-  </header><!-- End Header -->
+    <li>
+      <a class="getstarted scrollto" href="/client-profile/{{userId}}/1">
+        <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+        <span class="profile-name">{{user.full_name}}</span>
+        
+      </a>
+    </li>
+  
+   <span class="material-symbols-outlined">
+    <a href="/logout">Logout</a>
+  </span>
+  
+  {{/if}}
+  
+  {{#if isEngineer}}
+    <li>
+      <a class="getstarted scrollto" href="/profile/{{userId}}/1">
+        <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+        <span class="profile-name">{{user.full_name}}</span>
+      </a>
+    </li>
+  
+     <span class="material-symbols-outlined">
+    <a href="/logout">Logout</a>
+  </span>
+    
+  {{/if}}
+  
+  
+  
+  
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+          </nav><!-- .navbar -->
+  
+        </div>
+      </header><!-- End Header -->
 
   <br /><br /><br /><br />
 
@@ -139,8 +162,10 @@
       <i class="bx bx-menu" id="btn"></i>
     </div>
 
-    <button><a href="/work/{{workId}}/chat">Chat</a></button>
 
+       
+
+<div>
     <ul class="nav-list">
       
       <li>
@@ -195,6 +220,17 @@
         <span class="tooltip">Ratings</span>
       </li>
     </ul>
+
+  
+</div>
+
+<div style="margin-top: 280px;">
+
+  <a class="chat" href="/work/{{workId}}/chat">
+          <i class="bx bx-heart"></i>
+          <span class="links_name">Chat</span>
+        </a>
+</div>
   </div>
 
     <section class="home-section" id="client-info" class="info-card">
