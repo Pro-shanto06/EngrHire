@@ -332,7 +332,7 @@ a:hover {
   height: 35px;
   font-size: 25px;
   background-color: #ffffff;
-  color: rgb(0, 0, 0);
+  color: rgb(0, 0, 0);job
   border: none;
   cursor: pointer;
   position: absolute;
@@ -695,6 +695,7 @@ img {
   transition: all 0.4s ease;
   background: #3498db;
   color: white;
+  margin-top: 310px;
 }
 
 .chat i{
