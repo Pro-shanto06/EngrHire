@@ -104,13 +104,13 @@
   {{/unless}}
   
   
-              <div class="search">
+              {{!-- <div class="search">
                 <input type="text" class="search-box" placeholder="Search..." />
                 <button class="search-btn"><i
                     class="ph-magnifying-glass-bold"
                   ></i></button>
                 <button class="close-btn"><i class="ph-x-bold"></i></button>
-              </div>
+              </div> --}}
   
           {{#if isClient}}
     <li>
@@ -152,69 +152,65 @@
       </header><!-- End Header -->
 
     <div class="post-job-container">
-      <h1>Post a Job</h1>
-      <form action="/post-job" method="post">
-        <label for="job_title">Title:</label>
-        <input type="text" id="job_title" name="job_title" required />
+    <h1>Post a Job</h1>
+    <form action="/post-job" method="post">
+        <div class="input-bx">
+            <input type="text" id="job_title" name="job_title" required />
+            <span>Title</span>
+        </div>
 
-        <label for="category">Category:</label>
-        <select id="category" name="category" required>
+        <div class="input-bx">
+            <select id="category" name="category" required>
+                <option value="Architect">Architect</option>
+                <option value="Construction">Construction</option>
+                <option value="Interior_Design">Interior Design</option>
+                <option value="Floor_Plan">Floor Plan</option>
+                <option value="Architectural_Design_And_Drafting">Architectural Design And Drafting</option>
+                <option value="Structural_Engineering">Structural Engineering</option>
+                <option value="Electrical_Installation">Electrical Installation</option>
+                <option value="Plumbing_and_Sanitary Works">Plumbing and Sanitary Works</option>
+                <option value="Design_and_Decoration">Design and Decoration</option>
+                <option value="Construction_Project_Management">Construction Project Management</option>
+                <option value="Structural_Renovation_and_Retrofitting">Structural Renovation and Retrofitting</option>
+                <option value="Building_Inspection_and_Code_Compliance">Building Inspection and Code Compliance</option>
+            </select>
+            <span>Category</span>
+        </div>
 
-          <option value="Architect">Architect</option>
-          <option value="Construction">Construction</option>
-          <option value="Interior_Design">Interior Design</option>
-          <option value="Floor_Plan">Floor Plan</option>
-          <option value="Architectural_Design_And_Drafting">Architectural Design
-            And Drafting</option>
-          <option value="Structural_Engineering">Structural Engineering</option>
-          <option value="Electrical_Installation">Electrical Installation</option>
-          <option value="Plumbing_and_Sanitary Works">Plumbing and Sanitary
-            Works</option>
-          <option value="Design_and_Decoration">Design and Decoration</option>
-          <option value="Construction_Project_Management">Construction Project
-            Management</option>
-          <option value="Structural_Renovation_and_Retrofitting">Structural
-            Renovation and Retrofitting</option>
-          <option value="Building_Inspection_and_Code_Compliance">Building
-            Inspection and Code Compliance</option>
-        </select>
 
-        <label for="specified_category">Specify the category (If needed):</label>
-        <input type="text" id="specified_category" name="specified_category" />
+        <div class="input-bx">
+            <input type="text" id="specified_category" name="specified_category"/>
+            <span>Specify the category (If needed)</span>
+        </div>
 
-        <label for="job_details">Details about the Job:</label>
-        <textarea
-          id="job_details"
-          name="job_details"
-          rows="5"
-          required
-        ></textarea>
+        <div class="input-bx">
+            <textarea id="job_details" name="job_details" rows="5" required></textarea>
+            <span>Details about the Job</span>
+        </div>
 
-        <label for="job_requirements">Job Requirements:</label>
-        <textarea
-          id="job_requirements"
-          name="job_requirements"
-          rows="5"
-          required
-        ></textarea>
+        <div class="input-bx">
+            <textarea id="job_requirements" name="job_requirements" rows="5" required></textarea>
+            <span>Job Requirements</span>
+        </div>
 
-        <label for="job_location">Job Location:</label>
-        <input type="text" id="job_location" name="job_location" required />
+        <div class="input-bx">
+            <input type="text" id="job_location" name="job_location" required />
+            <span>Job Location</span>
+        </div>
 
-        <label for="job_deadline">Deadline:</label>
-        <input type="date" id="job_deadline" name="job_deadline" required />
+        <div class="input-bx">
+            <input type="date" id="job_deadline" name="job_deadline" required />
+            <span class="eaea">Deadline</span>
+        </div>
 
-        <label for="job_price_range">Price Range (ex: From 💵 1000 to 💵 2000):</label>
-        <input
-          type="text"
-          id="job_price_range"
-          name="job_price_range"
-          required
-        />
+        <div class="input-bx">
+            <input type="text" id="job_price_range" name="job_price_range" required />
+            <span>Price</span>
+        </div>
 
         <button type="submit">Post Job</button>
-      </form>
-    </div>
+    </form>
+</div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../bids.js"></script>

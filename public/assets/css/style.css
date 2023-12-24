@@ -84,6 +84,7 @@ h6 {
   padding: 22px 0;
   background: #fff;
   height: 60px;
+  box-shadow: rgb(220 227 233) 0px 20px 30px -10px;
 }
 
 #header.header-scrolled {

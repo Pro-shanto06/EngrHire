@@ -8,10 +8,11 @@ body {
   background-color: #f0f0f0;
 }
 
+
+
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
-
 a {
   color: #3498db;
   text-decoration: none;
@@ -22,20 +23,12 @@ a:hover {
   text-decoration: none;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Raleway", sans-serif;
-}
-
 #header {
   z-index: 997;
   transition: all 0.5s;
   padding: 22px 0;
   background: #fff;
+  height: 60px;
 }
 
 #header.header-scrolled {
@@ -44,7 +37,7 @@ h6 {
 }
 
 #header .logo h1 {
-  font-size: 30px;
+  font-size: 20px;
   margin: 0;
   padding: 0;
   line-height: 1;
@@ -61,7 +54,7 @@ h6 {
 #header .logo img {
   padding: 0;
   margin: 0;
-  max-height: 40px;
+  max-height: 30px;
 }
 
 /*--------------------------------------------------------------
@@ -116,11 +109,14 @@ h6 {
 .navbar .getstarted,
 .navbar .getstarted:focus {
   background: #3498db;
-  padding: 8px 25px;
+  padding: 8px;
   margin-left: 30px;
   border-radius: 50px;
   color: #fff;
+  
 }
+
+
 
 .navbar .getstarted:hover,
 .navbar .getstarted:focus:hover {
@@ -181,6 +177,7 @@ h6 {
   left: 100%;
   visibility: visible;
 }
+
 
 @media (max-width: 1366px) {
   .navbar .dropdown .dropdown ul {
@@ -307,16 +304,16 @@ h6 {
 --------------------------------------------------------------*/
 
 .profile-picture {
-  width: 30px; /* Set the desired width */
-  height: 30px; /* Set the desired height */
-  border-radius: 50%; /* Make it circular (for a rounded profile picture) */
-  border: 3px solid #52e7c2; /* Add a border with your desired color */
+  width: 25px; /* Set the desired width */
+  height: 25px; /* Set the desired height */
+  border-radius: 50%; 
 }
 
 .profile-name {
-  font-size: 16px; /* Set the font size for the name */
-  color: #333; /* Set the text color */
-  margin-left: 10px; /* Add spacing between the picture and name */
+  font-size: 16px; 
+  margin-left: 10px;
+  color: rgb(255, 255, 255); 
+
 }
 
 /*--------------------------------------------------------------
@@ -360,7 +357,7 @@ h6 {
 }
 
 .search-box::placeholder {
-  color: #ffffff; /* Change the color to your desired color */
+  color: #ffffff;
 }
 
 .active .search-box {
@@ -376,10 +373,15 @@ h6 {
   z-index: 0;
   transform: translate(250px, 2px);
 }
-
-.input-field::placeholder {
-  line-height: 50;
+.material-symbols-outlined a {
+  color: #007bff; 
+  text-decoration: none; 
+  font-size: 24px;
 }
+
+
+
+
 
 .container {
   display: flex;
@@ -393,17 +395,16 @@ h6 {
 }
 
 .card {
-  width: 100%;
-  margin-left: 17%;
-  margin-right: 17%;
-  margin-top: 2%;
-  padding: 140px;
-  padding-top: 80px;
-  padding-bottom: 50px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 40px;
   background-color: white;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
 }
+
 
 .title-card {
   font-size: 25px;
@@ -455,12 +456,59 @@ button {
   background-color: #3498db;
   color: white;
   border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
+  border-radius: 2px;
   cursor: pointer;
   transition: background-color 0.3s;
+  width: 150px; /* Adjust the width to your desired size */
+  height: 50px;
 }
 
-button:hover {
-  background-color: black;
+/*--------------------------------------------------------------
+# bid-form
+--------------------------------------------------------------*/
+
+#bid-form {
+  display: none;
+  padding: 10px;
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+.fbutton {
+  margin-left: 40%;
+}
+#bid-form form {
+  text-align: left;
+}
+
+#bid-form .form-group {
+  margin-bottom: 10px;
+}
+
+#bid-form label {
+  display: block;
+  font-weight: bold;
+}
+
+#bidAmount,
+#bidDetails {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+#bidDetails {
+  height: 100px;
+}
+
+.j-d-a {
+  color: #3498db;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.detail{
+  margin-top: 10px;
 }

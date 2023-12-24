@@ -20,7 +20,7 @@
   <link href="/vendor/remixicon/remixicon.css" rel="stylesheet" />
   <link href="/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="/css/client_profile.css" />
 
 </head>
@@ -158,26 +158,36 @@
     <ul class="nav-list">
       
       <li>
-        <a href="/client-profile/{{userId}}/1">
+        <a href="/client-profile/{{clientId}}/1">
           <i class="bx bx-user"></i>
           <span class="links_name">My Profile</span>
         </a>
         <span class="tooltip">Profile</span>
       </li>
-      <li>
-        <a href="/client-profile/{{userId}}/2">
-          <i class="bx bx-bell"></i>
-          <span class="links_name">Card Info</span>
-        </a>
-        <span class="tooltip">Card Info</span>
-      </li>
-      <li>
-         <a href="/client-profile/{{userId}}/3">
-          <i class="bx bx-pie-chart-alt-2"></i>
-          <span class="links_name">Manage Post</span>
-        </a>
+
+       <li>
+        <a href="/client-profile/{{clientId}}/3">
+  <i class="bx bx-file"></i>
+  <span class="links_name">Manage Post</span>
+</a>
+
         <span class="tooltip">Post</span>
       </li>
+
+  {{#if isClient}}
+      <li>
+      <a href="/client-profile/{{clientId}}/2">
+  <i class="bx bx-credit-card"></i>
+  <span class="links_name">Card Info</span>
+</a>
+
+        <span class="tooltip">Card Info</span>
+      </li>
+
+
+     
+
+
       <li>
        <a href="/bids/{{userId}}">
           <i class="bx bx-dollar"></i>
@@ -185,15 +195,21 @@
         </a>
         <span class="tooltip">Bid’s</span>
       </li>
+
+
       <li>
-        <a href="/client-profile/{{userId}}/5">
-          <i class="bx bx-credit-card"></i>
-          <span class="links_name">Payments</span>
-        </a>
+       <a href="/client-profile/{{clientId}}/5">
+  <i class='bx bx-wallet'></i>
+  <span class="links_name">Payments</span>
+</a>
+
+
         <span class="tooltip">Payments</span>
       </li>
+  {{/if}}
+
       <li>
-        <a href="/client-profile/{{userId}}/4">
+        <a href="/client-profile/{{clientId}}/4">
           <i class="bx bx-heart"></i>
           <span class="links_name">Rating & Reviews</span>
         </a>
@@ -217,6 +233,7 @@
 
                   <div class="mt-3">
                     <h4>{{client.full_name}}</h4>
+                     <div class="mt-3">{{client.address}}</div>
                    <div class="star-rating" style="font-size: 36px; color: #FFD700;">
   {{clientRating}}
 </div>
@@ -317,40 +334,40 @@
       
             <div class="card">
               <div class="title-card">
-                <strong>cardHolderName</strong>
+                <strong>Card Holder Name:</strong>
                 {{client.cardHolderName}}
               </div>
 
              
 
                 <div class="job-details">
-                  <img class="job-image" src="/img/placeholder_819814.png" alt="" />
-                  <strong>cardNumber:</strong>
+                  
+                  <strong>Card Number:</strong>
                   {{client.cardNumber}}
                 </div>
 
                 <div class="job-details">
-                  <img class="job-image" src="/img/options_718970.png" alt="" />
-                  <strong>cardExpMonth:</strong>
+                  
+                  <strong>Card Exp Month:</strong>
                   {{client.cardExpMonth}}
                 </div>
 
                 <div class="job-details">
-                  <img class="job-image" src="/img/campaign_10139087.png" alt="" />
-                  <strong>cardExpYear:</strong>
+                
+                  <strong>Card Exp Year:</strong>
                   {{client.cardExpYear}}
                 </div>
 
                 <div class="job-details">
-                  <img class="job-image" src="/img/campaign_10139087.png" alt="" />
-                  <strong>cardCVV:</strong>
+                 
+                  <strong>Card CVV:</strong>
                   {{client.cardCVV}}
                 </div>
 
 
                 <div class="job-details">
-                  <img class="job-image" src="/img/coin_7891996.png" alt="" />
-                  <strong>balance:</strong>
+                  
+                  <strong>Balance:</strong>
                   {{client.balance }}
                 </div>
           
@@ -466,17 +483,17 @@
             <div class="main">
               <div class="card">
                  <div class="job-details">
-                  <img class="job-image" src="/img/placeholder_819814.png" alt="" />
+                  
                   <strong>Engineer:</strong>
                   {{engineer.full_name}}
                 </div>
                 <div class="job-details">
-                  <img class="job-image" src="/img/placeholder_819814.png" alt="" />
+                 
                   <strong>Rating:</strong>
                   <span class="star-rating">{{generateStarRating this.clientRating}}</span>
                 </div>
                 <div class="job-details">
-                  <img class="job-image" src="/img/options_718970.png" alt="" />
+                 
                   <strong>Feedback:</strong>
                   {{this.clientFeedback}}
                 </div>

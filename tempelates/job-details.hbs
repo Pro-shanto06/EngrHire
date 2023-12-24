@@ -18,7 +18,7 @@
     <link href="/vendor/remixicon/remixicon.css" rel="stylesheet" />
     <link href="/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
 
-    <link href="/job_details.css" rel="stylesheet" />
+    <link href="/css/job_details.css" rel="stylesheet" />
 
 
       
@@ -166,34 +166,40 @@
 
         <div class="job-details">
           <br />
+          <div class="detail">
           <img src="/img/database_2596172.png" alt="" />
           <strong>Details:</strong>
           {{job.jobDetails}}
-          <br />
-
+        
+</div>
+  <div class="detail">
           <img src="/img/more_10219658.png" alt="" />
           <strong>Requirements:</strong>
           {{job.jobRequirements}}
-          <br />
-
+     
+</div>
+  <div class="detail">
           <img src="/img/placeholder_819814.png" alt="" />
           <strong>Location:</strong>
           {{job.jobLocation}}
-          <br />
+ 
+          </div>
+  <div class="detail">
           <img src="/img/options_718970.png" alt="" />
           <strong>Category:</strong>
           {{job.category}}
-          <br />
+        
+          </div>
+  <div class="detail">
           <img src="/img/campaign_10139087.png" alt="" />
           <strong>Deadline:</strong>
           {{job.jobDeadline}}
-        </div>
+               </div>
+       
 
-        <div class="price-range">
-          <img src="/img/coin_7891996.png" alt="" /><span
-            class="price-emoji"
-          >$</span>
-          <strong>Price Range:</strong>
+     <div class="detail">
+          <img src="/img/coin_7891996.png" alt="" />
+          <strong>Price:</strong>
           {{job.jobPriceRange}}
         </div>
 
