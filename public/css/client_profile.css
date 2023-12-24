@@ -388,6 +388,7 @@ a:hover {
 .main-body {
   padding: 15px;
   z-index: 2;
+  
 }
 .row > .getstarted{
   width: 35%;
@@ -463,7 +464,7 @@ a:hover {
 }
 
 /* CSS */
-.button-28 {
+/* .button-28 {
   appearance: none;
   background-color: transparent;
   border: 2px solid #1a1a1a;
@@ -506,7 +507,7 @@ a:hover {
 .button-28:active {
   box-shadow: none;
   transform: translateY(0);
-}
+} */
 
 .main {
   width: 99%;
@@ -522,7 +523,7 @@ a:hover {
 
 .card {
   width: 90%;
-  margin: 2.5%;
+  
   padding: 20px;
   background-color: white;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -560,11 +561,11 @@ a:hover {
   background-color: black;
 }
 
-img {
-  height: 25px;
+.job-image {
   width: 25px;
-  padding-right: 3px;
+  height: 25px; 
 }
+
 
 .container{
   width: 100%;
@@ -577,6 +578,47 @@ img {
 .colmd{
   width: 100%;
 }
+
+
+
+
+
+
+.chat{
+  display: flex;
+  height: 7%;
+  width: 93%;
+  margin-left: 15px;
+  border-radius: 12px;
+  align-items: center;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  background: #3498db;
+  color: white;
+}
+
+.chat i{
+  height: 50px;
+  line-height: 50px;
+  font-size: 18px;
+  border-radius: 12px;
+  color: #FFF;
+}
+
+.chat:hover {
+  background-color: #f3f3f3;
+  color: #000000; 
+  border: 1px solid black;
+}
+
+.chat:hover i{
+
+  color: #000000; 
+  
+  
+}
+
+
 
 /*--------------------------------------------------------------
 # sidebar
@@ -593,7 +635,7 @@ img {
   padding-left: 0px;
   z-index: 99;
   transition: all 0.5s ease;
-  margin-top: 100px;
+  margin-top: 61px;
 }
 .sidebar.open{
   width: 250px;
@@ -680,46 +722,6 @@ img {
   display: none;
 }
 
-
-
-
-
-.chat{
-  display: flex;
-  height: 7%;
-  width: 93%;
-  margin-left: 15px;
-  border-radius: 12px;
-  align-items: center;
-  text-decoration: none;
-  transition: all 0.4s ease;
-  background: #3498db;
-  color: white;
-}
-
-.chat i{
-  height: 50px;
-  line-height: 50px;
-  font-size: 18px;
-  border-radius: 12px;
-  color: #FFF;
-}
-
-.chat:hover {
-  background-color: #f3f3f3;
-  color: #000000; 
-  border: 1px solid black;
-}
-
-.chat:hover i{
-
-  color: #000000; 
-  
-  
-}
-
-
-
 .sidebar li a{
   display: flex;
   height: 140%;
@@ -755,7 +757,6 @@ img {
   transition: all 0.5s ease;
   color: #11101D;
 }
-
 .sidebar li i{
   height: 50px;
   line-height: 50px;
@@ -865,55 +866,146 @@ img {
   height: 100vh;
 }
 
-.payment-container {
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  width: 400px;
+.payment-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding:25px;
+  min-height: 100vh;
 }
 
-.payment-header {
-  background-color: #3498db;
-  color: #fff;
-  padding: 15px;
-  text-align: center;
+.payment-container form{
+  padding:20px;
+  width:700px;
+  background: #fff;
+  border-radius: 20px;
+  border-style: dotted;
+  border-color: rgb(9, 50, 83);
+  box-shadow: 20px 20px 20px rgba(0,0,0,.1);
 }
 
-.payment-options {
+.payment-container form .row{
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
-  padding: 20px;
+  gap:15px;
 }
 
-.payment-option {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  margin: 10px;
-  padding: 20px;
-  width: 120px;
-  height: 100px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.payment-container form .row .col{
+  flex:1 1 250px;
 }
 
-.payment-option:hover {
-  background-color: #f9f9f9;
+.payment-container form .row .col .title{
+  font-size: 20px;
+  color:#333;
+  padding-bottom: 5px;
+  text-transform: uppercase;
 }
 
-.payment-option img {
+.payment-container form .row .col .inputBox{
+  margin:15px 0;
+}
+
+.payment-container form .row .col .inputBox span{
+  margin-bottom: 10px;
+  display: block;
+}
+
+.payment-container form .row .col .inputBox input{
   width: 100%;
-  height: 100%;
+  border:1px solid #ccc;
+  padding:10px 15px;
+  font-size: 15px;
+  text-transform: none;
 }
 
-.payment-footer {
-  background-color: #3498db;
-  color: #fff;
-  padding: 15px;
-  text-align: center;
+.payment-container form .row .col .inputBox input:focus{
+  border:1px solid #000;
 }
+
+.payment-container form .row .col .flex{
+  display: flex;
+  gap:15px;
+}
+
+.payment-container form .row .col .flex .inputBox{
+  margin-top: 5px;
+}
+
+.payment-container form .row .col .inputBox img{
+  height: 34px;
+  margin-top: 5px;
+  filter: drop-shadow(0 0 1px #000);
+}
+
+.payment-container form .submit-btn{
+  width: 100%;
+  padding:12px;
+  font-size: 17px;
+  background: #27ae60;
+  color:#fff;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.payment-container form .submit-btn:hover{
+  background: #2ecc71;
+}
+/* styles.css */
+
+/* Customize the star color and size */
+.star-rating {
+  color: #f39c12; /* Change to your preferred color */
+  font-size: 24px; /* Change to your preferred font size */
+}
+
+/* Optional: Add additional styles for half-star */
+.star-rating .half-star {
+  font-size: 75%; /* Adjust the size of the half-star */
+  position: relative;
+  top: -6px; /* Adjust the position to align with the full star */
+}
+
+/* Add this to your existing CSS file or create a new one */
+
+
+
+.rating {
+  display: flex;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.rating i {
+  font-size: 30px;
+  color: #ddd;
+  transition: color 0.3s;
+}
+
+.rating i:hover,
+.rating i.active {
+  color: #ffcc00;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.btn {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #45a049;
+}
+
+

@@ -60,14 +60,25 @@ const upload = multer({ storage: storage });
 
 const { connectToDatabase } = require("./mongo");
 connectToDatabase();
-const { Job, Engineer, Client, Bid, Work , Admin } = require("./mongo");
+const { Job, Engineer, Client, Bid, Work , Admin , Payment} = require("./mongo");
 
 const tempelatePath = path.join(__dirname, "../tempelates");
 const publicPath = path.join(__dirname, "../public");
 
 console.log(publicPath);
 
+
+hbs.registerHelper("generateStarRating", (rating) => {
+  const roundedRating = Math.round(rating * 2) / 2;
+  const fullStars = Math.floor(roundedRating);
+  const hasHalfStar = roundedRating % 1 !== 0;
+  const stars = Array(fullStars).fill('★').join('');
+  return hasHalfStar ? `${stars}½` : stars;
+});
+
 app.set("view engine", "hbs");
+
+
 app.set("views", tempelatePath);
 
 app.use(express.static(publicPath));
@@ -516,23 +527,32 @@ app.get("/logout", (req, res) => {
   });
 });
 
+const getStarRating = (rating) => {
+  const roundedRating = Math.round(rating * 2) / 2; 
+  const fullStars = Math.floor(roundedRating);
+  const hasHalfStar = roundedRating % 1 !== 0;
 
+  const stars = Array(fullStars).fill('★').join('');
+
+  return hasHalfStar ? `${stars}½` : stars;
+};
 
 
 app.get("/profile/:engineerId/:type", async (req, res) => {
   let engineerId = req.params.engineerId;
   let type=req.params.type;
   let engineer = null;
-  let engineerProfile=false,managePost=false,bidsList=false;
+  let engineerProfile=false,cardInfo=false,rating=false
 if (type==1){
   engineerProfile=true;
 }
+if (type==2){
+  cardInfo=true;
+}
 if (type==3){
-  managePost=true;
+  rating=true;
 }
-if (type==4){
-  bidsList=true;
-}
+
 
 let userId = null;
    
@@ -545,6 +565,9 @@ let user = await Engineer.findById(userId);
 if (!user) {
     user = await Client.findById(userId);
   }
+
+
+  
 
   try {
     engineer = await Engineer.findById(engineerId);
@@ -565,7 +588,9 @@ if (!user) {
         engineer.profilePicPath =
           "/" + engineer.profilePicPath.replace(/\\/g, "/");
       }
-    
+
+      const works = await Work.find({ engineer: engineerId })
+      .populate("client", "full_name");
       
 
       res.render("profile", {
@@ -577,7 +602,10 @@ if (!user) {
         engineer: engineer,
         canEdit: canEdit, 
         engineerProfile,
-        managePost,
+        cardInfo,
+        rating,
+        works,
+        engineerRating: getStarRating(engineer.rating), 
 
       });
     } else {
@@ -597,19 +625,27 @@ app.get("/client-profile/:clientId/:type", async (req, res) => {
   let bids=null;
   let client = null;
   let clientJobs = null;
-  let clientProfile=false,managePost=false,bidsList=false,payment=false;
+  let clientProfile=false,cardInfo=false,managePost=false,rating=false,payment=false;
+
 if (type==1){
   clientProfile=true;
 }
+if (type==2){
+  cardInfo=true;
+}
 if (type==3){
   managePost=true;
+  
 }
 if (type==4){
-  bidsList=true;
+  rating=true;
 }
 if (type==5){
   payment=true;
+
 }
+
+const clientPayments = await Payment.find({ client: clientId }).populate('engineer');
 
 
 let userId = null;
@@ -651,6 +687,10 @@ if (!user) {
         client.profilePicPath =
           "/" + client.profilePicPath.replace(/\\/g, "/");
       }
+
+
+      const works = await Work.find({ client: clientId })
+      .populate("engineer", "full_name");
     
   
       res.render("client-profile", {
@@ -663,12 +703,14 @@ if (!user) {
         canEdit: canEdit,
         clientJobs,
         clientProfile,
+        cardInfo,
         managePost,
         bids,
         payment,
-        bidsList,
-        
-        
+        rating,
+        works,
+        clientPayments,
+        clientRating: getStarRating(client.rating), 
       });
     } else {
       res.status(404).send("Client not found");
@@ -728,6 +770,12 @@ app.post("/edit-client-profile/:clientId", isAuthenticated, async (req, res) => 
         twitter,
         instagram,
         facebook,
+        cardHolderName,
+        cardNumber,
+        cardExpMonth,
+        cardExpYear,
+        cardCVV,
+        balance
       } = req.body;
 
       const clientEmail = req.session.user.email;
@@ -748,6 +796,12 @@ app.post("/edit-client-profile/:clientId", isAuthenticated, async (req, res) => 
         twitter,
         instagram,
         facebook,
+        cardHolderName,
+        cardNumber,
+        cardExpMonth,
+        cardExpYear,
+        cardCVV,
+        balance,
         profilePicPath,
       };
 
@@ -826,6 +880,13 @@ app.post("/edit-engineer-profile/:engineerId", isAuthenticated, async (req, res)
         experience,
         education,
         address,
+        rating, 
+        cardHolderName, 
+        cardNumber, 
+        cardExpMonth, 
+        cardExpYear, 
+        cardCVV,
+        balance
       } = req.body;
 
       const engineerEmail = req.session.user.email;
@@ -855,6 +916,13 @@ app.post("/edit-engineer-profile/:engineerId", isAuthenticated, async (req, res)
         experience,
         education,
         address,
+        rating,
+        cardHolderName, 
+        cardNumber,
+        cardExpMonth, 
+        cardExpYear, 
+        cardCVV, 
+        balance,
         profilePicPath, 
       };
 
@@ -960,7 +1028,7 @@ app.post("/post-job", isAuthenticated, async (req, res) => {
     const job = new Job(jobData);
     await job.save();
 
-    // Redirect to the client's profile page
+ 
     res.redirect(`/client-profile/${client._id}/3`);
   } catch (error) {
     console.error("Error saving job:", error);
@@ -1040,26 +1108,29 @@ app.get("/job-details/:jobId", isAuthenticated, async (req, res) => {
   let client = null;
   let engineer = null;
   let job = null;
+  let hasSubmittedBid = false; 
 
   let userId = null;
-   
+
   if (req.session.user) {
     userId = req.session.user._id;
   }
-  
+
   let user = await Engineer.findById(userId);
-  
+
   if (!user) {
-      user = await Client.findById(userId);
-    }
+    user = await Client.findById(userId);
+  }
+
+  if (req.session.user.role === "Client") {
+    clientId = req.session.user._id;
+  } else if (req.session.user.role === "Engineer") {
+    engineerId = req.session.user._id;
 
 
-    if (req.session.user.role === "Client") {
-      clientId = req.session.user._id;
-    } else if (req.session.user.role === "Engineer") {
-      engineerId = req.session.user._id;
-    }
-  
+    const existingBid = await Bid.findOne({ job: jobId, engineer: engineerId });
+    hasSubmittedBid = !!existingBid;
+  }
 
   try {
     job = await Job.findById(jobId);
@@ -1067,23 +1138,18 @@ app.get("/job-details/:jobId", isAuthenticated, async (req, res) => {
     if (job) {
       if (req.session.user.role === "Client") {
         client = await Client.findById(clientId);
-       
       } else if (req.session.user.role === "Engineer") {
         engineer = await Engineer.findById(engineerId);
       }
       if (user && user.profilePicPath) {
-        user.profilePicPath =
-          "/" + user.profilePicPath.replace(/\\/g, "/");
+        user.profilePicPath = "/" + user.profilePicPath.replace(/\\/g, "/");
       }
       if (client && client.profilePicPath) {
-        client.profilePicPath =
-          "/" + client.profilePicPath.replace(/\\/g, "/");
+        client.profilePicPath = "/" + client.profilePicPath.replace(/\\/g, "/");
       }
       if (engineer && engineer.profilePicPath) {
-        engineer.profilePicPath =
-          "/" + engineer.profilePicPath.replace(/\\/g, "/");
+        engineer.profilePicPath = "/" + engineer.profilePicPath.replace(/\\/g, "/");
       }
-
 
       res.render("job-details", {
         userId,
@@ -1095,6 +1161,7 @@ app.get("/job-details/:jobId", isAuthenticated, async (req, res) => {
         client,
         engineer,
         job,
+        hasSubmittedBid, 
       });
     } else {
       res.status(404).send("Job not found");
@@ -1107,21 +1174,32 @@ app.get("/job-details/:jobId", isAuthenticated, async (req, res) => {
 
 
 
-app.post("/submit-bid/:jobId", isAuthenticated, async (req, res) => {
 
-  
+
+
+app.post("/submit-bid/:jobId", isAuthenticated, async (req, res) => {
   const jobId = req.params.jobId;
   const engineerId = req.body.engineerId;
-  const engineer = await Engineer.findById(engineerId);
-  const job = await Job.findById(jobId); 
 
   if (!engineerId) {
     return res.status(400).send("Engineer ID not found");
   }
 
-  const { bidAmount, bidDetails } = req.body;
-
   try {
+    
+    const existingBid = await Bid.findOne({ job: jobId, engineer: engineerId });
+
+    if (existingBid) {
+      return res.status(400).send("Engineer has already submitted a bid for this job");
+    }
+
+   
+    const engineer = await Engineer.findById(engineerId);
+    const job = await Job.findById(jobId);
+
+    
+    const { bidAmount, bidDetails } = req.body;
+
     
     const newBid = new Bid({
       job: jobId,
@@ -1134,10 +1212,13 @@ app.post("/submit-bid/:jobId", isAuthenticated, async (req, res) => {
       client: job.client._id,
     });
 
+    
     await newBid.save();
 
+    
     res.redirect(`/job-details/${jobId}`);
   } catch (error) {
+
     console.error("Error submitting bid:", error);
     res.status(500).send("Error submitting bid");
   }
@@ -1479,40 +1560,33 @@ app.get("/api/pending-bids", async (req, res) => {
 });
 
 
-app.get("/work/:workId",isAuthenticated, async (req, res) => {
-
+app.get("/work/:workId", isAuthenticated, async (req, res) => {
   let clientId = null;
   let engineerId = null;
   let userId = null;
-   
-if (req.session.user) {
-  userId = req.session.user._id;
-}
 
-let user = await Engineer.findById(userId);
+  if (req.session.user) {
+    userId = req.session.user._id;
+  }
 
-if (!user) {
+  let user = await Engineer.findById(userId);
+
+  if (!user) {
     user = await Client.findById(userId);
   }
 
-    if (req.session.user.role === "Client") {
-      clientId = req.session.user._id;
-    } else if (req.session.user.role === "Engineer") {
-      engineerId = req.session.user._id;
-    }
-  
-  try {
+  if (req.session.user.role === "Client") {
+    clientId = req.session.user._id;
+  } else if (req.session.user.role === "Engineer") {
+    engineerId = req.session.user._id;
+  }
 
+  try {
     if (user && user.profilePicPath) {
-      user.profilePicPath =
-        "/" + user.profilePicPath.replace(/\\/g, "/");
+      user.profilePicPath = "/" + user.profilePicPath.replace(/\\/g, "/");
     }
-  
-  
 
     const workId = req.params.workId;
-
-  
 
     if (!mongoose.Types.ObjectId.isValid(workId)) {
       return res.status(400).send("Invalid workId");
@@ -1542,11 +1616,16 @@ if (!user) {
 
     const chatMessages = work.chatMessages;
 
-    res.render("work", { 
-      work, 
-      client, 
-      engineer, 
-      job, 
+ 
+    const isPaymentComplete = work.paymentComplete;
+    const isratedByClient = work.ratedByClient
+    const isratedByEngineer = work.ratedByEngineer
+
+    res.render("work", {
+      work,
+      client,
+      engineer,
+      job,
       bid,
       userId,
       user: user,
@@ -1554,13 +1633,17 @@ if (!user) {
       isEngineer: req.session.user?.role === "Engineer",
       clientId,
       engineerId,
-      workId
+      workId,
+      isPaymentComplete,
+      isratedByClient,
+      isratedByEngineer
     });
   } catch (error) {
     console.error(error);
     res.status(500).send("Error fetching data");
   }
 });
+
 
 app.post("/forgot-password", async (req, res) => {
   const { email } = req.body;
@@ -1736,4 +1819,153 @@ app.post("/admin/delete-work/:id", isAuthenticated, async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+
+
+app.post('/process-payment', async (req, res) => {
+  try {
+    const { clientId,engineerId, workId, paymentAmount } = req.body;
+
+    const payment = new Payment({
+      engineer: engineerId,
+      client: clientId,
+      work: workId,
+      amount: parseFloat(paymentAmount),
+    });
+
+    await payment.save();
+
+
+
+
+    const engineer = await Engineer.findById(engineerId);
+    if (!engineer) {
+      return res.status(404).send('Engineer not found');
+    }
+
+
+    engineer.balance += parseFloat(paymentAmount);
+    await engineer.save();
+
+
+    const work = await Work.findById(workId);
+    if (!work) {
+      return res.status(404).send('Work not found');
+    }
+
+    const client = await Client.findById(work.client);
+    if (!client) {
+      return res.status(404).send('Client not found');
+    }
+
+    client.balance -= parseFloat(paymentAmount);
+    await client.save();
+
+
+    const isPaymentSuccessful = true;
+
+    if (isPaymentSuccessful) {
+
+      engineer.balance += parseFloat(paymentAmount);
+      await engineer.save();
+
+
+
+
+      const work = await Work.findById(workId);
+      if (work) {
+        work.paymentComplete = true;
+        await work.save();
+      }
+
+
+      return res.redirect(`/work/${workId}?success=true`);
+    } else {
+
+      return res.status(400).send('Payment failed');
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error processing payment');
+  }
+});
+
+
+
+app.post('/submit-client-rating', isAuthenticated, async (req, res) => {
+  try {
+    const { workId, engineerId, clientRating, clientFeedback ,userId} = req.body;
+
+
+    const work = await Work.findById(workId);
+    if (!work) {
+      return res.status(404).send('Work not found');
+    }
+
+
+    if (userId!== engineerId) {
+      return res.status(403).send('Permission denied');
+    }
+
+    if (work.ratedByEngineer) {
+      return res.status(400).send('Work has already been rated by the engineer');
+    }
+
+
+    work.clientRating = parseFloat(clientRating);
+    work.clientFeedback = clientFeedback;
+    work.ratedByEngineer = true;
+
+    await work.save();
+
+
+    res.redirect(`/work/${workId}?engineerRatingSuccess=true`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error submitting client rating');
+  }
+});
+
+
+app.post('/submit-engineer-rating', isAuthenticated, async (req, res) => {
+  try {
+    const { workId, clientId, engineerRating, engineerFeedback,userId } = req.body;
+
+
+    const work = await Work.findById(workId);
+    if (!work) {
+      return res.status(404).send('Work not found');
+    }
+
+
+    if (userId !== clientId) {
+      return res.status(403).send('Permission denied');
+    }
+
+ 
+    if (work.ratedByClient) {
+      return res.status(400).send('Work has already been rated by the client');
+    }
+
+
+    work.engineerRating = parseFloat(engineerRating);
+    work.engineerFeedback = engineerFeedback;
+    work.ratedByClient = true;
+
+    await work.save();
+
+
+    res.redirect(`/work/${workId}?clientRatingSuccess=true`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error submitting engineer rating');
+  }
+});
+
+
+
+
+
+
+
 

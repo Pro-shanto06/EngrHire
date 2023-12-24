@@ -172,11 +172,11 @@
         <span class="tooltip">Profile</span>
       </li>
       <li>
-        <a href="#">
-          <i class="bx bx-bell"></i>
-          <span class="links_name">Notification </span>
+         <a href="/profile/{{userId}}/2">
+         <i class="bx bx-credit-card"></i>
+          <span class="links_name">Card Info</span>
         </a>
-        <span class="tooltip">Notification</span>
+        <span class="tooltip">Card Info</span>
       </li>
       
       <li>
@@ -186,15 +186,9 @@
         </a>
         <span class="tooltip">My Bid’s</span>
       </li>
+     
       <li>
-        <a href="#">
-          <i class="bx bx-credit-card"></i>
-          <span class="links_name">My Balance</span>
-        </a>
-        <span class="tooltip">My Balance</span>
-      </li>
-      <li>
-        <a href="/rating">
+        <a href="/profile/{{userId}}/3">
           <i class="bx bx-heart"></i>
           <span class="links_name">Rating & Reviews</span>
         </a>
@@ -224,7 +218,13 @@
                     <h4>{{engineer.full_name}}</h4>
                     <p class="text-secondary mb-1">{{engineer.designation}}</p>
                     <p class="text-muted font-size-sm">{{engineer.location}}</p>
-                    <button class="btn btn-primary">Follow</button>
+                     <!-- Add this inside the <p> tag -->
+<div class="star-rating" style="font-size: 36px; color: #FFD700;">
+  {{engineerRating}}
+</div>
+
+
+                    
                   </div>
                 </div>
               </div>
@@ -335,6 +335,10 @@
                   </div>
                 </div>
                 <hr />
+
+
+                
+ 
                 {{#if isEngineer}}
                 
                   {{#if canEdit}}
@@ -346,11 +350,6 @@
                           target="__blank"
                           href="/edit-engineer-profile/{{engineerId}}"
                         >Edit</a>
-                        {{!-- <a
-                          class="btn btn-primary"
-                          target="__blank"
-                          href="/my-bids/{{engineerId}}"
-                        >My Bids</a> --}}
                       </div>
                     </div>
 
@@ -365,6 +364,104 @@
              </div>
 </section>
 {{/if}}
+
+{{#if cardInfo}}
+ <section class="home-section">
+       
+        <div class="dcont container">
+      <div class="main-body">
+      <div class="row gutters-sm">
+
+        <div class="main">
+      
+            <div class="card">
+              <div class="title-card">
+                <strong>cardHolderName</strong>
+                {{engineer.cardHolderName}}
+              </div>
+
+             
+
+                <div class="job-details">
+                  <img src="/img/placeholder_819814.png" alt="" />
+                  <strong>cardNumber:</strong>
+                  {{engineer.cardNumber}}
+                </div>
+
+                <div class="job-details">
+                  <img src="/img/options_718970.png" alt="" />
+                  <strong>cardExpMonth:</strong>
+                  {{engineer.cardExpMonth}}
+                </div>
+
+                <div class="job-details">
+                  <img src="/img/campaign_10139087.png" alt="" />
+                  <strong>cardExpYear:</strong>
+                  {{engineer.cardExpYear}}
+                </div>
+
+                <div class="job-details">
+                  <img src="/img/campaign_10139087.png" alt="" />
+                  <strong>cardCVV:</strong>
+                  {{engineer.cardCVV}}
+                </div>
+
+
+                <div class="job-details">
+                  <img src="/img/coin_7891996.png" alt="" />
+                  <strong>balance:</strong>
+                  {{engineer.balance }}
+                </div>
+          
+            
+
+
+            </div>
+
+    
+
+        </div>
+      </div>
+    </div>
+        
+  </section>
+
+  {{/if}}
+
+
+{{#if rating}}
+  <section class="home-section">
+    {{#each works}}
+      <div class="dcont container">
+        <div class="main-body">
+          <div class="row gutters-sm">
+            <div class="main">
+              <div class="card">
+                 <div class="job-details">
+                  <img src="/img/placeholder_819814.png" alt="" />
+                  <strong>Client:</strong>
+                  {{client.full_name}}
+                </div>
+                <div class="job-details">
+                  <img src="/img/placeholder_819814.png" alt="" />
+                  <strong>Rating:</strong>
+                  <span class="star-rating">{{generateStarRating this.engineerRating}}</span>
+                </div>
+                <div class="job-details">
+                  <img src="/img/options_718970.png" alt="" />
+                  <strong>Feedback:</strong>
+                  {{this.engineerFeedback}}
+                </div>
+               
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </section>
+{{/if}}
+
 
 
 

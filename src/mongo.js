@@ -134,7 +134,37 @@ const engineerSchema = new mongoose.Schema({
   verificationToken: String,
   resetPasswordToken: String,
   resetPasswordExpires: Date,
-  
+  cardHolderName: {
+    type: String,
+    
+  },
+  cardNumber: {
+    type: String,
+   
+  },
+  cardExpMonth: {
+    type: String,
+   
+  },
+  cardExpYear: {
+    type: String,
+    
+  },
+  cardCVV: {
+    type: String,
+    
+  },
+  balance: {
+    type: Number,
+    default: 0,
+  },
+  rating: {
+    type: Number,
+    min: 0,
+    max: 5,
+    default: 0,
+  },
+ 
 });
 
 const jobSchema = new mongoose.Schema({
@@ -224,6 +254,37 @@ const clientSchema = new mongoose.Schema({
   verificationToken: String,
   resetPasswordToken: String,
   resetPasswordExpires: Date,
+
+  cardHolderName: {
+    type: String,
+    
+  },
+  cardNumber: {
+    type: String,
+   
+  },
+  cardExpMonth: {
+    type: String,
+   
+  },
+  cardExpYear: {
+    type: String,
+    
+  },
+  cardCVV: {
+    type: String,
+    
+  },
+  balance: {
+    type: Number,
+    default: 0,
+  },
+  rating: {
+    type: Number,
+    min: 0,
+    max: 5,
+    default: 0,
+  },
 });
 
 const bidSchema = new mongoose.Schema({
@@ -268,6 +329,8 @@ const bidSchema = new mongoose.Schema({
   
 });
 
+
+
 const workSchema = new mongoose.Schema({
   engineer: {
     type: mongoose.Schema.Types.ObjectId,
@@ -284,6 +347,18 @@ const workSchema = new mongoose.Schema({
   client: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Client",
+  },
+  paymentComplete: {
+    type: Boolean,
+    default: false,
+  },
+  ratedByEngineer: {
+    type: Boolean,
+    default: false,
+  },
+  ratedByClient: {
+    type: Boolean,
+    default: false,
   },
 
   clientChatMessages: [
@@ -313,6 +388,47 @@ const workSchema = new mongoose.Schema({
       },
     },
   ],
+
+  clientRating: {
+    type: Number,
+    min: 1,
+    max: 5,
+    default: null,
+  },
+  clientFeedback: String,
+
+  engineerRating: {
+    type: Number,
+    min: 1,
+    max: 5,
+    default: null,
+  },
+  engineerFeedback: String,
+});
+
+
+
+const paymentSchema = new mongoose.Schema({
+  engineer: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Engineer',
+  },
+  client: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Client',
+  },
+  work: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Work',
+  },
+  amount: {
+    type: Number,
+    required: true,
+  },
+  timestamp: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 
@@ -339,6 +455,52 @@ adminSchema.pre("save", async function (next) {
 });
 
 
+workSchema.post("save", async function (doc, next) {
+  try {
+    const { client, engineer, clientRating, engineerRating } = doc;
+
+    // Calculate average client rating
+    const avgClientRating = await Work.aggregate([
+      { $match: { client, clientRating: { $exists: true } } },
+      {
+        $group: {
+          _id: null,
+          averageRating: { $avg: "$clientRating" },
+        },
+      },
+    ]);
+
+    // Update client schema with average rating
+    if (avgClientRating.length > 0) {
+      await Client.findByIdAndUpdate(client, {
+        rating: avgClientRating[0].averageRating || 0,
+      });
+    }
+
+    // Calculate average engineer rating
+    const avgEngineerRating = await Work.aggregate([
+      { $match: { engineer, engineerRating: { $exists: true } } },
+      {
+        $group: {
+          _id: null,
+          averageRating: { $avg: "$engineerRating" },
+        },
+      },
+    ]);
+
+    // Update engineer schema with average rating
+    if (avgEngineerRating.length > 0) {
+      await Engineer.findByIdAndUpdate(engineer, {
+        rating: avgEngineerRating[0].averageRating || 0,
+      });
+    }
+
+    next();
+  } catch (error) {
+    console.error("Error updating average ratings:", error);
+    next(error);
+  }
+});
 
 
 
@@ -350,5 +512,7 @@ const Work = mongoose.model("Work", workSchema);
 
 const Client = mongoose.model("Client", clientSchema);
 const Admin = mongoose.model("Admin", adminSchema);
+const Payment = mongoose.model('Payment', paymentSchema);
 
-module.exports = { Job, Engineer, Client, Bid, Work,Admin,connectToDatabase };
+
+module.exports = { Job, Engineer, Client, Bid, Work,Admin,Payment,connectToDatabase };

@@ -388,6 +388,7 @@ a:hover {
 .main-body {
   padding: 15px;
   z-index: 2;
+ 
 }
 .row > .getstarted{
   width: 35%;
@@ -522,7 +523,6 @@ a:hover {
 
 .card {
   width: 90%;
-  margin: 2.5%;
   padding: 20px;
   background-color: white;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -560,18 +560,14 @@ a:hover {
   background-color: black;
 }
 
-img {
-  height: 25px;
-  width: 25px;
-  padding-right: 3px;
-}
+
 
 .container{
   width: 100%;
 }
 
 .dcont{
-  /* margin-left: 76px; */
+
   margin-right: 0px;
 }
 .colmd{
@@ -593,7 +589,7 @@ img {
   padding-left: 0px;
   z-index: 99;
   transition: all 0.5s ease;
-  margin-top: 100px;
+  margin-top: 61px;
 }
 .sidebar.open{
   width: 250px;
@@ -803,6 +799,23 @@ img {
   font-weight: 500;
   margin: 18px
 }
+
+
+/* styles.css */
+
+/* Customize the star color and size */
+.star-rating {
+  color: #f39c12; /* Change to your preferred color */
+  font-size: 24px; /* Change to your preferred font size */
+}
+
+/* Optional: Add additional styles for half-star */
+.star-rating .half-star {
+  font-size: 75%; /* Adjust the size of the half-star */
+  position: relative;
+  top: -6px; /* Adjust the position to align with the full star */
+}
+
 
 
 @media (max-width: 420px) {

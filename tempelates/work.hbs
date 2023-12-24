@@ -167,7 +167,7 @@
 
 <div>
     <ul class="nav-list">
-      
+      {{#if isEngineer}}
       <li>
         <a href="#client-info">
           <i class="bx bx-user"></i>
@@ -175,7 +175,8 @@
         </a>
         <span class="tooltip">Client Info</span>
       </li>
-
+      {{/if}}
+{{#if isClient}}
       <li>
       <a href="#engineer-info">
           <i class="bx bx-bell"></i>
@@ -183,6 +184,7 @@
         </a>
         <span class="tooltip">Engineer Info</span>
       </li>
+      {{/if}}
 
       <li>
          <a href="#job-info">
@@ -201,7 +203,7 @@
         </a>
         <span class="tooltip">Bid Info</span>
       </li>
-
+{{#if isClient}}
 
       <li>
        <a href="#payments">
@@ -211,9 +213,9 @@
         <span class="tooltip">Payments</span>
       </li>
 
-
+  {{/if}}
       <li>
-        <a href="/rating">
+        <a href="#rate">
           <i class="bx bx-heart"></i>
           <span class="links_name">Rating & Reviews</span>
         </a>
@@ -307,6 +309,382 @@
       </div>
     </div>
 </section>
+
+<section class="home-section" id="payments" class="info-card">
+  <div class="payment-container">
+    {{#if isPaymentComplete}}
+      <p>Payment complete. Thank you!</p>
+    {{else}}
+
+   <form action="/process-payment" method="post">
+      
+
+        <div class="row">
+
+            <div class="col">
+
+                <h3 class="title">Engineer Info</h3>
+
+             
+            <div class="inputBox">
+              <span>full name :</span>
+              <input
+                type="text"
+                id="engineer_full_name"
+                name="engineer_full_name"
+                value="{{engineer.full_name}}"
+                readonly
+              />
+
+            </div>
+                <div class="inputBox">
+                    <span>email :</span>
+                   <input
+                      type="text"
+                      id="email"
+                      name="email"
+                      value="{{engineer.email}}"
+                      readonly
+                    />
+                </div>
+                <div class="inputBox">
+                    <span>mobile :</span>
+                     <input
+                      type="text"
+                      id="mobile"
+                      name="mobile"
+                      value="{{engineer.mobile}}"
+                      readonly
+                    />
+                </div>
+                <div class="inputBox">
+                    <span>Address :</span>
+                     <input
+                      type="text"
+                      id="Address"
+                      name="Address"
+                      value="{{engineer.address}}"
+                      readonly
+                    />
+                </div>
+
+          
+            </div>
+
+            <div class="col">
+
+                <h3 class="title">Engineer Card Info</h3>
+                <div class="inputBox">
+                    <span>name on card :</span>
+                    <input
+                      type="text"
+                      id="cardHolderName"
+                      name="cardHolderName"
+                      value="{{engineer.cardHolderName}}"
+                      readonly
+                    />
+                </div>
+                <div class="inputBox">
+                    <span>credit card number :</span>
+                    <input
+                      type="text"
+                      id="cardNumber"
+                      name="cardNumber"
+                      value="{{engineer.cardNumber}}"
+                      readonly
+                    />
+                </div>
+                <div class="inputBox">
+                    <span>exp month :</span>
+                    <input
+                      type="text"
+                      id="cardExpMonth"
+                      name="cardExpMonth"
+                      value="{{engineer.cardExpMonth}}"
+                      readonly
+                    />
+                </div>
+
+                <div class="flex">
+                    <div class="inputBox">
+                        <span>exp year :</span>
+                         <input
+                      type="text"
+                      id="cardExpYear"
+                      name="cardExpYear"
+                      value="{{engineer.cardExpYear}}"
+                      readonly
+                    />
+                    </div>
+                    <div class="inputBox">
+                        <span>CVV :</span>
+                        <input
+                      type="text"
+                      id="cardCVV"
+                      name="cardCVV"
+                      value="{{engineer.cardCVV}}"
+                      readonly
+                    />
+                    </div>
+
+
+            </div>
+    
+        </div>
+
+
+           <div class="row">
+
+            <div class="col">
+
+                <h3 class="title">Client Info</h3>
+
+                <div class="inputBox">
+                    <span>full name :</span>
+                   <input
+                      type="text"
+                      id="full_name"
+                      name="full_name"
+                      value="{{client.full_name}}"
+                      readonly
+                    />
+                </div>
+                <div class="inputBox">
+                    <span>email :</span>
+                   <input
+                      type="text"
+                      id="email"
+                      name="email"
+                      value="{{client.email}}"
+                      readonly
+                    />
+                </div>
+                <div class="inputBox">
+                    <span>mobile :</span>
+                     <input
+                      type="text"
+                      id="mobile"
+                      name="mobile"
+                      value="{{client.mobile}}"
+                      readonly
+                    />
+                </div>
+
+                 <div class="inputBox">
+                    <span>Address :</span>
+                     <input
+                      type="text"
+                      id="Address"
+                      name="Address"
+                      value="{{client.address}}"
+                      readonly
+                    />
+                </div>
+
+          
+            </div>
+
+            <div class="col">
+
+                <h3 class="title">Client Card Info</h3>
+                <div class="inputBox">
+                    <span>name on card :</span>
+                    <input
+                      type="text"
+                      id="cardHolderName"
+                      name="cardHolderName"
+                      value="{{client.cardHolderName}}"
+                      readonly
+                    />
+                </div>
+                <div class="inputBox">
+                    <span>credit card number :</span>
+                    <input
+                      type="text"
+                      id="cardNumber"
+                      name="cardNumber"
+                      value="{{client.cardNumber}}"
+                      readonly
+                    />
+                </div>
+                <div class="inputBox">
+                    <span>exp month :</span>
+                    <input
+                      type="text"
+                      id="cardExpMonth"
+                      name="cardExpMonth"
+                      value="{{client.cardExpMonth}}"
+                      readonly
+                    />
+                </div>
+
+                <div class="flex">
+                    <div class="inputBox">
+                        <span>exp year :</span>
+                         <input
+                      type="text"
+                      id="cardExpYear"
+                      name="cardExpYear"
+                      value="{{client.cardExpYear}}"
+                      readonly
+                    />
+                    </div>
+                    <div class="inputBox">
+                        <span>CVV :</span>
+                        <input
+                      type="text"
+                      id="cardCVV"
+                      name="cardCVV"
+                      value="{{client.cardCVV}}"
+                      readonly
+                    />
+                    </div>
+
+                   
+
+            </div>
+    
+        </div>
+
+        <div class="inputBox">
+            <span>Available Balance:</span>
+           <input type="text" value="{{client.balance}}" readonly/>
+          </div>
+                </div>
+         <div class="inputBox">
+            <span>payment amount :</span>
+           <input type="text" id="paymentAmount" name="paymentAmount" />
+          </div>
+                </div>
+<input type="hidden" name="clientId" value="{{client._id}}" />
+       <input type="hidden" name="engineerId" value="{{engineer._id}}" />
+      <input type="hidden" name="workId" value="{{work._id}}" />
+
+      <input type="submit" value="Proceed to Checkout" class="submit-btn">
+
+    </form>
+
+{{/if}}
+  </div>
+</section>
+
+
+
+<section class="home-section info-card" id="rate">
+  <div class="main">
+    <div class="card">
+      {{#if isClient}}
+        {{#if isratedByClient}}
+          <h2>Rating Complete</h2>
+          <p>Thank you for your feedback!</p>
+        {{else}}
+  
+          <h2>Rate Your Experience with the Engineer</h2>
+          <div class="card-content">
+            <form action="/submit-engineer-rating" method="post">
+              <input type="hidden" name="workId" value="{{work._id}}" />
+              <input type="hidden" name="engineerId" value="{{engineer._id}}" />
+
+  
+              <div class="rating" id="engineerRating">
+                <i class="bi bi-star" data-rating="1"></i>
+                <i class="bi bi-star" data-rating="2"></i>
+                <i class="bi bi-star" data-rating="3"></i>
+                <i class="bi bi-star" data-rating="4"></i>
+                <i class="bi bi-star" data-rating="5"></i>
+              </div>
+              <input type="hidden" name="engineerRating" id="selectedEngineerRating" />
+
+
+              <label for="engineerFeedback">Engineer Feedback:</label>
+              <textarea id="engineerFeedback" name="engineerFeedback" rows="4" cols="50"></textarea>
+              <button type="submit" class="btn">Submit Rating</button>
+            </form>
+          </div>
+        {{/if}}
+      {{/if}}
+
+      {{#if isEngineer}}
+        {{#if isratedByEngineer}}
+          <h2>Rating Complete</h2>
+          <p>Thank you for your feedback!</p>
+        {{else}}
+     
+          <h2>Rate Your Experience with the Client</h2>
+          <div class="card-content">
+            <form action="/submit-client-rating" method="post">
+              <input type="hidden" name="workId" value="{{work._id}}" />
+              <input type="hidden" name="clientId" value="{{client._id}}" />
+
+      
+              <div class="rating" id="clientRating">
+                <i class="bi bi-star" data-rating="1"></i>
+                <i class="bi bi-star" data-rating="2"></i>
+                <i class="bi bi-star" data-rating="3"></i>
+                <i class="bi bi-star" data-rating="4"></i>
+                <i class="bi bi-star" data-rating="5"></i>
+              </div>
+              <input type="hidden" name="clientRating" id="selectedClientRating" />
+
+       
+              <label for="clientFeedback">Client Feedback:</label>
+              <textarea id="clientFeedback" name="clientFeedback" rows="4" cols="50"></textarea>
+              <button type="submit" class="btn">Submit Rating</button>
+            </form>
+          </div>
+        {{/if}}
+      {{/if}}
+    </div>
+  </div>
+</section>
+
+
+<script>
+ 
+  function handleRating(rating, target, ratingInputId) {
+    const stars = target.parentNode.querySelectorAll('i');
+    const ratingValue = Array.from(stars).indexOf(target) + 1;
+
+    for (let i = 0; i < stars.length; i++) {
+      if (i < ratingValue) {
+        stars[i].classList.add('active');
+      } else {
+        stars[i].classList.remove('active');
+      }
+    }
+
+   
+    const ratingInput = document.getElementById(ratingInputId);
+    ratingInput.value = ratingValue;
+
+    
+    console.log(`Selected Rating for ${ratingInputId}:`, ratingValue);
+  }
+
+  
+  document.addEventListener('DOMContentLoaded', function () {
+    const engineerStarIcons = document.querySelectorAll('#engineerRating i');
+
+    engineerStarIcons.forEach(function (star) {
+      star.addEventListener('click', function (event) {
+        handleRating(event, event.target, 'selectedEngineerRating');
+      });
+    });
+  });
+
+  
+  document.addEventListener('DOMContentLoaded', function () {
+    const clientStarIcons = document.querySelectorAll('#clientRating i');
+
+    clientStarIcons.forEach(function (star) {
+      star.addEventListener('click', function (event) {
+        handleRating(event, event.target, 'selectedClientRating');
+      });
+    });
+  });
+</script>
+
+
 
 
 

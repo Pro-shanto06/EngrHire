@@ -5,7 +5,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Open Sans", sans-serif;
- 
+
 }
 
 body {
@@ -15,7 +15,7 @@ body {
   /* min-height: 100vh; */
   width: 100%;
   padding: 0 10px;
-  background-color: #3498db;
+  background-color: #ACB6FE;
 }
 
 body::before {
@@ -31,20 +31,35 @@ body::before {
 
 .wrapper {
   z-index: 2;
-  width: 400px;
+  /* width: 400px; */
   border-radius: 8px;
-  padding: 30px;
+  display: flex;
+  max-width: 800px;
+  width: 100%;
+  /* margin: auto; */
+  /* padding: 30px; */
   text-align: center;
   border: 1px solid rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(5px);
   margin-top: 115px;
-  background-color: #3498db;
+  /* background-color: white; */
 }
+
+.sideimg {
+  width: 50%;
+  margin-right: 1.5%;
+  background: url("../img/Office\ Jobs\ Clipart\ Hd\ PNG\,\ Jobs\ Overtime\ Office\ Computer\,\ Job\ Clipart\,\ Business\,\ Go\ To\ Work\ PNG\ Image\ For\ Free\ Download.jpg");
+  background-size: cover;
+}
+
 
 form {
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  width: 50%;
+  padding: 20px   ;
 }
 
 h2 {
@@ -80,8 +95,8 @@ h2 {
   color: #fff;
 }
 
-.input-field input:focus ~ label,
-.input-field input:valid ~ label {
+.input-field input:focus~label,
+.input-field input:valid~label {
   font-size: 0.8rem;
   top: 10px;
   transform: translateY(-160%);
@@ -238,7 +253,7 @@ a:hover {
 .navbar a:hover,
 .navbar .active,
 .navbar .active:focus,
-.navbar li:hover > a {
+.navbar li:hover>a {
   color: #3498db;
 }
 
@@ -249,7 +264,7 @@ a:hover {
   margin-left: 30px;
   border-radius: 50px;
   color: #fff;
-  
+
 }
 
 
@@ -291,11 +306,11 @@ a:hover {
 
 .navbar .dropdown ul a:hover,
 .navbar .dropdown ul .active:hover,
-.navbar .dropdown ul li:hover > a {
+.navbar .dropdown ul li:hover>a {
   color: #3498db;
 }
 
-.navbar .dropdown:hover > ul {
+.navbar .dropdown:hover>ul {
   opacity: 1;
   top: 100%;
   visibility: visible;
@@ -307,7 +322,7 @@ a:hover {
   visibility: hidden;
 }
 
-.navbar .dropdown .dropdown:hover > ul {
+.navbar .dropdown .dropdown:hover>ul {
   opacity: 1;
   top: 0;
   left: 100%;
@@ -320,7 +335,7 @@ a:hover {
     left: -90%;
   }
 
-  .navbar .dropdown .dropdown:hover > ul {
+  .navbar .dropdown .dropdown:hover>ul {
     left: -100%;
   }
 }
@@ -392,7 +407,7 @@ a:hover {
 
 .navbar-mobile a:hover,
 .navbar-mobile .active,
-.navbar-mobile li:hover > a {
+.navbar-mobile li:hover>a {
   color: #3498db;
 }
 
@@ -427,11 +442,11 @@ a:hover {
 
 .navbar-mobile .dropdown ul a:hover,
 .navbar-mobile .dropdown ul .active:hover,
-.navbar-mobile .dropdown ul li:hover > a {
+.navbar-mobile .dropdown ul li:hover>a {
   color: #3498db;
 }
 
-.navbar-mobile .dropdown > .dropdown-active {
+.navbar-mobile .dropdown>.dropdown-active {
   display: block;
 }
 
@@ -440,15 +455,17 @@ a:hover {
 --------------------------------------------------------------*/
 
 .profile-picture {
-  width: 25px; /* Set the desired width */
-  height: 25px; /* Set the desired height */
-  border-radius: 50%; 
+  width: 25px;
+  /* Set the desired width */
+  height: 25px;
+  /* Set the desired height */
+  border-radius: 50%;
 }
 
 .profile-name {
-  font-size: 16px; 
+  font-size: 16px;
   margin-left: 10px;
-  color: rgb(255, 255, 255); 
+  color: rgb(255, 255, 255);
 
 }
 
@@ -509,8 +526,9 @@ a:hover {
   z-index: 0;
   transform: translate(250px, 2px);
 }
+
 .material-symbols-outlined a {
-  color: #007bff; 
-  text-decoration: none; 
+  color: #007bff;
+  text-decoration: none;
   font-size: 24px;
 }

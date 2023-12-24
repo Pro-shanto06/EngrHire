@@ -1,13 +1,11 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard</title>
   <style>
-
     .card {
       border: 1px solid #ccc;
       border-radius: 8px;
@@ -16,90 +14,698 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
   </style>
+
+  <!-- Logo -->
+  <link href="assets/img/logo.png" rel="icon" />
+
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+
+
+  
+  <link rel="stylesheet" href="/css/admin.css" />
+
+
+  <style>
+    .dashboard-overview {
+      background: linear-gradient(to right, #2980b9, #2c3e50);
+      border-radius: 30px;
+      padding: 30px 0;
+      color: #fff;
+    }
+
+  </style>
+
 </head>
+
 <body>
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+      <script src="https://unpkg.com/phosphor-icons"></script>
+      <div class="logo">
+        <h1><a href="/"><img src="assets/img/logo.png" alt="">EngrHire BD</a></h1>
 
-  <h1>Admin Dashboard</h1>
-
-
-  <h2>Jobs</h2>
-  <div class="cards-container">
-    {{#each jobs}}
-      <div class="card">
-        <p><strong>Job ID:</strong> {{this._id}}</p>
-        <p><strong>Title:</strong> {{this.jobTitle}}</p>
-        <p><strong>Client Name:</strong> {{this.clientName}}</p>
-        
-        <form method="POST" action="/admin/delete-job/{{this._id}}">
-          <button type="submit">Delete</button>
-        </form>
       </div>
-    {{/each}}
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="/">Home</a></li>
+          {{#if user}}
+          {{#if isClient}}
+          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          {{/if}}
+          {{#if isEngineer}}
+          <li><a class="nav-link scrollto" href="/engineer-post">Post Jobs</a></li>
+          {{/if}}
+          {{else}}
+          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          {{/if}}
+          <li class="dropdown">
+            <a href="#"><span>Explore</span>
+            </a>
+            <ul>
+              {{#if user}}
+              {{#if isEngineer}}
+              <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+              <li><a class="nav-link scrollto" href="#services">Services</a></li>
+              {{/if}}
+
+              {{#if isClient}}
+              <li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
+              <li><a class="nav-link scrollto" href="#services">Services</a></li>
+              {{/if}}
+              {{else}}
+              <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+              <li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
+              <li><a class="nav-link scrollto" href="#services">Services</a></li>
+              {{/if}}
+
+            </ul>
+
+
+          </li>
+
+          <li class="dropdown">
+            <a href="#"><span>Help</span>
+
+            </a>
+            <ul>
+
+              <li><a class="nav-link scrollto" href="#about">About</a></li>
+              <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+              <li><a class="nav-link scrollto" href="#faq">FAQ</a></li>
+
+            </ul>
+
+          </li>
+
+
+          {{#unless user}}
+
+
+          <ul>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/select" class="btn-signup">Sign Up</a></li>
+          </ul>
+
+          {{/unless}}
+
+
+          <div class="search">
+            <input type="text" class="search-box" placeholder="Search..." />
+            <button class="search-btn"><i class="ph-magnifying-glass-bold"></i></button>
+            <button class="close-btn"><i class="ph-x-bold"></i></button>
+          </div>
+
+          {{#if isClient}}
+          <li>
+            <a class="getstarted scrollto" href="/client-profile/{{userId}}/1">
+              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{user.full_name}}</span>
+
+            </a>
+          </li>
+
+          <span class="material-symbols-outlined">
+            <a href="/logout">Logout</a>
+          </span>
+
+          {{/if}}
+
+          {{#if isEngineer}}
+          <li>
+            <a class="getstarted scrollto" href="/profile/{{userId}}/1">
+              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{user.full_name}}</span>
+            </a>
+          </li>
+
+          <span class="material-symbols-outlined">
+            <a href="/logout">Logout</a>
+          </span>
+
+          {{/if}}
+
+
+
+
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  {{!-- <div class="sidebar open">
+    <div class="logo-details">
+      <i class="bx bx-grid-alt icon"></i>
+      <div class="logo_name">Dashboard</div>
+      <i class="bx bx-menu" id="btn"></i>
+    </div>
+    <ul class="nav-list">
+
+      <li>
+        <a href="/profile/{{userId}}/1">
+          <i class="bx bx-user"></i>
+          <span class="links_name">My Profile</span>
+        </a>
+        <span class="tooltip">Profile</span>
+      </li>
+      <li>
+        <a href="#">
+          <i class="bx bx-bell"></i>
+          <span class="links_name">Notification </span>
+        </a>
+        <span class="tooltip">Notification</span>
+      </li>
+
+      <li>
+        <a href="/my-bids/{{userId}}">
+          <i class="bx bx-dollar"></i>
+          <span class="links_name">My Bid’s</span>
+        </a>
+        <span class="tooltip">My Bid’s</span>
+      </li>
+      <li>
+        <a href="#">
+          <i class="bx bx-credit-card"></i>
+          <span class="links_name">My Balance</span>
+        </a>
+        <span class="tooltip">My Balance</span>
+      </li>
+      <li>
+        <a href="/rating">
+          <i class="bx bx-heart"></i>
+          <span class="links_name">Rating & Reviews</span>
+        </a>
+        <span class="tooltip">Ratings</span>
+      </li>
+
+    </ul>
+  </div> --}}
+
+  <div class="sidebar open">
+    <div class="logo-details">
+      <i class="bx bx-grid-alt icon"></i>
+      <div class="logo_name">Dashboard</div>
+      <i class="bx bx-menu" id="btn"></i>
+    </div>
+    <ul class="nav-list">
+
+      <!-- Admin Profile -->
+      <li>
+        <a href="#profile">
+          <i class="bx bx-user"></i>
+          <span class="links_name">Admin Profile</span>
+        </a>
+        <span class="tooltip">Admin Profile</span>
+      </li>
+
+      <!-- Manage Client User -->
+      <li>
+        <a href="#client">
+          <i class="bx bx-user"></i>
+          <span class="links_name">Manage Client User</span>
+        </a>
+        <span class="tooltip">Manage Client User</span>
+      </li>
+
+      <!-- Manage Engineer User -->
+      <li>
+        <a href="#engineer">
+          <i class="bx bx-user"></i>
+          <span class="links_name">Manage Engineer User</span>
+        </a>
+        <span class="tooltip">Manage Engineer User</span>
+      </li>
+
+      <!-- Manage Post (all) -->
+      <li>
+        <a href="#job">
+          <i class="bx bx-file"></i>
+          <span class="links_name">Manage Post (all)</span>
+        </a>
+        <span class="tooltip">Manage Post (all)</span>
+      </li>
+
+
+      <!-- Payment Managements -->
+      <li>
+        <a href="#">
+          <i class="bx bx-credit-card"></i>
+          <span class="links_name">Payment Managements</span>
+        </a>
+        <span class="tooltip">Payment Managements</span>
+      </li>
+
+      <!-- Category Management -->
+      <li>
+        <a href="#">
+          <i class="bx bx-category"></i>
+          <span class="links_name">Category Management</span>
+        </a>
+        <span class="tooltip">Category Management</span>
+      </li>
+
+      <!-- Support & Help Center -->
+      <li>
+        <a href="#">
+          <i class="bx bx-help-circle"></i>
+          <span class="links_name">Support & Help Center</span>
+        </a>
+        <span class="tooltip">Support & Help Center</span>
+      </li>
+
+      <!-- Review and Rating Management -->
+      <li>
+        <a href="#">
+          <i class="bx bx-star"></i>
+          <span class="links_name">Rating Management</span>
+        </a>
+        <span class="tooltip">Rating Management</span>
+      </li>
+
+    </ul>
   </div>
 
-  <!-- Clients Cards -->
-  <h2>Clients</h2>
-  <div class="cards-container">
-    {{#each clients}}
-      <div class="card">
-        <p><strong>Client ID:</strong> {{this._id}}</p>
-        <p><strong>Email:</strong> {{this.email}}</p>
-        <p><strong>Full Name:</strong> {{this.full_name}}</p>
-       
-        <form method="POST" action="/admin/delete-client/{{this._id}}">
-          <button type="submit">Delete</button>
-        </form>
-      </div>
-    {{/each}}
-  </div>
+  {{!-- Main container Beside Sidebar --}}
+<section id="main-content" class="home-section">
 
-  <!-- Engineers Cards -->
-  <h2>Engineers</h2>
-  <div class="cards-container">
-    {{#each engineers}}
-      <div class="card">
-        <p><strong>Engineer ID:</strong> {{this._id}}</p>
-        <p><strong>Email:</strong> {{this.email}}</p>
-        <p><strong>Full Name:</strong> {{this.full_name}}</p>
-     
-        <form method="POST" action="/admin/delete-engineer/{{this._id}}">
-          <button type="submit">Delete</button>
-        </form>
-      </div>
-    {{/each}}
-  </div>
+    <div class="dcont container">
+      <div class="main-body">
+        <h1>Admin Dashboard</h1>
 
-  <!-- Bids Cards -->
-  <h2>Bids</h2>
-  <div class="cards-container">
-    {{#each bids}}
-      <div class="card">
-        <p><strong>Bid ID:</strong> {{this._id}}</p>
-        <p><strong>Job Title:</strong> {{this.jobTitle}}</p>
-        <p><strong>Engineer Name:</strong> {{this.engineerFullName}}</p>
-       
-        <form method="POST" action="/admin/delete-bid/{{this._id}}">
-          <button type="submit">Delete</button>
-        </form>
-      </div>
-    {{/each}}
-  </div>
+        <!-- Dashboard Overview Section -->
+        <section class="dashboard-overview">
+          <div class="container">
+            <h2>Overview</h2>
 
-  <!-- Works Cards -->
-  <h2>Works</h2>
-  <div class="cards-container">
-    {{#each works}}
-      <div class="card">
-        <p><strong>Work ID:</strong> {{this._id}}</p>
-        <p><strong>Engineer Name:</strong> {{this.engineer.email}}</p>
-        <p><strong>Job Title:</strong> {{this.job.jobTitle}}</p>
-      
-        <form method="POST" action="/admin/delete-work/{{this._id}}">
-          <button type="submit">Delete</button>
-        </form>
-      </div>
-    {{/each}}
-  </div>
+            <!-- Cards for Counts -->
+            <div class="row">
+              <!-- Engineers Count Card -->
+              <div class="col-sm-6 col-md-3 mb-3">
+                <div class="card text-white bg-primary">
+                  <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-users"></i> Engineers</h5>
+                    <p class="card-text">{{engineers.length}}</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Clients Count Card -->
+              <div class="col-sm-6 col-md-3 mb-3">
+                <div class="card text-white bg-success">
+                  <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-user-tie"></i> Clients</h5>
+                    <p class="card-text">{{clients.length}}</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Jobs Count Card -->
+              <div class="col-sm-6 col-md-3 mb-3">
+                <div class="card text-white bg-info">
+                  <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-briefcase"></i> Jobs</h5>
+                    <p class="card-text">{{jobs.length}}</p>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- Category Count Card -->
+              <div class="col-sm-6 col-md-3 mb-3">
+                <div class="card text-white bg-dark">
+                  <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-th"></i> Category</h5>
+                    <p class="card-text">18</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+</section>
+
+
+
+        <br>
+<section id="job" class="home-section">
+        <!-- Clients Table -->
+        <div class="container mt-5">
+          <h2>Jobs</h2>
+
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead class="thead-light">
+                <tr style="font-size: 18px;">
+                  <th>Job ID</th>
+                  <th>Title</th>
+                  <th>Client Name</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each jobs}}
+                <tr>
+                  <td>{{this._id}}</td>
+                  <td>{{this.jobTitle}}</td>
+                  <td>{{this.clientName}}</td>
+                  <td>
+                    <form method="POST" action="/admin/delete-job/{{this._id}}">
+                      <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                  </td>
+                </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        </section>
+
+<section id="client" class="home-section">
+        <!-- Clients Table -->
+        <div class="container mt-5">
+          <h2>Clients</h2>
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead class="thead-light">
+                <tr style="font-size: 18px;">
+                  <th>Client ID</th>
+                  <th>Email</th>
+                  <th>Full Name</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each clients}}
+                <tr>
+                  <td>{{this._id}}</td>
+                  <td>{{this.email}}</td>
+                  <td>{{this.full_name}}</td>
+                  <td>
+                    <form method="POST" action="/admin/delete-client/{{this._id}}">
+                      <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                  </td>
+                </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+</section>
+
+<section id="engineer" class="home-section">
+        <!-- Engineers Table -->
+        <div class="container mt-5">
+          <h2>Engineers</h2>
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead class="thead-light">
+                <tr style=" font-size: 18px; ">
+          <th>Engineer ID</th>
+          <th>Email</th>
+          <th>Full Name</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each engineers}}
+        <tr>
+          <td>{{this._id}}</td>
+          <td>{{this.email}}</td>
+          <td>{{this.full_name}}</td>
+          <td>
+            <form method=" POST" action="/admin/delete-engineer/{{this._id}}">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                  </td>
+                  </tr>
+                  {{/each}}
+                  </tbody>
+            </table>
+          </div>
+        </div>
+
+</section>
+
+
+<section id="bids" class="home-section">
+        <!-- Bids Table -->
+        <div class="container mt-5">
+          <h2>Bids</h2>
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead class="thead-light">
+                <tr style=" font-size: 18px; ">
+          <th>Bid ID</th>
+          <th>Job Title</th>
+          <th>Engineer Name</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each bids}}
+        <tr>
+          <td>{{this._id}}</td>
+          <td>{{this.jobTitle}}</td>
+          <td>{{this.engineerFullName}}</td>
+          <td>
+            <form method=" POST" action="/admin/delete-bid/{{this._id}}">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                  </td>
+                  </tr>
+                  {{/each}}
+                  </tbody>
+            </table>
+          </div>
+        </div>
+
+</section>
+
+<section id="works" class="home-section">
+
+        <!-- Works Table -->
+        <div class="container mt-5">
+          <h2>Works</h2>
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead class="thead-light">
+                <tr style=" font-size: 18px; ">
+          <th>Work ID</th>
+          <th>Engineer Name</th>
+          <th>Job Title</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each works}}
+        <tr>
+          <td>{{this._id}}</td>
+          <td>{{this.engineer.email}}</td>
+          <td>{{this.job.jobTitle}}</td>
+          <td>
+            <form method=" POST" action="/admin/delete-work/{{this._id}}">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                  </td>
+                  </tr>
+                  {{/each}}
+                  </tbody>
+            </table>
+          </div>
+        </div>
+
+        </section>
+
+<section id="profile" class="home-section">
+
+   <div class="dcont container">
+      <div class="main-body">
+        <div class="row gutters-sm">
+          <div class="col-md-4 mb-3">
+            <div class="card">
+              <div class="card-body">
+                <div class="profile-container">
+                  <img src="{{client.profilePicPath}}" alt="Profile Picture" class="profile-image" />
+
+                  <div class="mt-3">
+                    <h4>{{client.full_name}}</h4>
+                   <div class="star-rating" style="font-size: 36px; color: #FFD700;">
+  {{clientRating}}
+</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card mt-3">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <h6 class="mb-0">Website</h6>
+                  <span class="text-secondary">{{client.website}}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <h6 class="mb-0">Twitter</h6>
+                  <span class="text-secondary">{{client.twitter}}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <h6 class="mb-0">Instagram</h6>
+                  <span class="text-secondary">{{client.instagram}}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <h6 class="mb-0">Facebook</h6>
+                  <span class="text-secondary">{{client.facebook}}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-8 colmd8">
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Full Name</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    {{client.full_name}}
+                  </div>
+                </div>
+                <hr />
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Email</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">{{client.email}}</div>
+                </div>
+
+                <hr />
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Mobile</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">{{client.mobile}}</div>
+                </div>
+                <hr />
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Address</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">{{client.address}}</div>
+                </div>
+                <hr />
+
+                
+
+                {{#if isClient}}
+           
+                {{#if canEdit}}
+             
+                <div class="row">
+                  <div class="col-sm-12">
+                    <a class="btn btn-info" target="__blank" href="/edit-client-profile/{{clientId}}">Edit</a>
+
+                
+                  </div>
+                </div>
+                {{/if}}
+                {{/if}}
+
+              </div>
+            </div>
+          </div>
+           </div>
+            </div>
+             </div>
+</section>
+
+
+<script>
+  const navLinks = document.querySelectorAll('.nav-list a');
+  const contentSections = document.querySelectorAll('.home-section');
+
+  contentSections.forEach((section, index) => {
+    if (index > 0) {
+      section.style.display = 'none';
+    }
+  });
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      contentSections.forEach(section => {
+        section.style.display = 'none';
+      });
+
+      const targetSectionId = link.getAttribute('href').substring(1); 
+      const activeSection = document.getElementById(targetSectionId);
+
+      if (activeSection) {
+        activeSection.style.display = 'block';
+      }
+    });
+  });
+</script>
+
+
+
+
+
+  <script>
+    let sidebar = document.querySelector(".sidebar");
+    let closeBtn = document.querySelector("#btn");
+
+
+    closeBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("open");
+      menuBtnChange();
+    });
+
+    function menuBtnChange() {
+      if (sidebar.classList.contains("open")) {
+        closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+      } else {
+        closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+      }
+    }
+  </script>
+
+  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/search.js"></script>
+
 
 </body>
+
 </html>

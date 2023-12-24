@@ -14,6 +14,7 @@ body {
   min-height: 100vh;
   width: 100%;
   padding: 0 10px;
+  flex-direction: column;
 }
 
 body::before {
@@ -21,7 +22,7 @@ body::before {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: url(../img/login_signup/crop-architect-opening-blueprint.jpg);
+  background: url(../img/depositphotos_432656122-stock-illustration-minimal-geometric-background-dynamic-blue.jpg);
   background-position: center;
   background-size: cover;
 }
@@ -408,43 +409,73 @@ a:hover {
 .decider {
   display: flex;
   position: relative;
-  background-color: rgba(0, 122, 86, 0.308);
+  /* background-color: white; */
   justify-content: center;
   align-items: center;
   border: 1px solid rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(5px);
-  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+  box-shadow: rgb(170 180 191) 7px 8px 16px 2px;
   height: 60vh;
-  width: 70%;
+  width: 75%;
   gap: 25px;
-  background-color: #dcfff2;
+  /* background-color: #dcfff2; */
+}
+.choice{
+  z-index: 100;
+}
+.ch1, .ch2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  /* padding: 10px; */
+  height: 90%;
+  width: 100%;
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+  position: relative;
+  text-align: center;
+  cursor: cursor;
+  transition: transform 0.2s ease-in-out;
 }
 .ch1 {
-  padding: 10px;
-  height: 70%;
+  padding-bottom: 4px;
+  /* height: 90%; */
   width: 90%;
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
   position: relative;
-  background-color: #002d1d;
-  color: white;
+  background-color: #FFFFFF;
+  color: black;
   text-align: center;
   margin-left: 10px;
 }
 .ch2 {
   margin-right: 10px;
-  padding: 10px;
-  height: 70%;
+  padding-bottom: 4px;
+  /* height: 70%; */
   width: 90%;
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
-  background-color: #008355;
+  background-color: #006FB7;
   color: white;
   text-align: center;
 }
-
+.ch1:hover, .ch2:hover {
+  transform: scale(1.09);
+}
 .text_flex {
   font-size: 40px;
 }
+
+.ch1 .button-30 {
+  background-color: #e4f1f8;
+  color: #0164A5 ;
+}
+
+.ch2 .button-30{
+  background-color: #004e81;
+  color: #FFFFFF; /* Adjusted text color for better visibility */
+}
+
 
 /* CSS */
 .button-30 {
@@ -460,13 +491,15 @@ a:hover {
   cursor: pointer;
   display: inline-flex;
   font-family: "JetBrains Mono", monospace;
-  height: 48px;
+  height: 60px;
+  /* width: 100%; */
   justify-content: center;
   line-height: 1;
   list-style: none;
   overflow: hidden;
-  padding-left: 16px;
-  padding-right: 16px;
+  /* padding-left: 16px; */
+  /* padding-right: 16px; */
+  padding:0 245px;
   position: relative;
   text-align: left;
   text-decoration: none;

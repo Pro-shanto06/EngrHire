@@ -214,12 +214,17 @@
           </form>
         </div>
         
-  {{#if isEngineer}}
-   
+ {{#if isEngineer}}
+  {{#if hasSubmittedBid}}
+    <div class="button-container">
+      <p>You have already submitted a bid</p>
+    </div>
+  {{else}}
     <div class="button-container">
       <button id="bid-now-btn" onclick="showBidForm()">Bid Now</button>
     </div>
   {{/if}}
+{{/if}}
 
 
 
