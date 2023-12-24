@@ -332,7 +332,7 @@ a:hover {
   height: 35px;
   font-size: 25px;
   background-color: #ffffff;
-  color: rgb(0, 0, 0);
+  color: rgb(0, 0, 0);job
   border: none;
   cursor: pointer;
   position: absolute;
@@ -721,6 +721,46 @@ a:hover {
 .sidebar.open li .tooltip{
   display: none;
 }
+
+
+
+
+
+.chat{
+  display: flex;
+  height: 7%;
+  width: 93%;
+  margin-left: 15px;
+  border-radius: 12px;
+  align-items: center;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  background: #3498db;
+  color: white;
+}
+
+.chat i{
+  height: 50px;
+  line-height: 50px;
+  font-size: 18px;
+  border-radius: 12px;
+  color: #FFF;
+}
+
+.chat:hover {
+  background-color: #f3f3f3;
+  color: #000000; 
+  border: 1px solid black;
+}
+
+.chat:hover i{
+
+  color: #000000; 
+  
+  
+}
+
+
 
 .sidebar li a{
   display: flex;
