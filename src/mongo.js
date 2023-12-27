@@ -205,10 +205,9 @@ const jobSchema = new mongoose.Schema({
     required: true,
   },
   jobPriceRange: {
-    type: String,
+    type: Number,
     required: true,
   },
-  
 });
 
 const clientSchema = new mongoose.Schema({

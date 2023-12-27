@@ -12,6 +12,13 @@ const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const jwtSecret = 'yourSecretKey';
 
+hbs.registerHelper('eq', function (a, b) {
+  return a === b;
+});
+
+
+
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -1090,69 +1097,136 @@ app.post("/post-job", isAuthenticated, async (req, res) => {
 });
 
 
-app.get("/job-list/:categoryName", isAuthenticated, async (req, res) => {
-  let clientId = null;
-  let engineerId = null;
-  let client = null;
-  let engineer = null;
 
-
-  let userId = null;
-   
-if (req.session.user) {
-  userId = req.session.user._id;
+function sortJobsByDate(jobs, sortBy) {
+  if (sortBy === "asc") {
+    return jobs.sort((a, b) => new Date(a.jobDeadline) - new Date(b.jobDeadline));
+  } else if (sortBy === "desc") {
+    return jobs.sort((a, b) => new Date(b.jobDeadline) - new Date(a.jobDeadline));
+  } else {
+    return jobs;
+  }
 }
 
-let user = await Engineer.findById(userId);
+// Helper function to filter jobs by price range
+function filterJobsByPrice(jobs, minPrice, maxPrice) {
+  const min = parseFloat(minPrice);
+  const max = parseFloat(maxPrice);
 
-if (!user) {
-    user = await Client.findById(userId);
-  }
+  return jobs.filter(job => {
+    const jobPrice = parseFloat(job.jobPriceRange);
+    return jobPrice >= min && jobPrice <= max;
+  });
+}
+
+
+
+
+app.get("/job-list/:categoryName", isAuthenticated, async (req, res) => {
+  try {
+    let clientId = null;
+    let engineerId = null;
+    let user = null;
+
+    if (req.session.user) {
+      const userId = req.session.user._id;
+      user = await Engineer.findById(userId) || await Client.findById(userId);
+    }
 
     if (req.session.user.role === "Client") {
       clientId = req.session.user._id;
     } else if (req.session.user.role === "Engineer") {
       engineerId = req.session.user._id;
     }
-  
 
-  try {
+    const sortBy = req.query.sort || "asc";
+    const minPrice = req.query.minPrice || 0;
+    const maxPrice = req.query.maxPrice || Infinity;
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = 5; // Number of jobs per page
+
     let jobs;
+    let totalJobs;
 
     if (req.params.categoryName === "all") {
-      jobs = await Job.find().populate("client");
+      // Fetch all jobs that match the price range
+      jobs = await Job.find({
+        price: { $gte: minPrice, $lte: maxPrice },
+      })
+        .sort({ jobDeadline: sortBy });
+    
+      // Count all jobs that match the price range
+      totalJobs = await Job.countDocuments({
+        price: { $gte: minPrice, $lte: maxPrice },
+      });
     } else {
-      jobs = await Job.find({ category: req.params.categoryName }).populate(
-        "client"
-      );
+      // Fetch jobs based on category and price range
+      jobs = await Job.find({
+        category: req.params.categoryName,
+        price: { $gte: minPrice, $lte: maxPrice },
+      })
+        .sort({ jobDeadline: sortBy });
+    
+      // Count jobs based on category and price range
+      totalJobs = await Job.countDocuments({
+        category: req.params.categoryName,
+        price: { $gte: minPrice, $lte: maxPrice },
+      });
     }
+
     if (user && user.profilePicPath) {
-      user.profilePicPath =
-        "/" + user.profilePicPath.replace(/\\/g, "/");
+      user.profilePicPath = "/" + user.profilePicPath.replace(/\\/g, "/");
     }
-    if (client && client.profilePicPath) {
-      client.profilePicPath =
-        "/" + client.profilePicPath.replace(/\\/g, "/");
-    }
-    if (engineer && engineer.profilePicPath) {
-      engineer.profilePicPath =
-        "/" + engineer.profilePicPath.replace(/\\/g, "/");
-    }
+
   
+    const sortedAndFilteredJobs = sortJobsByDate(jobs, sortBy);
+    const filteredJobs = filterJobsByPrice(sortedAndFilteredJobs, minPrice, maxPrice);
+   
+
+    // Pagination logic
+    const startIndex = (page - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    const visibleJobs = filteredJobs.slice(startIndex, endIndex);
+
+    const currentPage = page;
+    const totalPages = Math.ceil(filteredJobs.length / pageSize);
+    const morePages = page < totalPages;
+    const currentPageGreaterThanOne = currentPage > 1;
+    const currentPageMinusOne = currentPage - 1;
+
+    const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+    const showPageNumbers = totalPages > 1;
     res.render("job-list", {
-      jobs,
-      userId,
-      user: user,
+      jobs: visibleJobs,
+      userId: user?._id,
+      user,
       isClient: req.session.user?.role === "Client",
       isEngineer: req.session.user?.role === "Engineer",
       clientId,
-      engineerId
+      engineerId,
+      sortBy,
+      category: req.params.categoryName || 'all',
+      minPrice,
+      maxPrice,
+      currentPage: page,
+      morePages,
+      currentPagePlusOne: page + 1,
+      currentPageGreaterThanOne,
+      currentPageMinusOne,
+      pages: showPageNumbers ? pages : [],
+      totalPages,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error:", error);
     res.status(500).send("Internal server error");
   }
 });
+
+
+
+
+
+
 
 app.get("/job-details/:jobId", isAuthenticated, async (req, res) => {
   const jobId = req.params.jobId;
