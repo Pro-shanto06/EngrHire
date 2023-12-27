@@ -1,233 +1,179 @@
-
- 
 <html lang="en">
 
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-    <title>EngrHire BD</title>
-    <meta content="" name="description" />
-    <meta content="" name="keywords" />
+  <title>EngrHire BD</title>
+  <meta content="" name="description" />
+  <meta content="" name="keywords" />
 
-    <!-- Logo -->
-    <link href="assets/img/logo.png" rel="icon" />
-   
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-      rel="stylesheet"
-    />
+  <!-- Logo -->
+  <link href="assets/img/logo.png" rel="icon" />
 
-    <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
-    <link
-      href="assets/vendor/bootstrap/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
-      rel="stylesheet"
-    />
-    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
-    <link
-      href="assets/vendor/glightbox/css/glightbox.min.css"
-      rel="stylesheet"
-    />
-    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
-    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet" />
+
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
 
 
-    <link rel="stylesheet" href="assets/css/dev_signup_style.css" />
+  <link href="assets/css/login.css" rel="stylesheet" />
+  <link href="assets/css/dev_signup_style.css" rel="stylesheet" />
 
- 
-  </head>
 
-  <body>
+</head>
 
-        <!-- ======= Header ======= -->
-    <header id="header" class="fixed-top d-flex align-items-center">
-        <div class="container d-flex align-items-center justify-content-between">
-          <script src="https://unpkg.com/phosphor-icons"></script>
-          <div class="logo">
-            <h1><a href="/" ><img  src="assets/img/logo.png" alt="">EngrHire BD</a></h1>
-        
-          </div>
-  
-          <nav id="navbar" class="navbar">
-            <ul>
-              <li><a class="nav-link scrollto active" href="/">Home</a></li>
-            {{#if user}}
-             {{#if isClient}}
-                  <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
-    {{/if}}
-     {{#if isEngineer}}
-                  <li><a class="nav-link scrollto" href="/engineer-post">Post Jobs</a></li>
-    {{/if}}
-     {{else}}
-  <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
-   {{/if}}
-                <li class="dropdown">
-                <a href="#"><span>Explore</span>
-                </a>
-              <ul>
-                  {{#if user}}
-    {{#if isEngineer}}
-      <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
-      <li><a class="nav-link scrollto" href="#services">Services</a></li>
-    {{/if}}
-  
-    {{#if isClient}}
-      <li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
-      <li><a class="nav-link scrollto" href="#services">Services</a></li>
-    {{/if}}
-      {{else}}
-       <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
-  <li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
-      <li><a class="nav-link scrollto" href="#services">Services</a></li>
-       {{/if}}
-  
-  </ul>
-  
-  
-              </li>
-  
-               <li class="dropdown">
-                <a href="#"><span>Help</span>
-                
-                </a>
-                <ul>
-                   
-                  <li><a class="nav-link scrollto" href="#about">About</a></li>
-                  <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-                  <li><a class="nav-link scrollto" href="#faq">FAQ</a></li>
-                 
-                </ul>
-  
-              </li>
-  
-         
-  {{#unless user}}
-  
-  
-      <ul>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/select" class="btn-signup">Sign Up</a></li>
-      </ul>
-  
-  {{/unless}}
-  
-  
-              <div class="search">
-                <input type="text" class="search-box" placeholder="Search..." />
-                <button class="search-btn"><i
-                    class="ph-magnifying-glass-bold"
-                  ></i></button>
-                <button class="close-btn"><i class="ph-x-bold"></i></button>
-              </div>
-  
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+      <script src="https://unpkg.com/phosphor-icons"></script>
+      <div class="logo">
+        <h1><a href="/"><img src="assets/img/logo.png" alt="">EngrHire BD</a></h1>
+
+      </div>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="/">Home</a></li>
+          {{#if user}}
           {{#if isClient}}
-    <li>
-      <a class="getstarted scrollto" href="/client-profile/{{userId}}/1">
-        <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
-        <span class="profile-name">{{user.full_name}}</span>
-        
-      </a>
-    </li>
-  
-   <span class="material-symbols-outlined">
-    <a href="/logout">Logout</a>
-  </span>
-  
-  {{/if}}
-  
-  {{#if isEngineer}}
-    <li>
-      <a class="getstarted scrollto" href="/profile/{{userId}}/1">
-        <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
-        <span class="profile-name">{{user.full_name}}</span>
-      </a>
-    </li>
-  
-     <span class="material-symbols-outlined">
-    <a href="/logout">Logout</a>
-  </span>
-    
-  {{/if}}
-  
-  
-  
-  
+          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          {{/if}}
+          {{#if isEngineer}}
+          <li><a class="nav-link scrollto" href="/engineer-post">Post Jobs</a></li>
+          {{/if}}
+          {{else}}
+          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          {{/if}}
+          <li class="dropdown">
+            <a href="#"><span>Explore</span>
+            </a>
+            <ul>
+              {{#if user}}
+              {{#if isEngineer}}
+              <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+              <li><a class="nav-link scrollto" href="#services">Services</a></li>
+              {{/if}}
+
+              {{#if isClient}}
+              <li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
+              <li><a class="nav-link scrollto" href="#services">Services</a></li>
+              {{/if}}
+              {{else}}
+              <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+              <li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
+              <li><a class="nav-link scrollto" href="#services">Services</a></li>
+              {{/if}}
+
             </ul>
-            <i class="bi bi-list mobile-nav-toggle"></i>
-          </nav><!-- .navbar -->
-  
-        </div>
-      </header><!-- End Header -->
 
 
-    
+          </li>
+
+          <li class="dropdown">
+            <a href="#"><span>Help</span>
+
+            </a>
+            <ul>
+
+              <li><a class="nav-link scrollto" href="#about">About</a></li>
+              <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+              <li><a class="nav-link scrollto" href="#faq">FAQ</a></li>
+
+            </ul>
+
+          </li>
+
+
+          {{#unless user}}
+
+
+          <ul>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/select" class="btn-signup">Sign Up</a></li>
+          </ul>
+
+          {{/unless}}
+
+
+          <div class="search">
+            <input type="text" class="search-box" placeholder="Search..." />
+            <button class="search-btn"><i class="ph-magnifying-glass-bold"></i></button>
+            <button class="close-btn"><i class="ph-x-bold"></i></button>
+          </div>
+
+          {{#if isClient}}
+          <li>
+            <a class="getstarted scrollto" href="/client-profile/{{userId}}/1">
+              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{user.full_name}}</span>
+
+            </a>
+          </li>
+
+          <span class="material-symbols-outlined">
+            <a href="/logout">Logout</a>
+          </span>
+
+          {{/if}}
+
+          {{#if isEngineer}}
+          <li>
+            <a class="getstarted scrollto" href="/profile/{{userId}}/1">
+              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{user.full_name}}</span>
+            </a>
+          </li>
+
+          <span class="material-symbols-outlined">
+            <a href="/logout">Logout</a>
+          </span>
+
+          {{/if}}
+
+
+
+
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
   <div class="wrapper">
-     {{#if successMessage}}
-  <div class="success-message">
-    <p>{{successMessage}}</p>
-    <p><a href="/login">Login</a></p>
-  </div>
-{{else}}
+    <div class="sideimg"></div>
+
     <form action="/signup" method="post">
       <h2 class="text-center">Engineer Sign Up</h2>
-      
+
       <div class="input-field">
-        <input
-          type="text"
-          name="full_name"
-          id="full_name"
-          required
-          placeholder="Full Name"
-        />
+        <input type="text" name="full_name" id="full_name" required placeholder="Full Name" />
       </div>
       <div class="input-field">
-        <input
-          type="text"
-          name="designation"
-          id="designation"
-          required
-          placeholder="Designation"
-        />
+        <input type="text" name="designation" id="designation" required placeholder="Designation" />
       </div>
       <div class="input-field">
-        <input
-          type="text"
-          name="mobile"
-          id="mobile"
-          required
-          placeholder="Mobile"
-        />
+        <input type="text" name="mobile" id="mobile" required placeholder="Mobile" />
       </div>
       <div class="input-field">
-        <input
-          type="email"
-          name="email"
-          id="email"
-          required
-          placeholder="Email"
-        />
+        <input type="email" name="email" id="email" required placeholder="Email" />
       </div>
       <div class="input-field">
-        <input
-          type="password"
-          name="password"
-          id="password"
-          required
-          placeholder="Password"
-        />
+        <input type="password" name="password" id="password" required placeholder="Password" />
       </div>
       <div class="input-field">
-        <input
-          type="text"
-          name="field_of_expertise"
-          id="field_of_expertise"
-          required
-          placeholder="Field of Expertise"
-        />
+        <input type="text" name="field_of_expertise" id="field_of_expertise" required
+          placeholder="Field of Expertise" />
       </div>
       <input class="submit-btn" type="submit" value="Signup" />
 
@@ -237,23 +183,43 @@
         </p>
       </div>
     </form>
+
   </div>
-{{/if}}
+
+  <script>
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const resetEmailSent = urlParams.get('resetEmailSent');
+    const resetSuccess = urlParams.get('resetSuccess');
 
 
+    if (resetSuccess === 'true') {
+      alert('Password reset successful');
+    }
 
-    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-    <script src="assets/vendor/aos/aos.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
+    if (resetEmailSent === 'true') {
+      alert("Password reset email sent");
+    }
+  </script>
 
 
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/search.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
 
-  </body>
+
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/search.js"></script>
+
+</body>
+
+</html>
+
+
+</body>
 
 </html>
