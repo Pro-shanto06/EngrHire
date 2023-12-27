@@ -407,6 +407,7 @@ a:hover {
   width: 100%;
   margin-left: 0%;
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
 }
 
