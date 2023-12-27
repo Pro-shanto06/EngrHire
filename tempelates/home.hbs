@@ -54,6 +54,7 @@
         <nav id="navbar" class="navbar">
           <ul>
             <li><a class="nav-link scrollto active" href="/">Home</a></li>
+                  
           {{#if user}}
            {{#if isClient}}
                 <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
@@ -72,16 +73,19 @@
   {{#if isEngineer}}
     <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
     <li><a class="nav-link scrollto" href="#services">Services</a></li>
+    <li><a class="nav-link scrollto active" href="/engineers">Engineers</a></li>
   {{/if}}
 
   {{#if isClient}}
-    <li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
+   
     <li><a class="nav-link scrollto" href="#services">Services</a></li>
+    <li><a class="nav-link scrollto active" href="/engineers">Engineers</a></li>
   {{/if}}
     {{else}}
      <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
-<li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
+
     <li><a class="nav-link scrollto" href="#services">Services</a></li>
+    <li><a class="nav-link scrollto active" href="/engineers">Engineers</a></li>
      {{/if}}
 
 </ul>

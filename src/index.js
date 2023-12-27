@@ -302,9 +302,38 @@ function isAuthenticated(req, res, next) {
 
   
   
-  app.get("/engineer-post", (req, res) => {
-    res.render("engineer-post");
+  app.get('/engineers', async (req, res) => {
+    try {
+      let userId = null;
+  
+      if (req.session.user) {
+        userId = req.session.user._id;
+      }
+  
+      let user = await Engineer.findById(userId);
+  
+      if (!user) {
+        user = await Client.findById(userId);
+      }
+  
+      // Fetch all engineers from the database
+      const engineers = await Engineer.find();
+  
+      // Send the engineers to the rendering engine along with user information
+      res.render('engineers', {
+        engineers,
+        user,
+        userId,
+        isClient: req.session.user?.role === 'Client',
+        isEngineer: req.session.user?.role === 'Engineer',
+      });
+    } catch (error) {
+      console.error('Error fetching engineers:', error);
+      res.status(500).send('Internal Server Error');
+    }
   });
+  
+
 
 app.get("/signup", (req, res) => {
   res.render("signup");
