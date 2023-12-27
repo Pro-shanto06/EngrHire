@@ -824,3 +824,153 @@ a:hover {
   }
 }
 
+/* review wdadawdawdawdawdadawda */
+
+#ccctestimonials{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width:100%;
+}
+.ccctestimonial-heading{
+  letter-spacing: 1px;
+  margin: 30px 0px;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.ccctestimonial-heading h1{
+  font-size: 2.2rem;
+  font-weight: 500;
+  background-color: #202020;
+  color: #ffffff;
+  padding: 10px 20px;
+}
+.ccctestimonial-heading span{
+  font-size: 1.3rem;
+  color: #252525;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.ccctestimonial-box-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width:100%;
+}
+.ccctestimonial-box{
+  width:500px;
+  box-shadow: 2px 2px 30px rgba(0,0,0,0.1);
+  background-color: #ffffff;
+  padding: 20px;
+  margin: 15px;
+  cursor: pointer;
+}
+.cccprofile-img{
+  width:50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+}
+.cccprofile-img img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.cccprofile{
+  display: flex;
+  align-items: center;
+}
+.cccname-user{
+  display: flex;
+  flex-direction: column;
+}
+.cccname-user strong{
+  color: #3d3d3d;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+}
+.cccname-user span{
+  color: #979797;
+  font-size: 0.8rem;
+}
+.cccreviews{
+  color: #f9d71c;
+}
+.cccbox-top{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.cccclient-comment p{
+  font-size: 0.9rem;
+  color: #4b4b4b;
+}
+.ccctestimonial-box:hover{
+  transform: translateY(-10px);
+  transition: all ease 0.3s;
+}
+
+
+
+
+
+
+
+.aka {
+  position: relative;
+  background-image: url("/img/akabg.png");
+  background-size: cover;
+  padding: 25px;
+  border-radius: 28px;
+  margin-left: 50px;
+  margin-top: 90px;
+  max-width: 480px;
+  width: 120%;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  background: #3498db;
+}
+
+.akalogo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.akalogo img {
+  width: 48px;
+}
+.akah5 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #fff;
+}
+.chip {
+  width: 60px;
+}
+.akah6 {
+  color: #fff;
+  font-size: 10px;
+  font-weight: 400;
+}
+.akah5.number {
+  margin-top: 4px;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+.akah5.name {
+  margin-top: 20px;
+}
+.aka .card-details {
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}

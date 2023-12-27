@@ -1,28 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Poppins&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Poppins&family=Satisfy&display=swap');
+
 
 *{
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
-body, html{
-  height: 100%;
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
+
+
+
 
 .main-container {
   position: fixed;
-  top: 120px;
+  top: 80px;
   left: 0;
-  width: 100%;
-  height: calc(100% - 120px); /* Adjusted height calculation to allow scrolling */
+  width: 70%;
+  height: calc(100% - 120px);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Poppins', sans-serif;
-  background: rgb(255, 255, 255);
+  background-color: #f4f4f4;
   overflow: auto;
+  margin-left: 280px;
 }
 
 
@@ -35,7 +43,7 @@ body, html{
     max-width: 90%;
     border-radius: 20px 20px 15px 15px;
     background-color: #3498db;
-    
+    margin-left: 200px;
 }
 
 
@@ -139,13 +147,13 @@ hr{
 
 
 
-
 [contentEditable=true]:empty:before {
     content: attr(placeholder);
     opacity: 0.6;
   }
 
   
+
 
 /*--------------------------------------------------------------
 # Header
@@ -514,5 +522,461 @@ a:hover {
   color: #007bff; 
   text-decoration: none; 
   font-size: 24px;
+}
+
+.main-body {
+  padding: 15px;
+  z-index: 2;
+  
+}
+.row > .getstarted{
+  width: 35%;
+}
+
+.colmd8{
+  width: 65%;
+}
+
+.card {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  background-color: #ffffff;
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+.profile-container {
+  text-align: center;
+}
+
+.profile-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-outline-primary {
+  border: 1px solid #007bff;
+  color: #007bff;
+}
+
+.btn-outline-primary:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.list-group-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.breadcrumb {
+  background-color: transparent;
+}
+
+.breadcrumb-item {
+  text-decoration: none;
+}
+
+.posts {
+  background-color: #ffffff;
+  width: 100%;
+  border-radius: 50px;
+}
+
+.posts p {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+
+.main {
+  width: 99%;
+  margin-left: 8%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.main >h2{
+  margin-left: 50px;
+
+}
+
+.card {
+  width: 90%;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  margin-top: 20px;
+}
+
+.title-card {
+  font-size: 18px;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.job-details {
+  text-align: left;
+  padding: 10px 0;
+}
+
+.job-details p {
+  margin: 5px 0;
+}
+
+.card > button {
+  display: block;
+  margin: 10px auto;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.card > button:hover {
+  background-color: black;
+}
+
+.job-image {
+  width: 25px;
+  height: 25px; 
+}
+
+
+.container{
+  width: 100%;
+}
+
+.dcont{
+  /* margin-left: 76px; */
+  margin-right: 0px;
+}
+.colmd{
+  width: 100%;
+}
+
+
+
+
+
+
+.chat{
+  display: flex;
+  height: 7%;
+  width: 93%;
+  margin-left: 15px;
+  border-radius: 12px;
+  align-items: center;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  background: #3498db;
+  color: white;
+}
+
+.chat i{
+  height: 50px;
+  line-height: 50px;
+  font-size: 18px;
+  border-radius: 12px;
+  color: #FFF;
+}
+
+.chat:hover {
+  background-color: #f3f3f3;
+  color: #000000; 
+  border: 1px solid black;
+}
+
+.chat:hover i{
+
+  color: #000000; 
+  
+  
+}
+
+
+
+/*--------------------------------------------------------------
+# sidebar
+--------------------------------------------------------------*/
+ 
+.sidebar{
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 78px;
+  background: #ffffff;
+  padding: 6px 14px;
+  padding-left: 0px;
+  z-index: 99;
+  transition: all 0.5s ease;
+  margin-top: 61px;
+}
+.sidebar.open{
+  width: 250px;
+}
+.sidebar .logo-details{
+  height: 60px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.sidebar .logo-details .icon{
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+.sidebar .logo-details .logo_name{
+  color: #000000;
+  font-size: 20px;
+  font-weight: 600;
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+.sidebar.open .logo-details .icon,
+.sidebar.open .logo-details .logo_name{
+  opacity: 1;
+}
+.sidebar .logo-details #btn{
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  font-size: 22px;
+  transition: all 0.4s ease;
+  font-size: 23px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+.sidebar.open .logo-details #btn{
+  text-align: right;
+}
+.sidebar i{
+  color: #000000;
+  height: 60px;
+  min-width: 50px;
+  font-size: 28px;
+  text-align: center;
+  line-height: 60px;
+}
+.sidebar .nav-list{
+  margin-top: 20px;
+  height: 5%;
+}
+
+.sidebar li{
+  position: relative;
+  margin: 8px 0;
+  margin-left: -20px;
+  list-style: none;
+}
+.sidebar li .tooltip{
+  position: absolute;
+  top: -20px;
+  left: calc(100% + 15px);
+  z-index: 3;
+  background: #fff;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 400;
+  opacity: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: 0s;
+}
+.sidebar li:hover .tooltip{
+  opacity: 1;
+  pointer-events: auto;
+  transition: all 0.4s ease;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.sidebar.open li .tooltip{
+  display: none;
+}
+
+
+
+
+
+.chat{
+  display: flex;
+  height: 7%;
+  width: 93%;
+  margin-left: 15px;
+  border-radius: 12px;
+  align-items: center;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  background: #3498db;
+  color: white;
+}
+
+.chat i{
+  height: 50px;
+  line-height: 50px;
+  font-size: 18px;
+  border-radius: 12px;
+  color: #FFF;
+}
+
+.chat:hover {
+  background-color: #f3f3f3;
+  color: #000000; 
+  border: 1px solid black;
+}
+
+.chat:hover i{
+
+  color: #000000; 
+  
+  
+}
+
+
+
+.sidebar li a{
+  display: flex;
+  height: 140%;
+  width: 100%;
+  border-radius: 12px;
+  align-items: center;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  background: #3498db;
+}
+.sidebar li a:hover{
+  background: #FFF;
+  border: 1px solid black;
+  margin-left: 5px;
+  padding-right: 40px;
+  padding-left: 0;
+}
+.sidebar li a .links_name{
+  color: #fff;
+  font-size: 15px;
+  font-weight: 400;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.4s;
+}
+.sidebar.open li a .links_name{
+  opacity: 1;
+  pointer-events: auto;
+}
+.sidebar li a:hover .links_name,
+.sidebar li a:hover i{
+  transition: all 0.5s ease;
+  color: #11101D;
+}
+.sidebar li i{
+  height: 50px;
+  line-height: 50px;
+  font-size: 18px;
+  border-radius: 12px;
+  color: #FFF;
+}
+
+
+.sidebar li.profile{
+  position: fixed;
+  height: 60px;
+  width: 78px;
+  left: 0;
+  bottom: -8px;
+  margin-left: 0px;
+  padding: 10px 14px;
+  background: #ffffff;
+  transition: all 0.5s ease;
+  overflow: hidden;
+}
+.sidebar.open li.profile{
+  width: 250px;
+}
+.sidebar li .profile-details{
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.sidebar li img{
+  height: 45px;
+  width: 45px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 10px;
+}
+.sidebar li.profile .name,
+.sidebar li.profile .job{
+  font-size: 15px;
+  font-weight: 400;
+  color: #fff;
+  white-space: nowrap;
+}
+.sidebar li.profile .profile-details .name_job .name:hover{
+  color: rgb(255, 255, 255);
+}
+
+.sidebar li.profile .job{
+  font-size: 12px;
+}
+.sidebar .profile #log_out{
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  background: #ffffff;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  border-radius: 0px;
+  transition: all 0.5s ease;
+}
+.sidebar.open .profile #log_out{
+  width: 50px;
+  background: none;
+}
+.home-section{
+  position: relative;
+  background: #E4E9F7;
+  min-height: 100vh;
+  top: 0;
+  left: -10px;
+  width: calc(100% - 60px);
+  transition: all 0.5s ease;
+  z-index: 3;
+  margin-top: 0px;
+}
+.sidebar.open ~ .home-section{
+  left: 250px;
+  width: calc(100% - 300px);
+}
+.home-section .text{
+  display: inline-block;
+  color: #11101d;
+  font-size: 25px;
+  font-weight: 500;
+  margin: 18px
 }
 

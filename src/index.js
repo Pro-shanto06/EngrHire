@@ -174,23 +174,47 @@ function isAuthenticated(req, res, next) {
   app.get("/work/:workId/chat", isAuthenticated, async (req, res) => {
     try {
       const workId = req.params.workId;
-  
       
-      const additionalData = {
-        
-        user: req.session.user,  
-        role: req.session.user?.role,  
-      };
+      const user = req.session.user;  
+      const role = req.session.user?.role;  
+      const userId = user?._id;  
+  
+      let engineer = null;
+      let client = null;
+  
+      if (role === "Engineer") {
+        engineer = await Engineer.findById(userId);
+      } else if (role === "Client") {
+        client = await Client.findById(userId);
+      }
+  
+      if (engineer && engineer.profilePicPath) {
+        engineer.profilePicPath =
+          "/" + engineer.profilePicPath.replace(/\\/g, "/");
+      }
+
+      if (client && client.profilePicPath) {
+        client.profilePicPath =
+          "/" + client.profilePicPath.replace(/\\/g, "/");
+      }
   
       res.render("chat", {
         workId: workId,
-        ...additionalData,  
+        user: user,
+        userId: userId,
+        client: client,
+        engineer: engineer,
+        role: role,
+        isClient: role === "Client",
+        isEngineer: role === "Engineer",
       });
     } catch (error) {
       console.error(error);
       res.status(500).send("Error fetching data");
     }
   });
+  
+  
 
   app.get('/api/work/:workId/chat-messages', async (req, res) => {
     try {
@@ -1392,6 +1416,7 @@ app.post("/accept-bid", async (req, res) => {
       engineerFullName: acceptedBid.engineerFullName,
       bidAmount: acceptedBid.bidAmount,
       bidDetails: acceptedBid.bidDetails,
+      
     });
   } catch (error) {
     console.error(error);
@@ -1436,15 +1461,7 @@ app.post("/reject-bid", async (req, res) => {
       return res.status(404).json({ error: "Related data not found" });
     }
 
-    const newWork = new Work({
-      client: client,
-      engineer: engineer,
-      job: job,
-      bid: rejectedBid,
-
-    });
-
-    const savedWork = await newWork.save();
+ 
 
 
     res.json({

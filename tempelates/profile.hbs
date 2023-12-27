@@ -374,49 +374,35 @@
 
         <div class="main">
       
-            <div class="card">
-              <div class="title-card">
-                <strong>cardHolderName</strong>
-                {{engineer.cardHolderName}}
-              </div>
-
-             
-
-                <div class="job-details">
-                  <img src="/img/placeholder_819814.png" alt="" />
-                  <strong>cardNumber:</strong>
-                  {{engineer.cardNumber}}
-                </div>
-
-                <div class="job-details">
-                  <img src="/img/options_718970.png" alt="" />
-                  <strong>cardExpMonth:</strong>
-                  {{engineer.cardExpMonth}}
-                </div>
-
-                <div class="job-details">
-                  <img src="/img/campaign_10139087.png" alt="" />
-                  <strong>cardExpYear:</strong>
-                  {{engineer.cardExpYear}}
-                </div>
-
-                <div class="job-details">
-                  <img src="/img/campaign_10139087.png" alt="" />
-                  <strong>cardCVV:</strong>
-                  {{engineer.cardCVV}}
-                </div>
-
-
-                <div class="job-details">
-                  <img src="/img/coin_7891996.png" alt="" />
-                  <strong>balance:</strong>
-                  {{engineer.balance }}
-                </div>
+                 <div class="aka">
+      
+        <span class="akalogo">
+          <h5 class="akah5">Bank Card</h5>
+          <!-- <img src="images/logo.png" alt="" /> -->
           
-            
+          <img src="/img/akachip.png" alt="" class="chip" />
+        </span>
+        
+  
 
-
-            </div>
+      <div class="card-details">
+        <div class="name-number">
+          <h6 class="akah6">Card Number</h6>
+          <h5 class="number akah5">{{engineer.cardNumber}}</h5>
+          <h6 class="akah6">Card CCV</h6>
+          <h5 class="name akah5">{{engineer.cardCVV}}</h5>
+          <h6 class="akah6">Balance</h6>
+          <h6 class="akah6">{{engineer.balance }}</h6>
+          <h5 class="name akah5">{{engineer.cardHolderName}}</h5>
+          
+          
+        </div>
+        <div class="valid-date">
+          <h6 class="akah6">Valid Thru</h6>
+          <h5 class="akah5"> {{engineer.cardExpMonth}} / {{engineer.cardExpYear}}</h5>
+        </div>
+      </div>
+    </div>
 
     
 
@@ -436,24 +422,53 @@
         <div class="main-body">
           <div class="row gutters-sm">
             <div class="main">
-              <div class="card">
-                 <div class="job-details">
-                  <img src="/img/placeholder_819814.png" alt="" />
-                  <strong>Client:</strong>
-                  {{client.full_name}}
-                </div>
-                <div class="job-details">
-                  <img src="/img/placeholder_819814.png" alt="" />
-                  <strong>Rating:</strong>
-                  <span class="star-rating">{{generateStarRating this.engineerRating}}</span>
-                </div>
-                <div class="job-details">
-                  <img src="/img/options_718970.png" alt="" />
-                  <strong>Feedback:</strong>
-                  {{this.engineerFeedback}}
-                </div>
-               
-              </div>
+
+
+                 <div class="">
+
+
+
+
+
+              <section id="ccctestimonials">
+
+
+
+                <div class="ccctestimonial-box-container">
+
+                  <div class="ccctestimonial-box">
+
+                    <div class="cccbox-top">
+
+                      <div class="cccprofile">
+
+                        <div class="cccprofile-img">
+                          <img
+                            src="https://images.unsplash.com/photo-1488161628813-04466f872be2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80"
+                            width="250px" />
+                        </div>
+
+                        <div class="cccname-user">
+                          <strong>{{client.full_name}}</strong>
+                          <span>@Email Fatch korbi eikhane</span>
+                        </div>
+                      </div>
+
+                      <div class="cccreviews">
+                        {{generateStarRating this.engineerRating}}
+                      </div>
+                    </div>
+
+                    <div class="cccclient-comment">
+                      <p>
+                        {{this.engineerFeedback}}
+                      </p>
+                    </div>
+                  </div>
+              </section>
+
+            </div>
+            
             </div>
           </div>
         </div>

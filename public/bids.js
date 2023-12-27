@@ -10,12 +10,20 @@ function acceptBid(bidId, jobId) {
       console.log("Response from server:", response);
       console.log("AJAX request successful.");
       alert("Bid accepted. Engineer will be notified.");
+    
+     
+    
+   
+     
+    
+    
 
      
       removeBidCard("pending-bids-list", bidId);
 
 
       addBidToSection("accepted-bids-list", response);
+      location.reload(true);
     },
     error: function (error) {
       console.log("AJAX request failed.");
@@ -40,6 +48,7 @@ function rejectBid(bidId, jobId) {
 
       removeBidCard("pending-bids-list", bidId);
       addBidToSection("rejected-bids-list", response);
+      location.reload(true);
     },
     error: function (error) {
       console.log("AJAX request failed.");

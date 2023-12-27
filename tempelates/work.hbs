@@ -176,10 +176,11 @@
         <span class="tooltip">Client Info</span>
       </li>
       {{/if}}
+
 {{#if isClient}}
       <li>
       <a href="#engineer-info">
-          <i class="bx bx-bell"></i>
+          <i class="bx bx-user"></i>
           <span class="links_name">Engineer Info</span>
         </a>
         <span class="tooltip">Engineer Info</span>
@@ -207,7 +208,7 @@
 
       <li>
        <a href="#payments">
-        <i class="bx bx-dollar"></i>
+        <i class="bx bx-credit-card"></i>
           <span class="links_name">Payments</span>
         </a>
         <span class="tooltip">Payments</span>
@@ -221,20 +222,22 @@
         </a>
         <span class="tooltip">Ratings</span>
       </li>
+
+       <li>
+        <a href="/work/{{workId}}/chat">
+          <i class="bx bx-message"></i>
+          <span class="links_name">chat</span>
+        </a>
+        <span class="tooltip">chat</span>
+      </li>
     </ul>
 
   
 </div>
 
-<div >
 
-  <a class="chat" href="/work/{{workId}}/chat">
-          <i class="bx bx-heart"></i>
-          <span class="links_name">Chat</span>
-        </a>
-</div>
   </div>
-
+{{#if isEngineer}}
     <section class="home-section" id="client-info" class="info-card">
        <div class="row gutters-sm">
 
@@ -254,7 +257,9 @@
     </div>
         
 </section>
+ {{/if}}
 
+{{#if isClient}}
 <section class="home-section" id="engineer-info" >
   
 
@@ -273,6 +278,8 @@
       </div>
     </div>
 </section>
+ {{/if}}
+
 
 <section class="home-section" id="job-info">
   <div class="row gutters-sm">
@@ -310,12 +317,25 @@
     </div>
 </section>
 
-<section class="home-section" id="payments" class="info-card">
-  <div class="payment-container">
-    {{#if isPaymentComplete}}
-      <p>Payment complete. Thank you!</p>
-    {{else}}
+{{#if isClient}}
 
+<section class="home-section" id="payments" class="info-card">
+  {{#if isPaymentComplete}}
+      
+ 
+       <div class="row gutters-sm">
+
+        <div class="main">
+      
+            <div class="card">
+    
+      <p>Payment complete. Thank you!</p>
+
+       </div>
+       </div>
+        </div>
+    {{else}}
+<div class="payment-container">
    <form action="/process-payment" method="post">
       
 
@@ -564,10 +584,11 @@
 
     </form>
 
-{{/if}}
   </div>
-</section>
 
+  {{/if}}
+</section>
+{{/if}}
 
 
 <section class="home-section info-card" id="rate">
@@ -688,33 +709,70 @@
 
 
 
+
 <script>
-  const navLinks = document.querySelectorAll('.nav-list a');
-  const contentSections = document.querySelectorAll('.home-section');
+    const navLinks = document.querySelectorAll('.nav-list a');
+    const contentSections = document.querySelectorAll('.home-section');
 
-  contentSections.forEach((section, index) => {
-    if (index > 0) {
-      section.style.display = 'none';
-    }
-  });
-
-  navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-
-      contentSections.forEach(section => {
-        section.style.display = 'none';
-      });
-
-      const targetSectionId = link.getAttribute('href').substring(1); 
-      const activeSection = document.getElementById(targetSectionId);
-
-      if (activeSection) {
-        activeSection.style.display = 'block';
-      }
+    contentSections.forEach((section, index) => {
+        if (index > 0) {
+            section.style.display = 'none';
+        }
     });
-  });
+
+    // Function to show the section based on the hash in the URL
+    function showSectionFromHash() {
+        const hash = window.location.hash.substring(1);
+        const targetSectionId = hash.replace(/\//g, "_");
+
+        const targetSection = document.getElementById(targetSectionId);
+        if (targetSection) {
+            contentSections.forEach(section => {
+                section.style.display = 'none';
+            });
+            targetSection.style.display = 'block';
+        }
+    }
+
+    // Show section on page load if there's a hash in the URL
+    showSectionFromHash();
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            // Prevent the default anchor link behavior
+            e.preventDefault();
+
+            contentSections.forEach(section => {
+                section.style.display = 'none';
+            });
+
+            const targetSectionId = link.getAttribute('href').substring(1).replace(/\//g, "_");
+            console.log('Target Section ID:', targetSectionId);
+
+            const activeSection = document.getElementById(targetSectionId);
+
+            if (activeSection) {
+                activeSection.style.display = 'block';
+            }
+
+            // Check if the clicked link is the "chat" link
+            if (link.getAttribute('href').includes('/chat')) {
+                // Open the link in a new window or tab
+                window.location.href = link.getAttribute('href');
+            } else {
+                // Update the URL hash without triggering a page reload
+                history.pushState(null, null, `#${link.getAttribute('href').substring(1)}`);
+            }
+        });
+    });
+
+    // Listen for changes in the URL hash and show the corresponding section
+    window.addEventListener('hashchange', showSectionFromHash);
 </script>
+
+
+
+
 
 
 
@@ -763,10 +821,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../bids.js"></script>
 
-    <a
-      href="#"
-      class="back-to-top d-flex align-items-center justify-content-center"
-    ><i class="bi bi-arrow-up-short"></i></a>
+  
 
    
 

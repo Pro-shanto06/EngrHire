@@ -331,50 +331,37 @@
       <div class="row gutters-sm">
 
         <div class="main">
-      
-            <div class="card">
-              <div class="title-card">
-                <strong>Card Holder Name:</strong>
-                {{client.cardHolderName}}
-              </div>
-
-             
-
-                <div class="job-details">
-                  
-                  <strong>Card Number:</strong>
-                  {{client.cardNumber}}
-                </div>
-
-                <div class="job-details">
-                  
-                  <strong>Card Exp Month:</strong>
-                  {{client.cardExpMonth}}
-                </div>
-
-                <div class="job-details">
-                
-                  <strong>Card Exp Year:</strong>
-                  {{client.cardExpYear}}
-                </div>
-
-                <div class="job-details">
-                 
-                  <strong>Card CVV:</strong>
-                  {{client.cardCVV}}
-                </div>
-
-
-                <div class="job-details">
-                  
-                  <strong>Balance:</strong>
-                  {{client.balance }}
-                </div>
           
-            
+      
+            <div class="aka">
+      
+        <span class="akalogo">
+          <h5 class="akah5">Bank Card</h5>
+          <!-- <img src="images/logo.png" alt="" /> -->
+          
+          <img src="/img/akachip.png" alt="" class="chip" />
+        </span>
+        
+  
 
-
-            </div>
+      <div class="card-details">
+        <div class="name-number">
+          <h6 class="akah6">Card Number</h6>
+          <h5 class="number akah5">{{client.cardNumber}}</h5>
+          <h6 class="akah6">Card CCV</h6>
+          <h5 class="name akah5">{{client.cardCVV}}</h5>
+          <h6 class="akah6">Balance</h6>
+          <h6 class="akah6">{{client.balance }}</h6>
+          <h5 class="name akah5">{{client.cardHolderName}}</h5>
+          
+          
+        </div>
+        <div class="valid-date">
+          <h6 class="akah6">Valid Thru</h6>
+          <h5 class="akah5"> {{client.cardExpMonth}} / {{client.cardExpYear}}</h5>
+        </div>
+      </div>
+    </div>
 
     
 
@@ -451,22 +438,41 @@
     {{#each clientPayments}}
       <div class="dcont container">
         <div class="main-body">
-          <div class="row gutters-sm">
-            <div class="main">
-              <div class="card">
-                <!-- Display payment details -->
-                <div class="payment-details">
-                  <p><strong>Billed To</strong></p>
-                  <p><strong>Engineer Name:</strong> {{this.engineer.full_name}}</p>
-                  <p><strong>Engineer Mobile:</strong> {{this.engineer.mobile}}</p>
-                  <p><strong>Engineer Email:</strong> {{this.engineer.email}}</p>
-                  <p><strong>Amount:</strong> ${{this.amount}}</p>
-                  <p><strong>Timestamp:</strong> {{this.timestamp}}</p>
-                  <!-- Add more details as needed -->
-                </div>
-              </div>
+
+
+       <div class="wowo">
+          <div class="billing-details">
+            <h2>Billing Details</h2>
+            <p>Engr Name: <span id="engineerName">{{this.engineer.full_name}}</span></p>
+            <p>Email: <span id="engineerEmail">{{this.engineer.email}}</span></p>
+            <p>Mobile: <span id="engineerMobile">{{this.engineer.mobile}} </span></p>
+            <div class="wowobuttons">
+              <a href="#" id="downloadLink" download><button class="unsubscribe-button"
+                  onclick="downloadTable()">Download Receipts</button></a>
             </div>
           </div>
+          <div class="receipts">
+            <h2>Receipts</h2>
+            <table class="wowotable">
+              <thead>
+                <tr>
+                  <th>Amount</th>
+                  <th>Date</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="receiptAmount">৳{{this.amount}}</td>
+                  <td id="receiptDate">{{this.timestamp}}</td>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
         </div>
       </div>
     {{/each}}
@@ -481,24 +487,51 @@
         <div class="main-body">
           <div class="row gutters-sm">
             <div class="main">
-              <div class="card">
-                 <div class="job-details">
-                  
-                  <strong>Engineer:</strong>
-                  {{engineer.full_name}}
-                </div>
-                <div class="job-details">
-                 
-                  <strong>Rating:</strong>
-                  <span class="star-rating">{{generateStarRating this.clientRating}}</span>
-                </div>
-                <div class="job-details">
-                 
-                  <strong>Feedback:</strong>
-                  {{this.clientFeedback}}
-                </div>
-               
-              </div>
+
+             <div class="">
+
+
+
+
+
+              <section id="ccctestimonials">
+
+
+
+                <div class="ccctestimonial-box-container">
+
+                  <div class="ccctestimonial-box">
+
+                    <div class="cccbox-top">
+
+                      <div class="cccprofile">
+
+                        <div class="cccprofile-img">
+                          <img
+                            src="https://images.unsplash.com/photo-1488161628813-04466f872be2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80"
+                            width="250px" />
+                        </div>
+
+                        <div class="cccname-user">
+                          <strong>{{engineer.full_name}}</strong>
+                          <span>@Email Fatch korbi eikhane</span>
+                        </div>
+                      </div>
+
+                      <div class="cccreviews">
+                        {{generateStarRating this.clientRating}}
+                      </div>
+                    </div>
+
+                    <div class="cccclient-comment">
+                      <p>
+                        {{this.clientFeedback}}
+                      </p>
+                    </div>
+                  </div>
+              </section>
+
+            </div>
             </div>
           </div>
         </div>
@@ -525,7 +558,25 @@
   <script src="/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="/vendor/php-email-form/validate.js"></script>
 
+  <script>
+    function downloadTable() {
+      // Get the HTML content of billing details and receipts
+      var billingDetailsContent = document.querySelector('.billing-details').outerHTML;
+      var receiptsTableContent = document.querySelector('.wowotable').outerHTML;
 
+      // Combine the content
+      var combinedContent = billingDetailsContent + receiptsTableContent;
+
+      // Create a Blob containing the combined HTML content
+      var blob = new Blob([combinedContent], { type: 'text/html' });
+
+      // Create a link element and trigger a click event to download the file
+      var link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'billing_and_receipts.html';
+      link.click();
+    }
+  </script>
   
   <script>
     let sidebar = document.querySelector(".sidebar");
