@@ -133,11 +133,12 @@
           {{/unless}}
 
 
-          <div class="search">
-            <input type="text" class="search-box" placeholder="Search..." />
-            <button class="search-btn"><i class="ph-magnifying-glass-bold"></i></button>
-            <button class="close-btn"><i class="ph-x-bold"></i></button>
-          </div>
+         <li class="search-bar">
+  <form action="/search" method="GET">
+    <input type="text" name="query" class="search-input" placeholder="Search...">
+    <button type="submit" class="search-button"><i class="bi bi-search"></i></button>
+  </form>
+</li>
 
           {{#if isClient}}
           <li>
@@ -731,7 +732,7 @@
 
 
   <script src="assets/js/main.js"></script>
-  <script src="assets/js/search.js"></script>
+ 
 
 
 </body>

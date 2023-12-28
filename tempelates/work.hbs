@@ -238,10 +238,85 @@
 
   </div>
 {{#if isEngineer}}
+
+
+
+
+
+
     <section class="home-section" id="client-info" class="info-card">
        <div class="row gutters-sm">
 
+
+
+
+  <div class="content">
+      <div id="post-container">
+
         <div class="main">
+   
+          
+
+
+
+
+  <div class="engrwrapper">
+
+    <div class="engrright">
+      <div class="engrinfo">
+        <h3>{{client.full_name}}</h3>
+        <div class="engrinfo_data">
+          <div class="engrdata">
+            <h4>Email</h4>
+            <p>{{client.email}}</p>
+          </div>
+          <div class="engrdata">
+            <h4>Phone</h4>
+            <p>{{client.mobile}}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="engrprojects">
+
+        <div class="engrprojects_data">
+          <div class="engrdata">
+            <h4>Website </h4>
+            <p>{{client.website}}</p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    </div>
+        
+</section>
+
+
+{{!-- 
+
+    <section class="home-section" id="client-info" class="info-card">
+       <div class="row gutters-sm">
+
+
+        
+
+<div class="main">
       
             <div class="card">
   <h2>Client Information</h2>
@@ -253,14 +328,94 @@
   
   </div>
   </div>
-      </div>
+      </div> 
+
+
+
+
+
+
+
+
+
     </div>
         
-</section>
+</section> --}}
+
+
+
  {{/if}}
 
 {{#if isClient}}
-<section class="home-section" id="engineer-info" >
+
+
+
+    <section class="home-section" id="engineer-info" class="info-card">
+       <div class="row gutters-sm">
+
+
+
+
+  <div class="content">
+      <div id="post-container">
+
+        <div class="main">
+   
+          
+
+
+
+
+  <div class="engrwrapper">
+
+    <div class="engrright">
+      <div class="engrinfo">
+        <h3>{{engineer.full_name}}</h3>
+        <p>{{engineer.designation}}</p>
+        <div class="engrinfo_data">
+          <div class="engrdata">
+            <h4>Email</h4>
+            <p>{{engineer.email}}</p>
+          </div>
+          <div class="engrdata">
+            <h4>Phone</h4>
+            <p>{{engineer.mobile}}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="engrprojects">
+
+        <div class="engrprojects_data">
+          <div class="engrdata">
+            <h4>Website </h4>
+            <p>{{engineer.website}}</p>
+          </div>
+            <div class="engrdata">
+            <h4>Field Of Expertise </h4>
+            <p>{{engineer.field_of_expertise}}</p>
+          </div>
+          
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    </div>
+        
+</section>
+
+
+
+
+{{!-- <section class="home-section" id="engineer-info" >
   
 
         <div class="main">
@@ -277,7 +432,11 @@
 
       </div>
     </div>
-</section>
+</section> --}}
+
+
+
+
  {{/if}}
 
 

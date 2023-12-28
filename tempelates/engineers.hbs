@@ -18,6 +18,76 @@
 
     
      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+
+
+<style>
+  .sidebar {
+    position: fixed;
+    top: 30%;
+    left: 0;
+    transform: translate(0, -50%);
+    width: 20%;
+    z-index: 100;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    text-align: left;
+  }
+
+  .filter-label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+  }
+
+  .select-filter,
+  .sort-filter,
+  .price-filter {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+
+  .price-label {
+    margin-top: 10px;
+    display: block;
+    color: #333;
+    font-size: 15px;
+  }
+
+  .price-input {
+    width: 45%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-right: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+
+
+.pagination button {
+  margin-right: 5px; 
+}
+
+
+.pagination button:last-child {
+  margin-right: 0;
+}
+
+</style>
+
+
+
+
+
     </head>
     
     <body>
@@ -160,36 +230,43 @@
     <hr />
 
     <div class="sidebar">
-      <label for="category-filter">Filter by Field of Expertise:</label>
-      <select id="category-filter" onchange="viewJobList(this.value)">
-        <option value="all" selected>Select Field of Expertise</option>
-        <option value="all">All</option>
-        <option value="Architect">Architect</option>
-        <option value="Construction">Construction</option>
-        <option value="Interior_Design">Interior Design</option>
-        <option value="Floor_Plan">Floor Plan</option>
-        <option value="Architectural_Design_And_Drafting">Architectural Design
+<div class="filter-label">Filter by Expertise:</div>
+<select class="select-filter" id="category-filter">
+  <option value="all" {{#if (eq category 'all')}}selected{{/if}}>All</option>
+  <option value="Architect" {{#if (eq category 'Architect')}}selected{{/if}}>Architect</option>
+  <option value="Construction" {{#if (eq category 'Construction')}}selected{{/if}}>Construction</option>
+  <option value="Interior_Design" {{#if (eq category 'Interior_Design')}}selected{{/if}}>Interior Design</option>
+
+  <option value="Floor_Plan" {{#if (eq category 'Floor Plan')}}selected{{/if}}>Floor Plan</option>
+        <option value="Architectural_Design_And_Drafting"{{#if (eq category 'Architectural Design
+          And Drafting')}}selected{{/if}}>Architectural Design
           And Drafting</option>
-        <option value="Structural_Engineering">Structural Engineering</option>
-        <option value="Electrical_Installation">Electrical Installation</option>
-        <option value="Plumbing_and_Sanitary Works">Plumbing and Sanitary Works</option>
-        <option value="Design_and_Decoration">Design and Decoration</option>
-        <option value="Construction_Project_Management">Construction Project
+        <option value="Structural_Engineering"{{#if (eq category 'Structural Engineering')}}selected{{/if}}>Structural Engineering</option>
+        <option value="Electrical_Installation"{{#if (eq category 'Electrical Installation')}}selected{{/if}}>Electrical Installation</option>
+        <option value="Plumbing_and_Sanitary Works"{{#if (eq category 'Plumbing and Sanitary Works')}}selected{{/if}}>Plumbing and Sanitary Works</option>
+        <option value="Design_and_Decoration"{{#if (eq category 'Design and Decoration')}}selected{{/if}}>Design and Decoration</option>
+        <option value="Construction_Project_Management"{{#if (eq category 'Construction Project
+          Management')}}selected{{/if}}>Construction Project
           Management</option>
-        <option value="Structural_Renovation_and_Retrofitting">Structural
+        <option value="Structural_Renovation_and_Retrofitting"{{#if (eq category 'Structural_Renovation_and_Retrofitting')}}selected{{/if}}>Structural
           Renovation and Retrofitting</option>
-        <option value="Building_Inspection_and_Code_Compliance">Building
+        <option value="Building_Inspection_and_Code_Compliance"{{#if (eq category 'Building_Inspection_and_Code_Compliance')}}selected{{/if}}>Building
           Inspection and Code Compliance</option>
-      </select>
-      <label for="sort">Sort by date:</label>
-      <select id="sort">
-        <option value="asc">Ascending
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </option>
-        <option value="desc">Descending</option>
-      </select>
-      
-    </div>
+
+</select>
+
+
+
+
+
+
+
+
+
+
+<br>
+  <button class="button" onclick="applyFilters()">Apply Filters</button>
+</div>
 
   <div class="content">
       <div id="post-container">

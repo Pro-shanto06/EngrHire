@@ -530,11 +530,11 @@ img {
   }
 }
 
-.sidebar {
+/* .sidebar {
   float: left;
   width: 28%;
   padding: 20px;
-  /* border: 8px solid #3498db ; */
+
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
 
   margin-top: 20px;
@@ -542,13 +542,14 @@ img {
   border-bottom-right-radius: 20px;
   text-align: center;
   margin-left: 20px;
-}
+} */
 
 /* Style for the content area */
 .content {
   float: left;
   width: 70%;
   padding: 20px;
+  margin-left: 20%;
 }
 .post-container {
   width: 100%;

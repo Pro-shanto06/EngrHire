@@ -375,67 +375,67 @@
 
 
 {{#if managePost}}
- <section class="home-section">
-       
-        <div class="dcont container">
+  <section class="home-section">
+    <div class="dcont container">
       <div class="main-body">
-      <div class="row gutters-sm">
-
-        <div class="main">
-          {{#each clientJobs}}
-      
-            <div class="card">
-              <div class="title-card">
-                <strong>Title:</strong>
-                {{jobTitle}}
-              </div>
-
-              <div class="job-details">
-
+        <div class="row gutters-sm">
+          <div class="main">
+            {{#each clientJobs}}
+            
+              <div class="card">
+                <div class="title-card">
+                  <strong>Title:</strong>
+                  {{jobTitle}}
+                </div>
                 <div class="job-details">
                   <img class="job-image" src="/img/placeholder_819814.png" alt="" />
                   <strong>Location:</strong>
                   {{jobLocation}}
                 </div>
-
                 <div class="job-details">
                   <img class="job-image" src="/img/options_718970.png" alt="" />
                   <strong>Category:</strong>
                   {{category}}
                 </div>
-
                 <div class="job-details">
                   <img class="job-image" src="/img/campaign_10139087.png" alt="" />
                   <strong>Deadline:</strong>
                   {{jobDeadline}}
                 </div>
-
                 <div class="job-details">
                   <img class="job-image" src="/img/coin_7891996.png" alt="" />
                   <strong>Price Range:</strong>
                   {{jobPriceRange}}
                 </div>
+                <a href="/job-details/{{_id}}" class="button">View Details</a>
+
+
+            <div class="d-flex justify-content-end">
+  {{#if ../isClient}}
+    <button onclick="redirectToEditPage('{{_id}}')" class="btn btn-primary custom-btn" style="margin-right: 10px;">Edit</button>
+    <form action="/delete-job/{{_id}}" method="post">
+      <button class="btn btn-danger custom-btn" type="submit" onclick="return confirm('Are you sure you want to delete this job?')">Delete</button>
+    </form>
+  {{/if}}
+</div>
+
 
                 
               </div>
-              <a href="/job-details/{{_id}}" class="button">View Details</a>
- <div class="d-flex justify-content-end">
-                <button style="margin-right: 10px;" class="btn btn-primary ">Edit</button>
-                <button class="btn btn-danger ">Delete</button>
-                
-              </div>
-
-            </div>
-
-          {{/each}}
-
+            {{/each}}
+          </div>
         </div>
       </div>
     </div>
-        
   </section>
+{{/if}}
 
-  {{/if}}
+<script>
+  function redirectToEditPage(jobId) {
+    window.location.href = "/edit-job/" + jobId;
+  }
+</script>
+
 
 {{#if payment}}
   <section class="home-section">

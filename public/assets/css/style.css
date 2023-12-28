@@ -1668,62 +1668,52 @@ section {
 }
 
 /*--------------------------------------------------------------
-# Search
---------------------------------------------------------------*/
+  # Search
+  --------------------------------------------------------------*/
+  
+ /* Add these styles to your CSS */
 
-.search-btn,
-.close-btn {
-  width: 40px;
-  height: 35px;
-  font-size: 25px;
-  background-color: #ffffff;
-  color: rgb(0, 0, 0);
-  border: none;
-  cursor: pointer;
-  position: absolute;
-  transition: all 0.25s ease;
-}
 
-.close-btn {
-  color: #3498db;
-  z-index: -1;
-}
 
-.search-box {
-  width: 40px;
-  height: 35px;
-  padding: 15px;
-  border-radius: 25px;
-  background-color: #3498db;
-  color: white;
-  outline: none;
-  border: none;
-  transition: width 0.25s ease;
-}
 
-.search {
+
+ .search-bar {
+  margin-left:20px;
   display: flex;
   align-items: center;
-  padding: 20px;
+  border: none;
+  border: 1px solid #3498db; 
+  border-radius: 25px; 
+  overflow: hidden;
+  background-color: #3498db; 
+  height: 40px;
 }
 
-.search-box::placeholder {
-  color: #ffffff;
+.search-input {
+  margin-top: 15px;
+  padding: 10px;
+  border: none;
+  width: 150px; /* Adjust the width as needed */
+  outline: none;
+  border-radius: 25px 0 0 25px; 
+  /* Adjust border-radius to match the search bar */
 }
 
-.active .search-box {
-  width: 250px;
+.search-button {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border: 2px solid #3498db; 
+  border-radius: 0 25px 25px 0; /* Adjust border-radius to match the search bar */
+  padding: 8px 15px; 
+  cursor: pointer;
 }
 
-.active .search-btn {
-  transform: translate(210px, 2px) scale(0.8);
-  background-color: transparent;
+/* Add hover effect for the button */
+.search-button:hover {
+  background-color: #4aa3df; /* Change the color as needed */
 }
 
-.active .close-btn {
-  z-index: 0;
-  transform: translate(250px, 2px);
-}
 .material-symbols-outlined a {
   color: #007bff; 
   text-decoration: none; 

@@ -11,6 +11,7 @@ const app = express();
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const jwtSecret = 'yourSecretKey';
+const moment = require('moment');
 
 hbs.registerHelper('eq', function (a, b) {
   return a === b;
@@ -688,91 +689,92 @@ if (!user) {
 
 
 app.get("/client-profile/:clientId/:type", async (req, res) => {
-  let clientId = req.params.clientId;
-  let type=req.params.type;
-  let bids=null;
-  let client = null;
-  let clientJobs = null;
-  let clientProfile=false,cardInfo=false,managePost=false,rating=false,payment=false;
+  try {
+    let clientId = req.params.clientId;
+    let type = req.params.type;
+    let bids = null;
+    let client = null;
+    let clientJobs = null;
+    let clientProfile = false,
+      cardInfo = false,
+      managePost = false,
+      rating = false,
+      payment = false;
 
-if (type==1){
-  clientProfile=true;
-}
-if (type==2){
-  cardInfo=true;
-}
-if (type==3){
-  managePost=true;
-  
-}
-if (type==4){
-  rating=true;
-}
-if (type==5){
-  payment=true;
+    if (type == 1) {
+      clientProfile = true;
+    }
+    if (type == 2) {
+      cardInfo = true;
+    }
+    if (type == 3) {
+      managePost = true;
+    }
+    if (type == 4) {
+      rating = true;
+    }
+    if (type == 5) {
+      payment = true;
+    }
 
-}
+    const clientPayments = await Payment.find({ client: clientId }).populate(
+      'engineer'
+    );
 
-const clientPayments = await Payment.find({ client: clientId }).populate('engineer');
+    let userId = null;
 
+    if (req.session.user) {
+      userId = req.session.user._id;
+    }
 
-let userId = null;
-   
-if (req.session.user) {
-  userId = req.session.user._id;
-}
+    let user = await Engineer.findById(userId);
 
-let user = await Engineer.findById(userId);
+    if (!user) {
+      user = await Client.findById(userId);
+    }
 
-if (!user) {
-    user = await Client.findById(userId);
-  }
+    client = await Client.findById(clientId);
 
-
-    try {
-
-
-      client = await Client.findById(clientId);
-      
- 
-     if (client) {
-    
-      clientJobs = await Job.find({ client: client._id });
-
+    if (client) {
       const isClient = req.session.user && req.session.user.role === "Client";
       const isEngineer =
         req.session.user && req.session.user.role === "Engineer";
 
-
       const canEdit = isClient && clientId === userId;
 
-
       if (user && user.profilePicPath) {
-        user.profilePicPath =
-          "/" + user.profilePicPath.replace(/\\/g, "/");
+        user.profilePicPath = "/" + user.profilePicPath.replace(/\\/g, "/");
       }
       if (client && client.profilePicPath) {
-        client.profilePicPath =
-          "/" + client.profilePicPath.replace(/\\/g, "/");
+        client.profilePicPath = "/" + client.profilePicPath.replace(/\\/g, "/");
       }
 
+      // Fetching client jobs
+      clientJobs = await Job.find({ client: client._id });
 
-    
-    
+      // Extracting jobIds from clientJobs
+      const jobIds = clientJobs.map((job) => job._id);
+
       const works = await Work.find({ client: clientId })
-      .populate({
-        path: "engineer",
-        select: "full_name email profilePicPath",
-      });
-          
-      res.render("client-profile", {
+        .populate({
+          path: 'engineer',
+          select: 'full_name email profilePicPath',
+        })
+        .populate({
+          path: 'job',
+          select: 'jobTitle category specifiedCategory',
+        });
+
+      
+
+      res.render('client-profile', {
         userId,
-        user: user,
-        isClient: req.session.user?.role === "Client",
-        isEngineer: req.session.user?.role === "Engineer",
+        user,
+        isClient: req.session.user?.role === 'Client',
+        isEngineer: req.session.user?.role === 'Engineer',
         clientId,
-        client : client,
-        canEdit: canEdit,
+        client,
+        canEdit,
         clientJobs,
         clientProfile,
         cardInfo,
@@ -782,16 +784,18 @@ if (!user) {
         rating,
         works,
         clientPayments,
-        clientRating: getStarRating(client.rating), 
+        clientRating: getStarRating(client.rating),
+        jobIds, // Pass jobIds to the template
       });
     } else {
-      res.status(404).send("Client not found");
+      res.status(404).send('Client not found');
     }
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal server error");
+    res.status(500).send('Internal server error');
   }
 });
+
 
 
 app.get("/edit-client-profile/:clientId", isAuthenticated, async (req, res) => {
@@ -1107,6 +1111,123 @@ app.post("/post-job", isAuthenticated, async (req, res) => {
     res.status(500).send("Internal server error");
   }
 });
+
+
+app.get("/edit-job/:jobId", isAuthenticated, async (req, res) => {
+  try {
+    const jobId = req.params.jobId;
+    const job = await Job.findById(jobId);
+
+    // Ensure the job exists and the current user is the owner
+    if (!job || job.client.toString() !== req.session.user._id) {
+      return res.status(404).send("Job not found or unauthorized access");
+    }
+
+    // Fetch user details
+    let userId = null;
+    if (req.session.user) {
+      userId = req.session.user._id;
+    }
+
+    let user = await Engineer.findById(userId);
+    if (!user) {
+      user = await Client.findById(userId);
+    }
+    if (user && user.profilePicPath) {
+      user.profilePicPath =
+        "/" + user.profilePicPath.replace(/\\/g, "/");
+    }
+
+    // Fetch categories and format date
+    const categories = ["Architect", "Construction", "Interior_Design", "Floor_Plan", "Architectural_Design_And_Drafting", "Structural_Engineering", "Electrical_Installation", "Plumbing_and_Sanitary Works", "Design_and_Decoration", "Construction_Project_Management", "Structural_Renovation_and_Retrofitting", "Building_Inspection_and_Code_Compliance"];
+    const formattedDate = job.jobDeadline ? job.jobDeadline.toISOString().split('T')[0] : '';
+
+    res.render("edit-job", {
+      job,
+      formattedDate,
+      categories,
+      user,
+      isClient: req.session.user?.role === "Client",
+      isEngineer: req.session.user?.role === "Engineer",
+     
+    });
+  } catch (error) {
+    console.error("Error fetching job data:", error);
+    res.status(500).send("Internal server error");
+  }
+});
+
+
+
+
+
+app.post("/edit-job/:jobId", isAuthenticated, async (req, res) => {
+  const jobId = req.params.jobId;
+  const {
+    job_title,
+    category,
+    specified_category,
+    job_details,
+    job_requirements,
+    job_location,
+    job_deadline,
+    job_price_range,
+  } = req.body;
+
+  try {
+    const job = await Job.findById(jobId);
+
+    // Ensure the job exists and the current user is the owner (you may need to modify this check)
+    if (!job || job.client.toString() !== req.session.user._id) {
+      return res.status(404).send("Job not found or unauthorized access");
+    }
+
+    // Update job details
+    job.jobTitle = job_title;
+    job.category = category;
+    job.specifiedCategory = specified_category;
+    job.jobDetails = job_details;
+    job.jobRequirements = job_requirements;
+    job.jobLocation = job_location;
+    job.jobDeadline = new Date(job_deadline);
+    job.jobPriceRange = job_price_range;
+
+    // Save the updated job to the database
+    await job.save();
+
+    res.redirect(`/client-profile/${req.session.user._id}/3`);
+  } catch (error) {
+    console.error("Error updating job:", error);
+    res.status(500).send("Internal server error");
+  }
+});
+
+
+app.post("/delete-job/:jobId", isAuthenticated, async (req, res) => {
+  const jobId = req.params.jobId;
+
+  try {
+    const job = await Job.findById(jobId);
+
+    // Ensure the job exists and the current user is the owner
+    if (!job || job.client.toString() !== req.session.user._id) {
+      return res.status(404).send("Job not found or unauthorized access");
+    }
+
+    // Delete the job
+    await Job.findByIdAndDelete(jobId);
+
+    // Redirect to a page or send a response indicating success
+    res.redirect(`/client-profile/${req.session.user._id}/3`);
+  } catch (error) {
+    console.error("Error deleting job:", error);
+    res.status(500).send("Internal server error");
+  }
+});
+
+
+
+
 
 
 
