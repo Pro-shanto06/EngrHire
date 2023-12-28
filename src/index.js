@@ -1853,27 +1853,28 @@ app.post('/reset-password/:token', async (req, res) => {
 });
 
 
-  app.get("/admin-dashboard", isAuthenticated, async (req, res) => {
+app.get("/admin-dashboard", isAuthenticated, async (req, res) => {
   if (req.session.user.role === "Admin") {
     try {
-     
       const engineers = await Engineer.find();
       const clients = await Client.find();
       const jobs = await Job.find();
       const bids = await Bid.find();
       const works = await Work.find();
-  
-      res.render("admin-dashboard", { engineers, clients, jobs, bids, works });
+
+      // Find the admin based on the user's session ID
+      const admin = await Admin.findOne({ _id: req.session.user._id });
+
+      res.render("admin-dashboard", { engineers, clients, jobs, bids, works, admin });
     } catch (error) {
       console.error("Error fetching data for admin dashboard:", error);
       res.status(500).send("Internal Server Error");
     }
-}
-else {
-  
-  res.status(403).send("Access Denied");
-}
+  } else {
+    res.status(403).send("Access Denied");
+  }
 });
+
 
 app.post("/admin/delete-job/:id", isAuthenticated, async (req, res) => {
   const jobId = req.params.id;
@@ -1904,7 +1905,7 @@ app.post("/admin/delete-client/:id", isAuthenticated, async (req, res) => {
 
 app.post("/admin/delete-engineer/:id", isAuthenticated, async (req, res) => {
   const engineerId = req.params.id;
-
+  console.log("Deleting engineer with ID:", engineerId);
   try {
     await Engineer.findByIdAndDelete(engineerId);
     res.redirect("/admin-dashboard");

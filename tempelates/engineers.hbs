@@ -197,37 +197,47 @@
         <div class="main">
           {{#each engineers}}
           
-            <div class="card">
-              <div class="title-card">
-                <strong>Title:</strong>
-                {{full_name}}
-              </div>
 
-              <div class="job-details">
 
-                <div class="job-details">
-                    <strong>profilePicPath:</strong>
-                  <img src="{{profilePicPath}}" alt="Profile Picture" class="profile-image" />
-                
-         
-                </div>
 
-                <div class="job-details">
-                  <img src="/img/campaign_10139087.png" alt="" />
-                  <strong>field_of_expertise:</strong>
-                  {{field_of_expertise}}
-                </div>
 
-                <div class="job-details">
-                  <img src="/img/coin_7891996.png" alt="" />
-                  <strong>skill:</strong>
-                  {{skill}}
-                </div>
+  <div class="engrwrapper">
+    <div class="engrleft">
+              <img src="{{profilePicPath}}" alt="Profile Picture" class="profile-image" />
+      <h4>{{full_name}}</h4>
+      <p>{{designation}}</p>
+    </div>
+    <div class="engrright">
+      <div class="engrinfo">
+        <h3>Information</h3>
+        <div class="engrinfo_data">
+          <div class="engrdata">
+            <h4>Email</h4>
+            <p>{{email}}</p>
+          </div>
+          <div class="engrdata">
+            <h4>Phone</h4>
+            <p>{{mobile}}</p>
+          </div>
+        </div>
+      </div>
 
-              
+      <div class="engrprojects">
 
-            </div>
-              </div>
+        <div class="engrprojects_data">
+          <div class="engrdata">
+            <h4>Field Of Expertise </h4>
+            <p>{{field_of_expertise}}</p>
+          </div>
+          <div class="engrdata">
+            <h4>Skills</h4>
+            <p>{{skill}}</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
 
           {{/each}}
