@@ -67,7 +67,7 @@ const upload = multer({ storage: storage });
 
 const { connectToDatabase } = require("./mongo");
 connectToDatabase();
-const { Job, Engineer, Client, Bid, Work , Admin , Payment} = require("./mongo");
+const { Job, Engineer, Client, Bid, Work , Admin , Payment ,FormData} = require("./mongo");
 
 const tempelatePath = path.join(__dirname, "../tempelates");
 const publicPath = path.join(__dirname, "../public");
@@ -370,26 +370,29 @@ app.get("/forgot-password", (req, res) => {
 
 
 app.get("/", async (req, res) => {
- 
   let userId = null;
- 
+
   if (req.session.user) {
     userId = req.session.user._id;
   }
 
   let user = await Engineer.findById(userId);
 
-    if (!user) {
-      user = await Client.findById(userId);
-    }
+  if (!user) {
+    user = await Client.findById(userId);
+  }
+
+  const success = req.query.success === 'true';
 
   res.render("home", {
-    user: user,
+    user,
     userId,
     isClient: req.session.user?.role === "Client",
     isEngineer: req.session.user?.role === "Engineer",
+    success, // Include the success parameter in rendering options
   });
 });
+
 
 
 
@@ -1865,16 +1868,44 @@ app.post('/reset-password/:token', async (req, res) => {
 app.get("/admin-dashboard", isAuthenticated, async (req, res) => {
   if (req.session.user.role === "Admin") {
     try {
-      const engineers = await Engineer.find();
-      const clients = await Client.find();
-      const jobs = await Job.find();
-      const bids = await Bid.find();
-      const works = await Work.find();
+      const userId = req.session.user._id;
+      const user = await Admin.findById(userId);
+      const [engineers, clients, jobs, bids, works, contactMessages, payments, admin] = await Promise.all([
+        Engineer.find(),
+        Client.find(),
+        Job.find(),
+        Bid.find(),
+        Work.find(),
+        FormData.find(),
+        Payment.find()
+          .populate({
+            path: 'work',
+            populate: {
+              path: 'job',
+              select: 'jobTitle',
+            },
+          })
+          .populate('engineer', 'full_name email')
+          .populate('client', 'full_name email'),
+        Admin.findOne({ _id: req.session.user._id }),
+      ]);
 
-      // Find the admin based on the user's session ID
-      const admin = await Admin.findOne({ _id: req.session.user._id });
+      const canEdit = userId === req.session.user._id;
 
-      res.render("admin-dashboard", { engineers, clients, jobs, bids, works, admin });
+      res.render("admin-dashboard", {
+        user,
+        userId: req.session.user._id,
+        engineers,
+        clients,
+        jobs,
+        bids,
+        works,
+        contactMessages,
+        payments,
+        admin,
+        canEdit,
+        isAdmin: req.session.user?.role === "Admin",
+      });
     } catch (error) {
       console.error("Error fetching data for admin dashboard:", error);
       res.status(500).send("Internal Server Error");
@@ -2093,6 +2124,115 @@ app.post('/submit-engineer-rating', isAuthenticated, async (req, res) => {
 });
 
 
+// ... (previous server-side code)
+
+// Define the route for the form submission
+app.post("/submit-form", async (req, res) => {
+  try {
+    // Destructure form data from req.body
+    const { name, email, subject, message } = req.body;
+
+    // Create a new FormData document based on the submitted form data
+    const formData = new FormData({
+      name,
+      email,
+      subject,
+      message,
+    });
+
+    // Save the form data to the database
+    await formData.save();
+
+    // Redirect to the home page with a success parameter
+    res.redirect('/?success=true');
+  } catch (error) {
+    console.error(error);
+    // Respond with an error message
+    res.status(500).send("Internal server error");
+  }
+});
+
+// Add a route for displaying the edit form
+// GET route for rendering the edit admin profile page
+app.get("/edit-admin-profile/:adminId", isAuthenticated, async (req, res) => {
+  let adminId = req.params.adminId;
+
+  let userId = null;
+   
+  if (req.session.user) {
+    userId = req.session.user._id;
+  }
+  
+  let user = await Engineer.findById(userId);
+  
+  if (!user) {
+      user = await Client.findById(userId);
+  }
+
+  const adminData = await Admin.findById(adminId);
+
+  if (adminData) {
+    res.render("edit-admin-profile", { 
+      userId,
+      user: user,
+      isAdmin: req.session.user?.role === "Admin",
+      adminId,
+      admin: adminData,
+    });
+  } else {
+    res.status(404).send("Admin data not found");
+  }
+});
+
+// POST route for handling the form submission
+app.post("/edit-admin-profile/:adminId", isAuthenticated, async (req, res) => {
+  upload.single("profilePic")(req, res, async (err) => {
+    if (err) {
+      console.error("File Upload Error:", err);
+      return res.status(500).send("File upload failed.");
+    }
+    try {
+      const {
+        full_name,
+        email,
+        password,
+        mobile,
+        address,
+        // Add other fields from adminSchema as needed
+      } = req.body;
+
+      const adminId = req.params.adminId;
+      const currentAdmin = await Admin.findById(adminId);
+      const currentProfilePicPath = currentAdmin.profilePicPath;
+
+      let profilePicPath = currentProfilePicPath;
+
+      if (req.file) {
+        profilePicPath = req.file.path.replace(/\\/g, '/'); 
+      }
+
+      const updateData = {
+        email,
+        password,  // You may want to handle password updates securely
+        mobile,
+        address,
+        // Add other fields from adminSchema as needed
+        profilePicPath,
+      };
+
+      if (full_name) {
+        updateData.full_name = full_name;
+      }
+
+      const updatedAdmin = await Admin.findByIdAndUpdate(adminId, updateData, { new: true });
+
+      res.redirect(`/admin-dashboard`);
+    } catch (error) {
+      console.error("Error updating admin profile:", error);
+      res.status(500).send("Internal Server Error");
+    }
+  });
+});
 
 
 

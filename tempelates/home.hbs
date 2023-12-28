@@ -1012,56 +1012,36 @@
               data-aos-delay="300"
             >
               <form
-                action="forms/contact.php"
-                method="post"
+                action="/submit-form" method="post"
                 role="form"
-                class="php-email-form"
+                class="form"
               >
                 <div class="form-group">
-                  <input
-                    type="text"
-                    name="name"
-                    class="form-control"
-                    id="name"
-                    placeholder="Your Name"
-                    required
-                  />
+                  <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+      
                 </div>
                 <div class="form-group">
-                  <input
-                    type="email"
-                    class="form-control"
-                    name="email"
-                    id="email"
-                    placeholder="Your Email"
-                    required
-                  />
+                  <input type="email" name="email" class="form-control" placeholder="Your Email" required>
+      
                 </div>
                 <div class="form-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="subject"
-                    id="subject"
-                    placeholder="Subject"
-                    required
-                  />
+                  <input type="text" name="subject" class="form-control" placeholder="Subject" required>
+      
                 </div>
                 <div class="form-group">
-                  <textarea
-                    class="form-control"
-                    name="message"
-                    rows="5"
-                    placeholder="Message"
-                    required
-                  ></textarea>
+                  <textarea name="message" class="form-control" rows="5" placeholder="Message" required></textarea>
+
+               {{#if success}}
+  <div class="my-3">
+    <div class="loading">Loading</div>
+    <div class="error-message"></div>
+    <div id="thankYouMessage" class="sent-message">Your message has been sent. Thank you!</div>
+  </div>
+{{/if}}
+
+     
                 </div>
-                <div class="my-3">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank
-                    you!</div>
-                </div>
+               
                 <div class="text-center"><button type="submit">Send Message</button></div>
               </form>
             </div>
@@ -1099,6 +1079,29 @@
       href="#"
       class="back-to-top d-flex align-items-center justify-content-center"
     ><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Inside your home page template (home.hbs) -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Check if the success parameter is present in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const success = urlParams.get('success');
+
+    // If success is true, scroll to the contact section and display thank-you message
+    if (success === 'true') {
+      const contactSection = document.getElementById('contact');
+      const thankYouMessage = document.getElementById('thankYouMessage');
+
+      if (contactSection && thankYouMessage) {
+        // Scroll to the contact section
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+        
+        // Display the thank-you message
+        thankYouMessage.style.display = 'block';
+      }
+    }
+  });
+</script>
 
 
     <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>

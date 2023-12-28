@@ -64,7 +64,25 @@ const adminSchema = new mongoose.Schema({
     type: String,
     default: "Admin",
   },
+  mobile: {
+    type: String,
+  },
+  address: {
+    type: String,
+  },
+  profilePicPath: {
+    type: String,
+  },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+  verificationToken: String,
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
 });
+
+
 
 
 
@@ -420,6 +438,7 @@ const paymentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Work',
   },
+  
   amount: {
     type: Number,
     required: true,
@@ -430,6 +449,13 @@ const paymentSchema = new mongoose.Schema({
   },
 });
 
+
+const formDataSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  subject: String,
+  message: String,
+});
 
 
 engineerSchema.pre("save", async function (next) {
@@ -512,6 +538,7 @@ const Work = mongoose.model("Work", workSchema);
 const Client = mongoose.model("Client", clientSchema);
 const Admin = mongoose.model("Admin", adminSchema);
 const Payment = mongoose.model('Payment', paymentSchema);
+const FormData = mongoose.model("FormData", formDataSchema);
 
 
-module.exports = { Job, Engineer, Client, Bid, Work,Admin,Payment,connectToDatabase };
+module.exports = { Job, Engineer, Client, Bid, Work,Admin,Payment,FormData,connectToDatabase };

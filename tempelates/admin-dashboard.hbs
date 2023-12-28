@@ -71,6 +71,9 @@
           {{#if isEngineer}}
           <li><a class="nav-link scrollto" href="/engineer-post">Post Jobs</a></li>
           {{/if}}
+          {{#if isAdmin}}
+          <li><a class="nav-link scrollto" href="/engineer-post">Post Jobs</a></li>
+          {{/if}}
           {{else}}
           <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
           {{/if}}
@@ -85,6 +88,11 @@
               {{/if}}
 
               {{#if isClient}}
+              <li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
+              <li><a class="nav-link scrollto" href="#services">Services</a></li>
+              {{/if}}
+              {{#if isAdmin}}
+              <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
               <li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
               <li><a class="nav-link scrollto" href="#services">Services</a></li>
               {{/if}}
@@ -161,6 +169,21 @@
           {{/if}}
 
 
+          {{#if isAdmin}}
+          <li>
+            <a class="getstarted scrollto" href="/profile/{{userId}}/1">
+              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{user.full_name}}</span>
+            </a>
+          </li>
+
+          <span class="material-symbols-outlined">
+            <a href="/logout">Logout</a>
+          </span>
+
+          {{/if}}
+
+
 
 
         </ul>
@@ -183,7 +206,7 @@
 
       <li>
         <a href="#overview">
-          <i class="bx bx-file"></i>
+          <i class="bx bx-star"></i>
           <span class="links_name">Overview</span>
         </a>
         <span class="tooltip">Overview</span>
@@ -229,7 +252,7 @@
 
       <!-- Payment Managements -->
       <li>
-        <a href="#">
+        <a href="#payments">
           <i class="bx bx-credit-card"></i>
           <span class="links_name">Payment Managements</span>
         </a>
@@ -241,7 +264,7 @@
 
       <!-- Support & Help Center -->
       <li>
-        <a href="#">
+        <a href="#contact-messages">
           <i class="bx bx-help-circle"></i>
           <span class="links_name">Support & Help Center</span>
         </a>
@@ -249,13 +272,7 @@
       </li>
 
       <!-- Review and Rating Management -->
-      <li>
-        <a href="#">
-          <i class="bx bx-star"></i>
-          <span class="links_name">Rating Management</span>
-        </a>
-        <span class="tooltip">Rating Management</span>
-      </li>
+    
 
     </ul>
   </div>
@@ -497,7 +514,81 @@
 
         </section>
 
+
+
+        <!-- Add this section at the end of your HTML file -->
+<section id="contact-messages" class="home-section">
+  <!-- Contact Messages Table -->
+  <div class="container mt-5">
+    <h2>Contact Messages</h2>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+          <tr style="font-size: 18px;">
+            <th>Name</th>
+            <th>Email</th>
+            <th>Subject</th>
+            <th>Message</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each contactMessages}}
+            <tr>
+              <td>{{this.name}}</td>
+              <td>{{this.email}}</td>
+              <td>{{this.subject}}</td>
+              <td>{{this.message}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+<!-- Add this section at the end of your HTML file -->
+<section id="payments" class="home-section">
+  <!-- Payments Table -->
+  <div class="container mt-5">
+    <h2>Payments</h2>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+          <tr style="font-size: 18px;">
+            <th>Engineer Name</th>
+             <th>Engineer Email</th>
+            <th>Client Name</th>
+              <th>Client Email</th>
+            <th>Work</th>
+            <th>Amount</th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each payments}}
+            <tr>
+              <td>{{this.engineer.full_name}}</td>
+              
+              <td>{{this.engineer.email}}</td>
+              <td>{{this.client.full_name}}</td>
+              <td>{{this.client.email}}</td>
+              <td>{{this.work.job.jobTitle}}</td>
+              <td>{{this.amount}}</td>
+              <td>{{this.timestamp}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+
 <section id="profile" class="home-section">
+
+
 
    <div class="dcont container">
       <div class="main-body">
@@ -506,17 +597,18 @@
             <div class="card">
               <div class="card-body">
                 <div class="profile-container">
-                  <img src="{{client.profilePicPath}}" alt="Profile Picture" class="profile-image" />
+                  <img src="{{admin.profilePicPath}}" alt="Profile Picture" class="profile-image" />
 
                   <div class="mt-3">
                     <h4>{{admin.full_name}}</h4>
-                   <div class="star-rating" style="font-size: 36px; color: #FFD700;">
-  {{clientRating}}
-</div>
+                     <div class="mt-3">{{admin.role}}</div>
+                     <div class="mt-3">{{admin.address}}</div>
+                   
                   </div>
                 </div>
               </div>
             </div>
+         
           </div>
           <div class="col-md-8 colmd8">
             <div class="card mb-3">
@@ -553,6 +645,19 @@
                 </div>
                 <hr />
 
+                
+
+           {{#if isAdmin}}
+  {{#if canEdit}}
+    <div class="row">
+      <div class="col-sm-12">
+        <a class="btn btn-info" href="/edit-admin-profile/{{admin._id}}">Edit</a>
+      </div>
+    </div>
+  {{/if}}
+{{/if}}
+
+
               </div>
             </div>
           </div>
@@ -560,6 +665,7 @@
             </div>
              </div>
 </section>
+
 
 
 <script>
