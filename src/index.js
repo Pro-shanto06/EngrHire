@@ -648,9 +648,14 @@ if (!user) {
         engineer.profilePicPath =
           "/" + engineer.profilePicPath.replace(/\\/g, "/");
       }
+     
+
 
       const works = await Work.find({ engineer: engineerId })
-      .populate("client", "full_name");
+  .populate({
+    path: "client",
+    select: "full_name email profilePicPath",
+  });
       
 
       res.render("profile", {
@@ -749,10 +754,14 @@ if (!user) {
       }
 
 
-      const works = await Work.find({ client: clientId })
-      .populate("engineer", "full_name");
     
-  
+    
+      const works = await Work.find({ client: clientId })
+      .populate({
+        path: "engineer",
+        select: "full_name email profilePicPath",
+      });
+          
       res.render("client-profile", {
         userId,
         user: user,
