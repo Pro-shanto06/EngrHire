@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  background-color: #ffffff;
   margin: 0;
   padding: 0;
   justify-content: center;
@@ -11,7 +11,7 @@ body {
 body {
   margin: 0;
   padding: 0;
-  background-color: #e2e8f0;
+  background-color: #ffffff;
 }
 
 
@@ -779,7 +779,7 @@ a:hover {
 }
 .home-section{
   position: relative;
-  background: #E4E9F7;
+  background: #ffffff;
   min-height: 100vh;
   top: 0;
   left: -10px;
@@ -979,10 +979,12 @@ a:hover {
 .notification-list {
   list-style-type: none;
   padding: 0;
+ 
+
 }
 
 .notification-list li {
-  border: 1px solid #ddd;
+
   margin: 5px 0;
   padding: 10px;
   position: relative;
@@ -990,17 +992,24 @@ a:hover {
 
 .notification-content {
   margin-bottom: 5px;
+ 
+  border-radius: 10px;
+  padding: 10px;
 }
 
 /* Apply different styles based on the read status */
 .unread {
   background-color: #67c3ee; /* Light blue background for unread notifications */
   color: #333; /* Adjust text color for unread notifications */
+  border: 1px solid #000000;
+  border-radius: 10px;
 }
 
 .read {
-  background-color: #fff; /* White background for read notifications */
-  color: #666; /* Adjust text color for read notifications */
+  background-color: #ffffff; /* White background for read notifications */
+  border-style: none; /* Adjust text color for read notifications */
+  border: 1px solid #000000;
+  border-radius: 10px;
 }
 
 #mark-as-read {
