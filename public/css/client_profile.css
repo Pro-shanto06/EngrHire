@@ -1341,3 +1341,61 @@ textarea {
   margin-bottom: 10px;
   color: #919aa3;
 }
+
+
+
+
+
+.notification-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.notification-list li {
+  border: 1px solid #ddd;
+  margin: 5px 0;
+  padding: 10px;
+  position: relative;
+}
+
+.notification-content {
+  margin-bottom: 5px;
+}
+
+/* Apply different styles based on the read status */
+.unread {
+  background-color: #67c3ee; /* Light blue background for unread notifications */
+  color: #333; /* Adjust text color for unread notifications */
+}
+
+.read {
+  background-color: #fff; /* White background for read notifications */
+  color: #666; /* Adjust text color for read notifications */
+}
+
+#mark-as-read {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+
+.unread-count {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  padding: 2px 4px;
+  border-radius: 50%;
+  margin-left: 50px;
+  font-size: 12px;
+  width: 18px; /* Adjust the width for a perfect circle */
+  height: 18px; /* Adjust the height for a perfect circle */
+  display: inline-block; /* Ensures it's treated as a block and centers vertically */
+  text-align: center; /* Centers the text horizontally */
+  line-height: 14px; /* Centers the text vertically */
+}
+
+
+

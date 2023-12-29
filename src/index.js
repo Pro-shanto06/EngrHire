@@ -68,7 +68,7 @@ const upload = multer({ storage: storage });
 
 const { connectToDatabase } = require("./mongo");
 connectToDatabase();
-const { Job, Engineer, Client, Bid, Work , Admin , Payment ,FormData} = require("./mongo");
+const { Job, Engineer, Client, Bid, Work , Admin , Payment ,FormData,Notification} = require("./mongo");
 
 const tempelatePath = path.join(__dirname, "../tempelates");
 const publicPath = path.join(__dirname, "../public");
@@ -605,7 +605,7 @@ app.get("/profile/:engineerId/:type", async (req, res) => {
   let engineerId = req.params.engineerId;
   let type=req.params.type;
   let engineer = null;
-  let engineerProfile=false,cardInfo=false,rating=false
+  let engineerProfile=false,cardInfo=false,rating=false,notification=false
 if (type==1){
   engineerProfile=true;
 }
@@ -615,7 +615,9 @@ if (type==2){
 if (type==3){
   rating=true;
 }
-
+if (type == 4) {
+  notification = true;
+}
 
 let userId = null;
    
@@ -660,6 +662,14 @@ if (!user) {
     select: "full_name email profilePicPath",
   });
       
+  const engineerNotifications = await Notification.find({
+    recipient: engineerId,
+  })
+    .sort({ createdAt: -1 })
+    .limit(10); 
+
+
+    const unreadNotificationCount = engineerNotifications.filter(notification => !notification.read).length;
 
       res.render("profile", {
         userId,
@@ -674,7 +684,9 @@ if (!user) {
         rating,
         works,
         engineerRating: getStarRating(engineer.rating), 
-
+        notification,
+        engineerNotifications,
+        unreadNotificationCount
       });
     } else {
       res.status(404).send("Engineer not found");
@@ -698,7 +710,8 @@ app.get("/client-profile/:clientId/:type", async (req, res) => {
       cardInfo = false,
       managePost = false,
       rating = false,
-      payment = false;
+      payment = false,
+      notification = false;
 
     if (type == 1) {
       clientProfile = true;
@@ -714,6 +727,9 @@ app.get("/client-profile/:clientId/:type", async (req, res) => {
     }
     if (type == 5) {
       payment = true;
+    }
+    if (type == 6) {
+      notification = true;
     }
 
     const clientPayments = await Payment.find({ client: clientId }).populate(
@@ -764,7 +780,12 @@ app.get("/client-profile/:clientId/:type", async (req, res) => {
           select: 'jobTitle category specifiedCategory',
         });
 
-      
+        const clientNotifications = await Notification.find({ recipient: clientId })
+        .sort({ createdAt: -1 })
+        .limit(10);
+
+
+        const unreadNotificationCount = clientNotifications.filter(notification => !notification.read).length;
 
       res.render('client-profile', {
         userId,
@@ -784,7 +805,10 @@ app.get("/client-profile/:clientId/:type", async (req, res) => {
         works,
         clientPayments,
         clientRating: getStarRating(client.rating),
-        jobIds, // Pass jobIds to the template
+        jobIds, 
+        notification,
+        clientNotifications,
+        unreadNotificationCount
       });
     } else {
       res.status(404).send('Client not found');
@@ -795,6 +819,20 @@ app.get("/client-profile/:clientId/:type", async (req, res) => {
   }
 });
 
+
+app.post("/mark-notifications-as-read", async (req, res) => {
+  try {
+    const clientId = req.session.user._id;
+
+    // Mark all unread notifications as read for the client
+    await Notification.updateMany({ recipient: clientId, read: false }, { read: true });
+
+    res.send('Notifications marked as read');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error marking notifications as read');
+  }
+});
 
 
 app.get("/edit-client-profile/:clientId", isAuthenticated, async (req, res) => {
@@ -1438,6 +1476,8 @@ app.get("/job-details/:jobId", isAuthenticated, async (req, res) => {
 
 
 
+
+
 app.post("/submit-bid/:jobId", isAuthenticated, async (req, res) => {
   const jobId = req.params.jobId;
   const engineerId = req.body.engineerId;
@@ -1447,21 +1487,17 @@ app.post("/submit-bid/:jobId", isAuthenticated, async (req, res) => {
   }
 
   try {
-    
     const existingBid = await Bid.findOne({ job: jobId, engineer: engineerId });
 
     if (existingBid) {
       return res.status(400).send("Engineer has already submitted a bid for this job");
     }
 
-   
     const engineer = await Engineer.findById(engineerId);
     const job = await Job.findById(jobId);
 
-    
     const { bidAmount, bidDetails } = req.body;
 
-    
     const newBid = new Bid({
       job: jobId,
       engineer: engineerId,
@@ -1473,17 +1509,25 @@ app.post("/submit-bid/:jobId", isAuthenticated, async (req, res) => {
       client: job.client._id,
     });
 
-    
     await newBid.save();
 
-    
+    // Create a new notification for the client
+    const newNotification = new Notification({
+      recipient: job.client._id,
+      content: `Engineer ${engineer.full_name} has submitted a bid for your job "${job.jobTitle}".`,
+      type: 'bidSubmitted',
+      job: jobId,
+    });
+
+    await newNotification.save();
+
     res.redirect(`/job-details/${jobId}`);
   } catch (error) {
-
     console.error("Error submitting bid:", error);
     res.status(500).send("Error submitting bid");
   }
 });
+
 
 
 
@@ -1594,32 +1638,38 @@ if (!user) {
 });
 
 
+const createNotification = async (recipient, content, type, job, bid) => {
+  const newNotification = new Notification({
+    recipient,
+    content,
+    type,
+    job,
+    bid,
+  });
+
+  await newNotification.save();
+};
+
 app.post("/accept-bid", async (req, res) => {
   try {
     const { bidId } = req.body;
 
-  
     if (!bidId) {
       return res.status(400).json({ error: "Bid ID is required" });
     }
 
-    
     const updatedBid = await Bid.findByIdAndUpdate(bidId, { status: "accepted" });
 
-    
     if (!updatedBid) {
       return res.status(404).json({ error: "Bid not found or not updated" });
     }
 
-    
     const acceptedBid = await Bid.findById(bidId);
 
-   
     if (!acceptedBid) {
       return res.status(404).json({ error: "Accepted bid not found" });
     }
 
-    
     const clientId = acceptedBid.client;
     const engineerId = acceptedBid.engineer;
     const jobId = acceptedBid.job;
@@ -1630,12 +1680,10 @@ app.post("/accept-bid", async (req, res) => {
       Job.findById(jobId),
     ]);
 
-   
     if (!client || !engineer || !job) {
       return res.status(404).json({ error: "Related data not found" });
     }
 
-    
     const newWork = new Work({
       client: client,
       engineer: engineer,
@@ -1643,9 +1691,16 @@ app.post("/accept-bid", async (req, res) => {
       bid: acceptedBid,
     });
 
-
     const savedWork = await newWork.save();
 
+    // Create a notification for the engineer
+    await createNotification(
+      engineerId,
+      `Your bid for the job "${acceptedBid.jobTitle}" has been accepted.`,
+      'bidAccepted',
+      jobId,
+      bidId
+    );
 
     res.json({
       jobTitle: acceptedBid.jobTitle,
@@ -1653,14 +1708,12 @@ app.post("/accept-bid", async (req, res) => {
       engineerFullName: acceptedBid.engineerFullName,
       bidAmount: acceptedBid.bidAmount,
       bidDetails: acceptedBid.bidDetails,
-      
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to accept bid" });
   }
 });
-
 
 app.post("/reject-bid", async (req, res) => {
   try {
@@ -1678,15 +1731,13 @@ app.post("/reject-bid", async (req, res) => {
 
     const rejectedBid = await Bid.findById(bidId);
 
-      if (!rejectedBid) {
+    if (!rejectedBid) {
       return res.status(404).json({ error: "Bid not found" });
     }
 
-
-     const clientId = rejectedBid.client;
+    const clientId = rejectedBid.client;
     const engineerId = rejectedBid.engineer;
     const jobId = rejectedBid.job;
-
 
     const [client, engineer, job] = await Promise.all([
       Client.findById(clientId),
@@ -1698,8 +1749,14 @@ app.post("/reject-bid", async (req, res) => {
       return res.status(404).json({ error: "Related data not found" });
     }
 
- 
-
+    // Create a notification for the engineer
+    await createNotification(
+      engineerId,
+      `Your bid for the job "${rejectedBid.jobTitle}" has been rejected.`,
+      'bidRejected',
+      jobId,
+      bidId
+    );
 
     res.json({
       jobTitle: rejectedBid.jobTitle,
@@ -1713,6 +1770,7 @@ app.post("/reject-bid", async (req, res) => {
     res.status(500).json({ error: "Failed to reject bid" });
   }
 });
+
 
 
 
@@ -1967,9 +2025,7 @@ app.post('/reset-password/:token', async (req, res) => {
   try {
     const decoded = jwt.verify(token, jwtSecret);
 
-
     let user = await Engineer.findById(decoded.id);
-
 
     if (!user) {
       user = await Client.findById(decoded.id);
@@ -1985,12 +2041,15 @@ app.post('/reset-password/:token', async (req, res) => {
 
     await user.save();
 
-    res.redirect("/login?resetSuccess=true");
+    // Instead of redirecting directly, render the template with a success message
+    res.render('reset-password', { token, resetSuccess: true });
   } catch (error) {
     console.error('Error during password reset:', error);
     res.status(400).send('Invalid or expired token');
   }
 });
+
+
 
 
 app.get("/admin-dashboard", isAuthenticated, async (req, res) => {

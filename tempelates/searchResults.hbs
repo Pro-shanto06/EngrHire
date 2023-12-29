@@ -1,163 +1,699 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Results</title>
+    <title>Profile</title>
+    <link href="/logo.png" rel="icon" />
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet" />
+
+
+    <link href="/vendor/aos/aos.css" rel="stylesheet" />
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+    <link href="/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+    <link href="/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
+    <link href="/vendor/remixicon/remixicon.css" rel="stylesheet" />
+    <link href="/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/css/search.css" />
+    <html>
+
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+
+
+
+
 </head>
+
 <body>
-    <h1>Search Results</h1>
 
-    {{#if results.engineerfullNameResults.length}}
-        <h2>Engineer Results by Full Name</h2>
-        <ul>
-            {{#each results.engineerfullNameResults}}
-                <li>
-                    <a href="/profile/{{_id}}/1">
-                        {{full_name}} - {{location}}
-                    </a>
-                </li>
-            {{/each}}
-        </ul>
-    {{/if}}
+    <!-- ======= Header ======= -->
 
-    {{#if results.designationResults.length}}
-        <h2>Engineer Results by Designation</h2>
-        <ul>
-            {{#each results.designationResults}}
-                <li>
-                    <a href="/profile/{{_id}}/1">
-                        {{full_name}} - {{designation}}
-                    </a>
-                </li>
-            {{/each}}
-        </ul>
-    {{/if}}
+    <header id="header" class="fixed-top d-flex align-items-center">
+        <div class="container d-flex align-items-center justify-content-between">
+            <script src="https://unpkg.com/phosphor-icons"></script>
+            <div class="logo">
+                <h1><a href="/"><img src="/img/logo.png" alt="">EngrHire BD</a></h1>
 
-    {{#if results.locationResultsEngineer.length}}
-        <h2>Engineer Results by Location</h2>
-        <ul>
-            {{#each results.locationResultsEngineer}}
-                <li>
-                    <a href="/profile/{{_id}}/1">
-                        {{full_name}} - {{location}}
-                    </a>
-                </li>
-            {{/each}}
-        </ul>
-    {{/if}}
+            </div>
 
-    {{#if results.expertiseResults.length}}
-        <h2>Engineer Results by Field of Expertise</h2>
-        <ul>
-            {{#each results.expertiseResults}}
-                <li>
-                    <a href="/profile/{{_id}}/1">
-                        {{full_name}} - {{field_of_expertise}}
-                    </a>
-                </li>
-            {{/each}}
-        </ul>
-    {{/if}}
+            <nav id="navbar" class="navbar">
+                <ul>
+                    <li><a class="nav-link scrollto active" href="/">Home</a></li>
+                    {{#if user}}
+                    {{#if isClient}}
+                    <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+                    {{/if}}
+                    {{#if isEngineer}}
+                    <li><a class="nav-link scrollto" href="/engineer-post">Post Jobs</a></li>
+                    {{/if}}
+                    {{else}}
+                    <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+                    {{/if}}
+                    <li class="dropdown">
+                        <a href="#"><span>Explore</span>
+                        </a>
+                        <ul>
+                            {{#if user}}
+                            {{#if isEngineer}}
+                            <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+                            <li><a class="nav-link scrollto" href="#services">Services</a></li>
+                            {{/if}}
 
-    <!-- Repeat the above structure for other specific results -->
+                            {{#if isClient}}
+                            <li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
+                            <li><a class="nav-link scrollto" href="#services">Services</a></li>
+                            {{/if}}
+                            {{else}}
+                            <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+                            <li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
+                            <li><a class="nav-link scrollto" href="#services">Services</a></li>
+                            {{/if}}
 
-    {{#if results.clientfullNameResults.length}}
-        <h2>Client Results by Full Name</h2>
-        <ul>
-            {{#each results.clientfullNameResults}}
-                <li>
-                    <a href="/client-profile/{{_id}}/1">
-                        {{full_name}} - {{location}}
-                    </a>
-                </li>
-            {{/each}}
-        </ul>
-    {{/if}}
-
-    {{#if results.locationResultsClient.length}}
-        <h2>Client Results by Location</h2>
-        <ul>
-            {{#each results.locationResultsClient}}
-                <li>
-                    <a href="/client-profile/{{_id}}/1">
-                        {{full_name}} - {{location}}
-                    </a>
-                </li>
-            {{/each}}
-        </ul>
-    {{/if}}
-
-    <!-- Additional sections for job results -->
+                        </ul>
 
 
+                    </li>
 
-    {{#if results.jobTitleResults.length}}
-        <h2>Job Results by Job Title</h2>
-        <ul>
-            {{#each results.jobTitleResults}}
-                <li>
-                    <a href="/job-details/{{_id}}">
-                        {{jobTitle}} - {{clientName}}
-                    </a>
-                </li>
-            {{/each}}
-        </ul>
-    {{/if}}
+                    <li class="dropdown">
+                        <a href="#"><span>Help</span>
 
-    {{#if results.categoryResults.length}}
-        <h2>Job Results by Category</h2>
-        <ul>
-            {{#each results.categoryResults}}
-                <li>
-                    <a href="/job-details/{{_id}}">
-                        {{jobTitle}} - {{clientName}}
-                    </a>
-                </li>
-            {{/each}}
-        </ul>
-    {{/if}}
+                        </a>
+                        <ul>
 
-    {{#if results.locationResultsJob.length}}
-        <h2>Job Results by Location</h2>
-        <ul>
-            {{#each results.locationResultsJob}}
-                <li>
-                    <a href="/job-details/{{_id}}">
-                        {{jobTitle}} - {{clientName}} - {{jobLocation}}
-                    </a>
-                </li>
-            {{/each}}
-        </ul>
-    {{/if}}
+                            <li><a class="nav-link scrollto" href="#about">About</a></li>
+                            <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                            <li><a class="nav-link scrollto" href="#faq">FAQ</a></li>
 
-    {{#if results.detailsResults.length}}
-        <h2>Job Results by Details</h2>
-        <ul>
-            {{#each results.detailsResults}}
-                <li>
-                    <a href="/job-details/{{_id}}">
-                        {{jobTitle}} - {{clientName}} - {{jobDetails}}
-                    </a>
-                </li>
-            {{/each}}
-        </ul>
-    {{/if}}
+                        </ul>
 
-    {{#if results.requirementsResults.length}}
-        <h2>Job Results by Requirements</h2>
-        <ul>
-            {{#each results.requirementsResults}}
-                <li>
-                    <a href="/job-details/{{_id}}">
-                        {{jobTitle}} - {{clientName}} - {{jobRequirements}}
-                    </a>
-                </li>
-            {{/each}}
-        </ul>
-    {{/if}}
+                    </li>
 
-    <!-- Repeat the above structure for other specific job results -->
 
+                    {{#unless user}}
+
+
+                    <ul>
+                        <li><a href="/login">Login</a></li>
+                        <li><a href="/select" class="btn-signup">Sign Up</a></li>
+                    </ul>
+
+                    {{/unless}}
+
+
+                    <div class="search">
+                        <input type="text" class="search-box" placeholder="Search..." />
+                        <button class="search-btn"><i class="ph-magnifying-glass-bold"></i></button>
+                        <button class="close-btn"><i class="ph-x-bold"></i></button>
+                    </div>
+
+                    {{#if isClient}}
+                    <li>
+                        <a class="getstarted scrollto" href="/client-profile/{{userId}}/1">
+                            <img src="{{user.profilePicPath}}" alt="Profile Picture"
+                                class="rounded-circle profile-picture" />
+                            <span class="profile-name">{{user.full_name}}</span>
+
+                        </a>
+                    </li>
+
+                    <span class="material-symbols-outlined">
+                        <a href="/logout">Logout</a>
+                    </span>
+
+                    {{/if}}
+
+                    {{#if isEngineer}}
+                    <li>
+                        <a class="getstarted scrollto" href="/profile/{{userId}}/1">
+                            <img src="{{user.profilePicPath}}" alt="Profile Picture"
+                                class="rounded-circle profile-picture" />
+                            <span class="profile-name">{{user.full_name}}</span>
+                        </a>
+                    </li>
+
+                    <span class="material-symbols-outlined">
+                        <a href="/logout">Logout</a>
+                    </span>
+
+                    {{/if}}
+
+
+
+
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav><!-- .navbar -->
+
+        </div>
+    </header><!-- End Header -->
+
+    <hr />
+    <br><br><br>
+    <h3 style="font-family: Georgia, 'Times New Roman', Times, serif;" align="center">Search Results</h3>
+
+
+
+
+
+
+
+
+{{#if results.engineerfullNameResults.length}}
+<div class="content">
+    <div id="post-container">
+        <div class="main">
+            <div class="engrwrapper">
+                <table class="jobTable">
+                    <thead>
+                        <tr>
+                            <th>Engineer Name</th>
+                            <th>Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each results.engineerfullNameResults}}
+                        <tr>
+                            <td>
+                                 <a href="/profile/{{_id}}/1">
+                                    {{full_name}}
+                                </a>
+                            </td>
+                            <td>{{location}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{{/if}}
+
+
+
+
+
+{{#if results.designationResults.length}}
+<div class="content">
+    <div id="post-container">
+        <div class="main">
+            <div class="engrwrapper">
+                <table class="jobTable">
+                    <thead>
+                        <tr>
+                            <th>Engineer Name</th>
+                            <th>Designation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each results.designationResults}}
+                        <tr>
+                            <td>
+                                <a href="/profile/{{_id}}/1">
+                {{full_name}}
+            </a>
+                            </td>
+                            <td>{{designation}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{{/if}}
+
+
+
+
+
+
+
+
+
+
+
+{{#if results.locationResultsEngineer.length}}
+<div class="content">
+    <div id="post-container">
+        <div class="main">
+            <div class="engrwrapper">
+                <table class="jobTable">
+                    <thead>
+                        <tr>
+                            <th>Engineer Name</th>
+                            <th>Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each results.locationResultsEngineer}}
+                        <tr>
+                            <td>
+            <a href="/profile/{{_id}}/1">
+                {{full_name}}
+            </a>
+                            </td>
+                            <td> {{location}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{{/if}}
+
+
+
+
+
+
+
+
+
+
+
+
+{{#if results.expertiseResults.length}}
+<div class="content">
+    <div id="post-container">
+        <div class="main">
+            <div class="engrwrapper">
+                <table class="jobTable">
+                    <thead>
+                        <tr>
+                            <th>Engineer Name</th>
+                            <th>Field_of_Expertise</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each results.expertiseResults}}
+                        <tr>
+                            <td>
+            <a href="/profile/{{_id}}/1">
+                {{full_name}}
+            </a>
+                            </td>
+                            <td> {{field_of_expertise}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{{/if}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{#if results.clientfullNameResults.length}}
+<div class="content">
+    <div id="post-container">
+        <div class="main">
+            <div class="engrwrapper">
+                <table class="jobTable">
+                    <thead>
+                        <tr>
+                            <th>Client Name</th>
+                            <th>Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+ {{#each results.clientfullNameResults}}
+                        <tr>
+                            <td>
+            <a href="/client-profile/{{_id}}/1">
+                {{full_name}}
+            </a>
+                            </td>
+                            <td> {{location}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{{/if}}
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+{{#if results.locationResultsClient.length}}
+<div class="content">
+    <div id="post-container">
+        <div class="main">
+            <div class="engrwrapper">
+                <table class="jobTable">
+                    <thead>
+                        <tr>
+                            <th>Client Name</th>
+                            <th>Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+{{#each results.locationResultsClient}}
+                        <tr>
+                            <td>
+            <a href="/client-profile/{{_id}}/1">
+                {{full_name}}
+            </a>
+                            </td>
+                            <td> {{location}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{{/if}}
+
+
+
+
+
+
+
+
+{{#if results.jobTitleResults.length}}
+<div class="content">
+    <div id="post-container">
+        <div class="main">
+            <div class="engrwrapper">
+                <table class="jobTable">
+                    <thead>
+                        <tr>
+                            <th>Job Title</th>
+                            <th>Client Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each results.jobTitleResults}}
+                        <tr>
+                            <td>
+                                <a href="/job-details/{{_id}}">
+                                    {{jobTitle}}
+                                </a>
+                            </td>
+                            <td>{{clientName}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{{/if}}
+
+
+
+
+
+
+
+
+{{!-- 
+awda
+{{#if results.jobTitleResults.length}}
+<div class="content">
+    <div id="post-container">
+        <div class="main">
+            <div class="engrwrapper">
+                <table class="jobTable">
+                    <thead>
+                        <tr>
+                            <th>Job Title</th>
+                            <th>Client Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        {{#each results.jobTitleResults}}
+                        <tr>
+                            <td>
+            <a href="/job-details/{{_id}}">
+                {{jobTitle}}
+            </a>
+                            </td>
+                            <td> {{clientName}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{{/if}}
+
+wadaw --}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{#if results.categoryResults.length}}
+<div class="content">
+    <div id="post-container">
+        <div class="main">
+            <div class="engrwrapper">
+                <table class="jobTable">
+                    <thead>
+                        <tr>
+                            <th>Job Title by Category</th>
+                            <th>Client Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each results.jobTitleResults}}
+                        <tr>
+                            <td>
+            <a href="/job-details/{{_id}}">
+                {{jobTitle}}
+            </a>
+                            </td>
+                            <td>{{clientName}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{{/if}}
+
+
+
+
+
+
+
+{{#if results.locationResultsJob.length}}
+<div class="content">
+    <div id="post-container">
+        <div class="main">
+            <div class="engrwrapper">
+                <table class="jobTable">
+                    <thead>
+                        <tr>
+                            <th>Job Title</th>
+                            <th>Client Name</th>
+                            <th>Job Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each results.locationResultsJob}}
+                        <tr>
+                            <td>
+            <a href="/job-details/{{_id}}">
+                {{jobTitle}}
+            </a>
+                            </td>
+                            <td>{{clientName}}</td>
+                            <td>{{jobLocation}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{{/if}}
+
+
+
+
+
+
+
+
+
+
+{{#if results.detailsResults.length}}
+<div class="content">
+    <div id="post-container">
+        <div class="main">
+            <div class="engrwrapper">
+                <table class="jobTable">
+                    <thead>
+                        <tr>
+                            <th>Job Title</th>
+                            <th>Client Name</th>
+                            <th>Job Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each results.detailsResults}}
+                        <tr>
+                            <td>
+            <a href="/job-details/{{_id}}">
+                {{jobTitle}}
+            </a>
+                            </td>
+                            <td>{{clientName}}</td>
+                            <td> {{jobDetails}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{{/if}}
+
+       
+
+
+
+
+
+{{#if results.requirementsResults.length}}
+<div class="content">
+    <div id="post-container">
+        <div class="main">
+            <div class="engrwrapper">
+                <table class="jobTable">
+                    <thead>
+                        <tr>
+                            <th>Job Title</th>
+                            <th>Client Name</th>
+                            <th>Job Requirements</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each results.requirementsResults}}
+                        <tr>
+                            <td>
+            <a href="/job-details/{{_id}}">
+                {{jobTitle}}
+            </a>
+                            </td>
+                            <td>{{clientName}}</td>
+                            <td> {{jobRequirements}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{{/if}}
+
+
+
+    <script>
+        function viewJobDetails(jobId) {
+            window.location.href =
+                `/job-details/${jobId}`;
+        }
+    </script>
+
+    <script>
+        function viewClientProfile(client) {
+            console.log(client);
+            window.location.href = `/client-profile/${client}/1`;
+        }
+    </script>
+
+    <script>
+
+        function viewJobList(categoryName) {
+            const url = categoryName === 'all' ?
+                '/job-list/all' : `/job-list/${categoryName}`; console.log(url);
+            window.location.href = url;
+        }
+
+    </script>
+
+
+    <script src="/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="/vendor/aos/aos.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="/vendor/php-email-form/validate.js"></script>
+
+
+    <script src="/main.js"></script>
 </body>
+
 </html>

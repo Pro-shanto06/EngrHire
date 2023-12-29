@@ -185,49 +185,6 @@ const engineerSchema = new mongoose.Schema({
  
 });
 
-const jobSchema = new mongoose.Schema({
-  jobTitle: {
-    type: String,
-    required: true,
-  },
-  
-  client: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Client", 
-  },
-
-  clientName: {
-    type: String,
-  },
-
-  category: {
-    type: String,
-    required: true,
-  },
-  specifiedCategory: {
-    type: String,
-  },
-  jobDetails: {
-    type: String,
-    required: true,
-  },
-  jobRequirements: {
-    type: String,
-    required: true,
-  },
-  jobLocation: {
-    type: String,
-    required: true,
-  },
-  jobDeadline: {
-    type: Date, 
-    required: true,
-  },
-  jobPriceRange: {
-    type: Number,
-    required: true,
-  },
-});
 
 const clientSchema = new mongoose.Schema({
   full_name: {
@@ -307,6 +264,52 @@ const clientSchema = new mongoose.Schema({
     default: 0,
   },
 });
+
+
+const jobSchema = new mongoose.Schema({
+  jobTitle: {
+    type: String,
+    required: true,
+  },
+  
+  client: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Client", 
+  },
+
+  clientName: {
+    type: String,
+  },
+
+  category: {
+    type: String,
+    required: true,
+  },
+  specifiedCategory: {
+    type: String,
+  },
+  jobDetails: {
+    type: String,
+    required: true,
+  },
+  jobRequirements: {
+    type: String,
+    required: true,
+  },
+  jobLocation: {
+    type: String,
+    required: true,
+  },
+  jobDeadline: {
+    type: Date, 
+    required: true,
+  },
+  jobPriceRange: {
+    type: Number,
+    required: true,
+  },
+});
+
 
 const bidSchema = new mongoose.Schema({
   job: {
@@ -462,6 +465,48 @@ const formDataSchema = new mongoose.Schema({
 });
 
 
+
+const notificationSchema = new mongoose.Schema({
+  recipient: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Client', // Reference to the Client model
+    required: true,
+  },
+  content: {
+    type: String,
+    required: true,
+  },
+  type: {
+    type: String,
+    required: true,
+  },
+  read: {
+    type: Boolean,
+    default: false,
+  },
+  job: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Job', // Reference to the Job model
+  },
+  bid: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Bid', // Reference to the Bid model
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+
+
+
+
+
+
+
+
+
 engineerSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
     this.password = await bcrypt.hash(this.password, 8);
@@ -552,6 +597,6 @@ const Client = mongoose.model("Client", clientSchema);
 const Admin = mongoose.model("Admin", adminSchema);
 const Payment = mongoose.model('Payment', paymentSchema);
 const FormData = mongoose.model("FormData", formDataSchema);
+const Notification = mongoose.model('Notification', notificationSchema);
 
-
-module.exports = { Job, Engineer, Client, Bid, Work,Admin,Payment,FormData,connectToDatabase };
+module.exports = { Job, Engineer, Client, Bid, Work,Admin,Payment,FormData,Notification,connectToDatabase };

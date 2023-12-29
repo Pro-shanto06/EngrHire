@@ -215,8 +215,49 @@
         </a>
         <span class="tooltip">Ratings</span>
       </li>
+
+    <li>
+  <a href="/client-profile/{{clientId}}/6">
+    <i class="bx bx-heart"></i>
+    <span class="links_name">Notifications</span>
+    {{#if unreadNotificationCount}}
+      <span class="unread-count">{{unreadNotificationCount}}</span>
+    {{/if}}
+  </a>
+  <span class="tooltip">Notifications</span>
+</li>
+
     </ul>
   </div>
+
+
+{{#if notification}}
+  <section class="home-section">
+   
+     <div class="dcont container">
+      <div class="main-body">
+        <div class="row gutters-sm">
+           <h2>Notifications</h2>
+     
+            
+    <ul class="notification-list">
+      {{#each clientNotifications}}
+        <li class="notification-item {{#if this.read}}read{{else}}unread{{/if}}">
+          <div class="notification-content">{{this.content}}</div>
+        </li>
+      {{/each}}
+    </ul>
+    
+     
+          </div>
+          <button id="mark-as-read">Mark All as Read</button>
+          </div>
+          </div>
+    <!-- Add a button to mark notifications as read -->
+    
+  </section>
+{{/if}}
+
 
 
   {{#if clientProfile }}
@@ -605,6 +646,21 @@
       }
     }
   </script>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Assuming you have jQuery available
+    $('#mark-as-read').on('click', function () {
+      // Assuming there's a route to handle marking notifications as read
+      $.post('/mark-notifications-as-read', function (data) {
+        // Assuming you want to do something after marking notifications as read
+        // For example, you can reload the page
+        location.reload();
+      });
+    });
+  });
+</script>
 
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
