@@ -363,9 +363,7 @@ app.get("/rating", (req, res) => {
   res.render("rating");
 });
 
-app.get("/forgot-password", (req, res) => {
-  res.render("forgot-password"); 
-});
+
 
 
 
@@ -547,17 +545,17 @@ app.post("/login", async (req, res) => {
     }
 
     if (!user) {
-      return res.status(401).send("Invalid email or password. User not found.");
+      return res.render('login', { error: 'Invalid email or password. User not found.' });
     }
 
     if (role !== "Admin" && !user.isVerified) {
-      return res.status(401).send("Profile not verified. Please check your email for verification.");
+      return res.render('login', { error: 'Profile not verified. Please check your email for verification.' });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.status(401).send("Invalid email or password.");
+      return res.render('login', { error: 'Invalid email or password.' });
     }
 
     req.session.user = {
@@ -574,9 +572,10 @@ app.post("/login", async (req, res) => {
 
   } catch (error) {
     console.error("Error during login:", error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).render('login', { error: 'Internal Server Error' });
   }
 });
+
 
 
 
@@ -1899,6 +1898,11 @@ app.get("/work/:workId", isAuthenticated, async (req, res) => {
   }
 });
 
+// Import the required modules and set up your transporter
+
+app.get("/forgot-password", (req, res) => {
+  res.render("forgot-password"); // Assuming you have a view named "forgot-password"
+});
 
 app.post("/forgot-password", async (req, res) => {
   const { email } = req.body;
@@ -1929,13 +1933,14 @@ app.post("/forgot-password", async (req, res) => {
 
     await transporter.sendMail(mailOptions);
 
-
-    res.redirect("/login?resetEmailSent=true");
+    // Instead of redirecting directly, render the template with a success message
+    res.render("forgot-password", { resetEmailSent: true });
   } catch (error) {
     console.error("Error during forgot password:", error);
     res.status(500).send("Internal Server Error");
   }
 });
+
 
 
 

@@ -154,14 +154,25 @@
 
     <form action="/login" method="post" class="login-form">
       <h2>Login</h2>
-      <div class="input-field">
-        <input id="email" placeholder="Email" name="email" type="email" required />
-        <label for="email">Email</label>
-      </div>
-      <div class="input-field">
-        <input id="password" placeholder="Password" name="password" type="password" required />
-        <label for="password">Password</label>
-      </div>
+      {{#if error}}
+    <div class="error-message-box">
+      <div class="error-message">{{error}}</div>
+    </div>
+  {{/if}}
+  {{#if resetEmailSent}}
+    <div class="success-message">
+      Password reset email sent successfully. Please check your email.
+    </div>
+  {{/if}}
+  <div class="input-field">
+    <input id="email" placeholder="Email" name="email" type="email" required />
+    <label for="email">Email</label>
+  </div>
+  <div class="input-field">
+    <input id="password" placeholder="Password" name="password" type="password" required />
+    <label for="password">Password</label>
+  </div>
+
       <div class="forget">
         <label for="remember">
           <input type="checkbox" id="remember" />
