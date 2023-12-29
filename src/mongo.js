@@ -190,6 +190,7 @@ const jobSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  
   client: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Client", 
@@ -257,6 +258,9 @@ const clientSchema = new mongoose.Schema({
   },
   facebook: {
     type: String, 
+  },
+  location: {
+    type: String,
   },
   address: {
     type: String, 
@@ -527,6 +531,15 @@ workSchema.post("save", async function (doc, next) {
   }
 });
 
+engineerSchema.index({ full_name: 'text', designation: 'text', location: 'text' , field_of_expertise: 'text'});
+clientSchema.index({ full_name: 'text', location: 'text' });
+jobSchema.index({
+  jobTitle: 'text',
+  category: 'text',
+  jobLocation: 'text',
+  jobDetails: 'text',
+  jobRequirements: 'text'
+});
 
 
 const Engineer = mongoose.model("Engineer", engineerSchema);

@@ -842,6 +842,7 @@ app.post("/edit-client-profile/:clientId", isAuthenticated, async (req, res) => 
         full_name,
         mobile,
         address,
+        location,
         website,
         twitter,
         instagram,
@@ -868,6 +869,7 @@ app.post("/edit-client-profile/:clientId", isAuthenticated, async (req, res) => 
       const updateData = {
         mobile,
         address,
+        location,
         website,
         twitter,
         instagram,
@@ -2354,6 +2356,77 @@ app.post("/edit-admin-profile/:adminId", isAuthenticated, async (req, res) => {
     }
   });
 });
+
+
+
+
+app.get('/search', async (req, res) => {
+  try {
+    const { query: keyword } = req.query;
+
+    // Check if the keyword is present
+    if (!keyword || typeof keyword !== 'string') {
+      return res.status(400).json({ success: false, error: 'Invalid or missing search keyword' });
+    }
+
+    console.log('Searching for keyword:', keyword);
+
+    const engineerfullNameResults = await Engineer.find({ full_name: { $regex: new RegExp(keyword, 'i') } });
+    const designationResults = await Engineer.find({ designation: { $regex: new RegExp(keyword, 'i') } });
+    const locationResultsEngineer = await Engineer.find({ location: { $regex: new RegExp(keyword, 'i') } });
+    const expertiseResults = await Engineer.find({ field_of_expertise: { $regex: new RegExp(keyword, 'i') } });
+    
+    const engineerResults = [...engineerfullNameResults, ...designationResults, ...locationResultsEngineer, ...expertiseResults];
+    
+    const jobTitleResults = await Job.find({ jobTitle: { $regex: new RegExp(keyword, 'i') } });
+    const categoryResults = await Job.find({ category: { $regex: new RegExp(keyword, 'i') } });
+    const locationResultsJob = await Job.find({ jobLocation: { $regex: new RegExp(keyword, 'i') } });
+    const detailsResults = await Job.find({ jobDetails: { $regex: new RegExp(keyword, 'i') } });
+    const requirementsResults = await Job.find({ jobRequirements: { $regex: new RegExp(keyword, 'i') } });
+    
+    const jobResults = [...jobTitleResults, ...categoryResults, ...locationResultsJob, ...detailsResults, ...requirementsResults];
+
+
+    const clientfullNameResults = await Client.find({ full_name: { $regex: new RegExp(keyword, 'i') } });
+    const locationResultsClient = await Client.find({ location: { $regex: new RegExp(keyword, 'i') } });
+    
+    const clientResults = [...clientfullNameResults, ...locationResultsClient];
+
+    console.log('Engineer Results:', engineerResults);
+    console.log('Job Results:', jobResults);
+    console.log('Client Results:', clientResults);
+
+    // Pass all specific search results to the template
+    res.render('searchResults', {
+      results: {
+        engineers: engineerResults,
+        jobs: jobResults,
+        clients: clientResults,
+        engineerfullNameResults: engineerfullNameResults,
+        designationResults: designationResults,
+        locationResultsEngineer: locationResultsEngineer,
+        expertiseResults: expertiseResults,
+        jobTitleResults: jobTitleResults,
+        categoryResults: categoryResults,
+        locationResultsJob:locationResultsJob,
+        detailsResults:detailsResults,
+        requirementsResults: requirementsResults,
+        clientfullNameResults:clientfullNameResults,
+        locationResultsClient: locationResultsClient,
+      },
+    });
+  } catch (error) {
+    console.error('Error in keyword search:', error);
+    res.status(500).json({ success: false, error: error.message || 'Internal Server Error' });
+  }
+});
+
+
+
+
+
+
+
 
 
 

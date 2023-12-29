@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+
+    {{#if results.engineerfullNameResults.length}}
+        <h2>Engineer Results by Full Name</h2>
+        <ul>
+            {{#each results.engineerfullNameResults}}
+                <li>
+                    <a href="/profile/{{_id}}/1">
+                        {{full_name}} - {{location}}
+                    </a>
+                </li>
+            {{/each}}
+        </ul>
+    {{/if}}
+
+    {{#if results.designationResults.length}}
+        <h2>Engineer Results by Designation</h2>
+        <ul>
+            {{#each results.designationResults}}
+                <li>
+                    <a href="/profile/{{_id}}/1">
+                        {{full_name}} - {{designation}}
+                    </a>
+                </li>
+            {{/each}}
+        </ul>
+    {{/if}}
+
+    {{#if results.locationResultsEngineer.length}}
+        <h2>Engineer Results by Location</h2>
+        <ul>
+            {{#each results.locationResultsEngineer}}
+                <li>
+                    <a href="/profile/{{_id}}/1">
+                        {{full_name}} - {{location}}
+                    </a>
+                </li>
+            {{/each}}
+        </ul>
+    {{/if}}
+
+    {{#if results.expertiseResults.length}}
+        <h2>Engineer Results by Field of Expertise</h2>
+        <ul>
+            {{#each results.expertiseResults}}
+                <li>
+                    <a href="/profile/{{_id}}/1">
+                        {{full_name}} - {{field_of_expertise}}
+                    </a>
+                </li>
+            {{/each}}
+        </ul>
+    {{/if}}
+
+    <!-- Repeat the above structure for other specific results -->
+
+    {{#if results.clientfullNameResults.length}}
+        <h2>Client Results by Full Name</h2>
+        <ul>
+            {{#each results.clientfullNameResults}}
+                <li>
+                    <a href="/client-profile/{{_id}}/1">
+                        {{full_name}} - {{location}}
+                    </a>
+                </li>
+            {{/each}}
+        </ul>
+    {{/if}}
+
+    {{#if results.locationResultsClient.length}}
+        <h2>Client Results by Location</h2>
+        <ul>
+            {{#each results.locationResultsClient}}
+                <li>
+                    <a href="/client-profile/{{_id}}/1">
+                        {{full_name}} - {{location}}
+                    </a>
+                </li>
+            {{/each}}
+        </ul>
+    {{/if}}
+
+    <!-- Additional sections for job results -->
+
+
+
+    {{#if results.jobTitleResults.length}}
+        <h2>Job Results by Job Title</h2>
+        <ul>
+            {{#each results.jobTitleResults}}
+                <li>
+                    <a href="/job-details/{{_id}}">
+                        {{jobTitle}} - {{clientName}}
+                    </a>
+                </li>
+            {{/each}}
+        </ul>
+    {{/if}}
+
+    {{#if results.categoryResults.length}}
+        <h2>Job Results by Category</h2>
+        <ul>
+            {{#each results.categoryResults}}
+                <li>
+                    <a href="/job-details/{{_id}}">
+                        {{jobTitle}} - {{clientName}}
+                    </a>
+                </li>
+            {{/each}}
+        </ul>
+    {{/if}}
+
+    {{#if results.locationResultsJob.length}}
+        <h2>Job Results by Location</h2>
+        <ul>
+            {{#each results.locationResultsJob}}
+                <li>
+                    <a href="/job-details/{{_id}}">
+                        {{jobTitle}} - {{clientName}} - {{jobLocation}}
+                    </a>
+                </li>
+            {{/each}}
+        </ul>
+    {{/if}}
+
+    {{#if results.detailsResults.length}}
+        <h2>Job Results by Details</h2>
+        <ul>
+            {{#each results.detailsResults}}
+                <li>
+                    <a href="/job-details/{{_id}}">
+                        {{jobTitle}} - {{clientName}} - {{jobDetails}}
+                    </a>
+                </li>
+            {{/each}}
+        </ul>
+    {{/if}}
+
+    {{#if results.requirementsResults.length}}
+        <h2>Job Results by Requirements</h2>
+        <ul>
+            {{#each results.requirementsResults}}
+                <li>
+                    <a href="/job-details/{{_id}}">
+                        {{jobTitle}} - {{clientName}} - {{jobRequirements}}
+                    </a>
+                </li>
+            {{/each}}
+        </ul>
+    {{/if}}
+
+    <!-- Repeat the above structure for other specific job results -->
+
+</body>
+</html>

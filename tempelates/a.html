@@ -1,68 +1,51 @@
-app.get("/job-list/:categoryName", isAuthenticated, async (req, res) => {
-  let clientId = null;
-  let engineerId = null;
-  let user = null;
-
-  if (req.session.user) {
-    const userId = req.session.user._id;
-    user = await Engineer.findById(userId) || await Client.findById(userId);
-  }
-
-  if (req.session.user.role === "Client") {
-    clientId = req.session.user._id;
-  } else if (req.session.user.role === "Engineer") {
-    engineerId = req.session.user._id;
-  }
-
+app.get('/search', async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1;
-    const pageSize = 5; // Number of jobs per page
-    const skip = (page - 1) * pageSize;
+    const { query: keyword } = req.query;
 
-    let jobs;
-    let totalJobs;
-
-    if (req.params.categoryName === "all") {
-      jobs = await Job.find()
-        .populate("client")
-        .sort({ jobDeadline: 1 }) // Sort by date in ascending order
-        .skip(skip)
-        .limit(pageSize);
-
-      totalJobs = await Job.countDocuments();
-    } else {
-      jobs = await Job.find({ category: req.params.categoryName })
-        .populate("client")
-        .sort({ jobDeadline: 1 }) // Sort by date in ascending order
-        .skip(skip)
-        .limit(pageSize);
-
-      totalJobs = await Job.countDocuments({ category: req.params.categoryName });
+    // Check if the keyword is present
+    if (!keyword || typeof keyword !== 'string') {
+      return res.status(400).json({ success: false, error: 'Invalid or missing search keyword' });
     }
 
-    const minPrice = req.query.minPrice || 0;
-    const maxPrice = req.query.maxPrice || Infinity;
+    console.log('Searching for keyword:', keyword);
 
-    const totalPages = Math.ceil(totalJobs / pageSize);
-    const morePages = page < totalPages;
+    // Engineer search
+    const fullTextEngineerResults = await Engineer.find({ $text: { $search: keyword } }, { score: { $meta: 'textScore' } })
+      .sort({ score: { $meta: 'textScore' } })
+      .select('full_name designation location');
 
-    res.render("job-list", {
-      jobs,
-      userId: user?._id,
-      user,
-      isClient: req.session.user?.role === "Client",
-      isEngineer: req.session.user?.role === "Engineer",
-      clientId,
-      engineerId,
-      sortBy: req.query.sort || "asc",
-      category: req.params.categoryName || 'all',
-      minPrice: minPrice,  // Add minPrice to the rendering object
-      maxPrice: maxPrice,  // Add maxPrice to the rendering object
-      currentPage: page,
-      morePages: morePages,
-    });
+    const regexEngineerResults = await Engineer.find({ location: { $regex: new RegExp(keyword, 'i') } })
+      .select('full_name designation location');
+
+    const engineerResults = [...fullTextEngineerResults, ...regexEngineerResults];
+
+    // Job search
+    const fullTextJobResults = await Job.find({ $text: { $search: keyword } }, { score: { $meta: 'textScore' } })
+      .sort({ score: { $meta: 'textScore' } })
+      .select('jobTitle clientName jobLocation category');
+
+    const regexJobResults = await Job.find({ jobLocation: { $regex: new RegExp(keyword, 'i') } })
+      .select('jobTitle clientName jobLocation category');
+
+    const jobResults = [...fullTextJobResults, ...regexJobResults];
+
+    // Client search
+    const fullTextClientResults = await Client.find({ $text: { $search: keyword } }, { score: { $meta: 'textScore' } })
+      .sort({ score: { $meta: 'textScore' } })
+      .select('full_name email location');
+
+    const regexClientResults = await Client.find({ location: { $regex: new RegExp(keyword, 'i') } })
+      .select('full_name email location');
+
+    const clientResults = [...fullTextClientResults, ...regexClientResults];
+
+    console.log('Engineer Results:', engineerResults);
+    console.log('Job Results:', jobResults);
+    console.log('Client Results:', clientResults);
+
+    res.render('searchResults', { results: { engineers: engineerResults, jobs: jobResults, clients: clientResults } });
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal server error");
+    console.error('Error in keyword search:', error);
+    res.status(500).json({ success: false, error: error.message || 'Internal Server Error' });
   }
 });
