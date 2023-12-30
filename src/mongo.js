@@ -111,6 +111,20 @@ const engineerSchema = new mongoose.Schema({
   field_of_expertise: {
     type: String,
     required: true,
+    enum: [
+      "Architect",
+      "Construction",
+      "Interior_Design",
+      "Floor_Plan",
+      "Architectural_Design_And_Drafting",
+      "Structural_Engineering",
+      "Electrical_Installation",
+      "Plumbing_and_Sanitary_Works",
+      "Design_and_Decoration",
+      "Construction_Project_Management",
+      "Structural_Renovation_and_Retrofitting",
+      "Building_Inspection_and_Code_Compliance",
+    ],
   },
   location: {
     type: String,

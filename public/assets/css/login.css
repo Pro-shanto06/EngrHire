@@ -43,7 +43,7 @@ body::before {
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(5px);
   margin-top: 115px;
-  /* background-color: white; */
+  margin-bottom: 20px;
 }
 
 .sideimg {
@@ -473,65 +473,6 @@ a:hover {
 # Search
 --------------------------------------------------------------*/
 
-.search-btn,
-.close-btn {
-  width: 40px;
-  height: 35px;
-  font-size: 25px;
-  background-color: #ffffff;
-  color: rgb(0, 0, 0);
-  border: none;
-  cursor: pointer;
-  position: absolute;
-  transition: all 0.25s ease;
-}
-
-.close-btn {
-  color: #3498db;
-  z-index: -1;
-}
-
-.search-box {
-  width: 40px;
-  height: 35px;
-  padding: 15px;
-  border-radius: 25px;
-  background-color: #3498db;
-  color: white;
-  outline: none;
-  border: none;
-  transition: width 0.25s ease;
-}
-
-.search {
-  display: flex;
-  align-items: center;
-  padding: 20px;
-}
-
-.search-box::placeholder {
-  color: #ffffff;
-}
-
-.active .search-box {
-  width: 250px;
-}
-
-.active .search-btn {
-  transform: translate(210px, 2px) scale(0.8);
-  background-color: transparent;
-}
-
-.active .close-btn {
-  z-index: 0;
-  transform: translate(250px, 2px);
-}
-
-.material-symbols-outlined a {
-  color: #007bff;
-  text-decoration: none;
-  font-size: 24px;
-}
 
 
 .error-message-box {
@@ -542,6 +483,18 @@ a:hover {
 }
 
 .error-message {
+  color: #ffffff; /* White text color for the error message */
+  margin: 0; /* Remove default margin for better appearance */
+}
+
+.successMessage-box {
+  background-color: #13b413; /* Red background color for the error box */
+  padding: 10px; /* Add some padding to the error box */
+  border-radius: 5px; 
+  margin-bottom: 10px;/* Optional: Add rounded corners to the error box */
+}
+
+.successMessage {
   color: #ffffff; /* White text color for the error message */
   margin: 0; /* Remove default margin for better appearance */
 }

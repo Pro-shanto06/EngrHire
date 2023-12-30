@@ -429,7 +429,7 @@ app.post("/signup", upload.single("profilePic"), async (req, res) => {
     await transporter.sendMail(verificationMailOptions);
 
    
-    res.render('signup', {
+    res.render('login', {
       successMessage: 'Sign up successful. Please check your email for profile verification.',
     });
   } catch (error) {
@@ -437,7 +437,6 @@ app.post("/signup", upload.single("profilePic"), async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
-
 
 
 
@@ -472,7 +471,7 @@ app.post("/signup2", upload.single("profilePic"), async (req, res) => {
 
     await transporter.sendMail(verificationMailOptions);
 
-    res.render('signup2', {
+    res.render('login', {
       successMessage: 'Sign up successful. Please check your email for profile verification.',
     });
   } catch (error) {
@@ -956,6 +955,7 @@ app.get("/edit-engineer-profile/:engineerId", isAuthenticated, async (req, res) 
     }
   
       const engineerData = await Engineer.findById(engineerId);
+      
 
       if (engineerData) {
         res.render("edit-engineer-profile", {
@@ -971,6 +971,10 @@ app.get("/edit-engineer-profile/:engineerId", isAuthenticated, async (req, res) 
       }
    
 });
+
+
+
+
 
 app.post("/edit-engineer-profile/:engineerId", isAuthenticated, async (req, res) => {
   upload.single("profilePic")(req, res, async (err) => {
@@ -1177,8 +1181,9 @@ app.get("/edit-job/:jobId", isAuthenticated, async (req, res) => {
         "/" + user.profilePicPath.replace(/\\/g, "/");
     }
 
-    // Fetch categories and format date
+ 
     const categories = ["Architect", "Construction", "Interior_Design", "Floor_Plan", "Architectural_Design_And_Drafting", "Structural_Engineering", "Electrical_Installation", "Plumbing_and_Sanitary Works", "Design_and_Decoration", "Construction_Project_Management", "Structural_Renovation_and_Retrofitting", "Building_Inspection_and_Code_Compliance"];
+
     const formattedDate = job.jobDeadline ? job.jobDeadline.toISOString().split('T')[0] : '';
 
     res.render("edit-job", {

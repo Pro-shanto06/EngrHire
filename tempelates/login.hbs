@@ -159,6 +159,12 @@
       <div class="error-message">{{error}}</div>
     </div>
   {{/if}}
+   {{#if successMessage}}
+    <div class="successMessage-box">
+      <div class="successMessage">{{successMessage}}</div>
+    </div>
+  {{/if}}
+
   {{#if resetEmailSent}}
     <div class="success-message">
       Password reset email sent successfully. Please check your email.

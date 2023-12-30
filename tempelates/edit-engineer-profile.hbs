@@ -73,16 +73,25 @@
                       value="{{engineer.mobile}}"
                     />
                   </div>
-                  <div class="form-group">
-                    <label for="field_of_expertise">Field of Expertise</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="field_of_expertise"
-                      name="field_of_expertise"
-                      value="{{engineer.field_of_expertise}}"
-                    />
-                  </div>
+                 <div class="form-group">
+  <label for="field_of_expertise">Field of Expertise</label>
+  <select class="form-control" id="field_of_expertise" name="field_of_expertise">
+    <option value="Architect" {{#if (eq engineer.field_of_expertise 'Architect')}}selected{{/if}}>Architect</option>
+    <option value="Construction" {{#if (eq engineer.field_of_expertise 'Construction')}}selected{{/if}}>Construction</option>
+    <option value="Interior_Design" {{#if (eq engineer.field_of_expertise 'Interior_Design')}}selected{{/if}}>Interior Design</option>
+    <option value="Floor_Plan" {{#if (eq engineer.field_of_expertise 'Floor_Plan')}}selected{{/if}}>Floor Plan</option>
+    <option value="Architectural_Design_And_Drafting" {{#if (eq engineer.field_of_expertise 'Architectural_Design_And_Drafting')}}selected{{/if}}>Architectural Design And Drafting</option>
+    <option value="Structural_Engineering" {{#if (eq engineer.field_of_expertise 'Structural_Engineering')}}selected{{/if}}>Structural Engineering</option>
+    <option value="Electrical_Installation" {{#if (eq engineer.field_of_expertise 'Electrical_Installation')}}selected{{/if}}>Electrical Installation</option>
+    <option value="Plumbing_and_Sanitary_Works" {{#if (eq engineer.field_of_expertise 'Plumbing_and_Sanitary_Works')}}selected{{/if}}>Plumbing and Sanitary Works</option>
+    <option value="Design_and_Decoration" {{#if (eq engineer.field_of_expertise 'Design_and_Decoration')}}selected{{/if}}>Design and Decoration</option>
+    <option value="Construction_Project_Management" {{#if (eq engineer.field_of_expertise 'Construction_Project_Management')}}selected{{/if}}>Construction Project Management</option>
+    <option value="Structural_Renovation_and_Retrofitting" {{#if (eq engineer.field_of_expertise 'Structural_Renovation_and_Retrofitting')}}selected{{/if}}>Structural Renovation and Retrofitting</option>
+    <option value="Building_Inspection_and_Code_Compliance" {{#if (eq engineer.field_of_expertise 'Building_Inspection_and_Code_Compliance')}}selected{{/if}}>Building Inspection and Code Compliance</option>
+  </select>
+</div>
+
+
                   <div class="form-group">
                     <label for="location">Location</label>
                     <input
