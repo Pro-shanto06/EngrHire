@@ -1148,14 +1148,14 @@ function toggleSearchButton() {
   var searchInput = document.getElementById('searchInput');
   var searchButton = document.getElementById('searchButton');
   
-  // Enable the button if the input is not empty, otherwise disable it
+  
   searchButton.disabled = searchInput.value.trim() === '';
 }
 
 function validateSearch() {
   var searchInput = document.getElementById('searchInput');
   
-  // Check if the input is not empty before form submission
+
   return searchInput.value.trim() !== '';
 }
 

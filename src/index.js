@@ -243,17 +243,19 @@ app.get("/api/work/:workId/chat-messages", async (req, res) => {
   }
 });
 
-io.on("connection", (socket) => {
-  console.log("A user connected");
+io.of(/^\/work\/\w+$/).on('connection', (socket) => {
+  const workId = socket.nsp.name.split('/').pop(); // Extract workId from namespace
 
-  socket.on("chat message", async (data) => {
-    const { senderRole, message, workId } = data;
+  console.log(`User connected to chat for workId: ${workId}`);
+
+  socket.on('chat message', async (data) => {
+    const { senderRole, message } = data;
 
     try {
       const work = await Work.findById(workId);
 
       if (!work) {
-        console.error("Work not found for workId:", workId);
+        console.error(`Work not found for workId: ${workId}`);
         return;
       }
 
@@ -262,12 +264,12 @@ io.on("connection", (socket) => {
         : null;
 
       let chatMessagesArray;
-      if (senderRole.toLowerCase() === "client") {
-        chatMessagesArray = "clientChatMessages";
-      } else if (senderRole.toLowerCase() === "engineer") {
-        chatMessagesArray = "engineerChatMessages";
+      if (senderRole.toLowerCase() === 'client') {
+        chatMessagesArray = 'clientChatMessages';
+      } else if (senderRole.toLowerCase() === 'engineer') {
+        chatMessagesArray = 'engineerChatMessages';
       } else {
-        console.error("Invalid sender role:", senderRole);
+        console.error(`Invalid sender role: ${senderRole}`);
         return;
       }
 
@@ -278,14 +280,14 @@ io.on("connection", (socket) => {
 
       await work.save();
 
-      io.emit("chat message", { senderRole, message, workId });
+      io.of(`/work/${workId}`).emit('chat message', { senderRole, message });
     } catch (error) {
-      console.error("Error saving or broadcasting message:", error);
+      console.error('Error saving or broadcasting message:', error);
     }
   });
 
-  socket.on("disconnect", () => {
-    console.log("User disconnected");
+  socket.on('disconnect', () => {
+    console.log('User disconnected from chat');
   });
 });
 
