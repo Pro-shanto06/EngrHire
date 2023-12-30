@@ -37,11 +37,32 @@
 
     <link href="assets/css/style.css" rel="stylesheet" />
 
+    <style>
+      .loader {
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin 1s linear infinite;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -40px;
+    margin-left: -40px;
+    display: none;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+    </style>
  
   </head>
 
   <body>
-
+<div class="loader" id="loader"></div>
     <!-- ======= Header ======= -->
     <header id="header" class="fixed-top d-flex align-items-center">
   <div class="container d-flex align-items-center justify-content-between">
@@ -101,15 +122,15 @@
 
         {{#unless user}}
           <ul>
-            <li><a href="/login">Login</a></li>
-            <li><a href="/select" class="btn-signup">Sign Up</a></li>
+            <li><a href="/login" onclick="showLoader()">Login</a></li>
+            <li><a href="/select" class="btn-signup" onclick="showLoader()">Sign Up</a></li>
           </ul>
         {{/unless}}
 
  <li class="search-bar">
   <form action="/search" method="GET" onsubmit="return validateSearch()">
     <input type="text" name="query" class="search-input" id="searchInput" placeholder="Search..." oninput="toggleSearchButton()">
-    <button type="submit" class="search-button" id="searchButton" disabled><i class="bi bi-search"></i></button>
+    <button type="submit" class="search-button" id="searchButton" disabled  onclick="showLoader()"><i class="bi bi-search"></i></button>
   </form>
 </li>
 
@@ -1075,6 +1096,26 @@
       class="back-to-top d-flex align-items-center justify-content-center"
     ><i class="bi bi-arrow-up-short"></i></a>
 
+
+
+
+<script>
+  // script.js
+function showLoader() {
+    // Display the loader
+    document.getElementById('loader').style.display = 'block';
+
+    // Simulate a delay (you can replace this with your actual page loading code)
+    setTimeout(function() {
+        // Hide the loader
+        document.getElementById('loader').style.display = 'none';
+
+        // Redirect to the new page
+        //window.location.href = 'another-page.html';
+    }, 2000); // Replace 2000 with the actual time your page takes to load
+}
+
+</script>
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
