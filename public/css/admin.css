@@ -35,6 +35,7 @@ body {
     padding: 22px 0;
     background: #fff;
     height: 60px;
+    box-shadow: rgb(220 227 233) 0px 20px 30px -10px;
   }
   
   #header.header-scrolled {
@@ -581,6 +582,7 @@ body {
     z-index: 99;
     transition: all 0.5s ease;
     margin-top: 61px;
+    box-shadow: rgb(198 229 255) 4px 0px 20px 0px;
   }
   .sidebar.open{
     width: 250px;

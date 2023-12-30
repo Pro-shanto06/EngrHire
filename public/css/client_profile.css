@@ -35,6 +35,7 @@ a:hover {
   padding: 22px 0;
   background: #fff;
   height: 60px;
+  box-shadow: rgb(220 227 233) 0px 20px 30px -10px;
 }
 
 #header.header-scrolled {
@@ -401,6 +402,7 @@ a:hover {
 .card {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   background-color: #ffffff;
+  margin-left: 30px;
 }
 
 .card-body {
@@ -509,11 +511,31 @@ a:hover {
   transform: translateY(0);
 } */
 
-.main {
+/* .main {
   width: 99%;
   margin-left: 8%;
   display: flex;
   flex-wrap: wrap;
+} */
+.card-main{
+  width: 45%;
+  margin-left: 30%;
+  /* padding-bottom: 10%; */
+  /* padding-top: 0; */
+  /* padding-left: 0%; */
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 5%;
+  /* border: 1px solid black; */
+  justify-content: center;
+  /* height: 1000; */
+  /* align-items: center; */
+   /* vertical-align: middle; */
+   background-color: white;    
+   box-shadow: inset -1px -1px 6px rgb(173 173 173);
+    
+
+    border-radius: 15px;
 }
 
 .main >h2{
@@ -527,7 +549,7 @@ a:hover {
   background-color: white;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .title-card {
@@ -636,6 +658,7 @@ a:hover {
   z-index: 99;
   transition: all 0.5s ease;
   margin-top: 61px;
+  box-shadow: rgb(198 229 255) 4px 0px 20px 0px;
 }
 .sidebar.open{
   width: 250px;
@@ -872,7 +895,7 @@ a:hover {
   width: calc(100% - 60px);
   transition: all 0.5s ease;
   z-index: 3;
-  margin-top: 0px;
+  margin-top: -50px;
 }
 .sidebar.open ~ .home-section{
   left: 250px;
@@ -1046,16 +1069,17 @@ textarea {
 
 .aka {
   position: relative;
-  background-image: url("/img/akabg.png");
+  background-image: url(/img/akabg.png);
   background-size: cover;
   padding: 25px;
   border-radius: 28px;
-  margin-left: 50px;
-  margin-top: 90px;
+  margin: 10px;
+  /* margin-left: 50px; */
+  /* margin-top: 90px; */
   max-width: 480px;
   width: 120%;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-
+  
 }
 
 .akalogo {
@@ -1103,6 +1127,7 @@ textarea {
   justify-content: space-between;
   width: 80%; /* Adjust width as needed */
   margin: 0 auto;
+  margin-top: 10px;
 }
 
 .billing-details {
@@ -1193,10 +1218,10 @@ textarea {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  width:100%;
+  width: 100%;
 }
 .ccctestimonial-box{
-  width:500px;
+  width: 500px;
   box-shadow: 2px 2px 30px rgba(0,0,0,0.1);
   background-color: #ffffff;
   padding: 20px;
@@ -1265,6 +1290,7 @@ textarea {
   box-shadow: 0 1px 20px 0 rgba(69, 90, 100, .08);
   margin-bottom: 50px;
   margin-left: 50px;
+  margin-top: 30px;
 }
 
 .engrwrapper .engrleft {
@@ -1380,6 +1406,7 @@ textarea {
   color: #fff;
   border: none;
   cursor: pointer;
+  margin-left: 45%;
 }
 
 
