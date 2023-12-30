@@ -351,7 +351,6 @@ app.post("/signup", upload.single("profilePic"), async (req, res) => {
     const newEngineer = new Engineer(engineerData);
     await newEngineer.save();
 
-   
     const verificationToken = jwt.sign({ id: newEngineer._id }, jwtSecret, { expiresIn: "1d" });
     newEngineer.verificationToken = verificationToken;
     await newEngineer.save();
@@ -366,8 +365,7 @@ app.post("/signup", upload.single("profilePic"), async (req, res) => {
 
     await transporter.sendMail(verificationMailOptions);
 
-   
-    res.render('signup', {
+    res.render('login', {
       successMessage: 'Sign up successful. Please check your email for profile verification.',
     });
   } catch (error) {
@@ -824,8 +822,9 @@ app.post("/edit-client-profile/:clientId", isAuthenticated, async (req, res) => 
 });
 
 
+// Update the get route for rendering the edit page
 app.get("/edit-engineer-profile/:engineerId", isAuthenticated, async (req, res) => {
-
+  
   let engineerId = req.params.engineerId;
 
   let userId = null;
@@ -857,6 +856,7 @@ app.get("/edit-engineer-profile/:engineerId", isAuthenticated, async (req, res) 
    
 });
 
+// Update the post route for handling the form submission
 app.post("/edit-engineer-profile/:engineerId", isAuthenticated, async (req, res) => {
   upload.single("profilePic")(req, res, async (err) => {
     if (err) {
@@ -869,7 +869,7 @@ app.post("/edit-engineer-profile/:engineerId", isAuthenticated, async (req, res)
         full_name,
         designation,
         mobile,
-        field_of_expertise,
+        category, // changed from field_of_expertise
         location,
         website,
         github,
@@ -880,13 +880,13 @@ app.post("/edit-engineer-profile/:engineerId", isAuthenticated, async (req, res)
         experience,
         education,
         address,
-        rating, 
-        cardHolderName, 
-        cardNumber, 
-        cardExpMonth, 
-        cardExpYear, 
+        rating,
+        cardHolderName,
+        cardNumber,
+        cardExpMonth,
+        cardExpYear,
         cardCVV,
-        balance
+        balance,
       } = req.body;
 
       const engineerEmail = req.session.user.email;
@@ -899,13 +899,13 @@ app.post("/edit-engineer-profile/:engineerId", isAuthenticated, async (req, res)
       let profilePicPath = currentProfilePicPath;
 
       if (req.file) {
-        profilePicPath = req.file.path.replace(/\\/g, '/'); 
+        profilePicPath = req.file.path.replace(/\\/g, '/');
       }
 
       const updateData = {
         designation,
         mobile,
-        field_of_expertise,
+        field_of_expertise: category, // changed from field_of_expertise
         location,
         website,
         github,
@@ -917,13 +917,13 @@ app.post("/edit-engineer-profile/:engineerId", isAuthenticated, async (req, res)
         education,
         address,
         rating,
-        cardHolderName, 
+        cardHolderName,
         cardNumber,
-        cardExpMonth, 
-        cardExpYear, 
-        cardCVV, 
+        cardExpMonth,
+        cardExpYear,
+        cardCVV,
         balance,
-        profilePicPath, 
+        profilePicPath,
       };
 
       if (full_name) {
@@ -938,7 +938,7 @@ app.post("/edit-engineer-profile/:engineerId", isAuthenticated, async (req, res)
 
       res.redirect(`/profile/${req.session.user._id}/1`);
     } catch (error) {
-      console.error("Error updating client profile:", error);
+      console.error("Error updating engineer profile:", error);
       res.status(500).send("Internal Server Error");
     }
   });

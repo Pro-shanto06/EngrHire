@@ -26,7 +26,28 @@
 
   <link href="assets/css/login.css" rel="stylesheet" />
   <link href="assets/css/dev_signup_style.css" rel="stylesheet" />
-
+  <style>
+    .FE{
+      margin-bottom: 0;
+      margin-left: -245px;
+      color: white;
+    }
+    select{
+    width: 100%;
+    padding: 7px;
+    font-size: 16px;
+    background-color: transparent;
+    color: white;
+    border: none;
+    padding: 7px;
+    }
+    .field-dropdown > option {
+  width: 100%;
+  padding: 7px;
+  font-size: 16px;
+  background: black;
+  }
+  </style>
 
 </head>
 
@@ -151,6 +172,12 @@
   </header><!-- End Header -->
 
   <div class="wrapper">
+    {{#if successMessage}}
+  <div class="success-message">
+    <p>{{successMessage}}</p>
+    <p><a href="/login">Login</a></p>
+  </div>
+{{else}}
     <div class="sideimg"></div>
 
     <form action="/signup" method="post">
@@ -172,8 +199,21 @@
         <input type="password" name="password" id="password" required placeholder="Password" />
       </div>
       <div class="input-field">
-        <input type="text" name="field_of_expertise" id="field_of_expertise" required
-          placeholder="Field of Expertise" />
+        <p class="FE">Field of expertise</p>
+        <select name="field_of_expertise" id="field_of_expertise" class="field-dropdown" required>
+        <option value="Architect">Architect</option>
+        <option value="Construction">Construction</option>
+        <option value="Interior_Design">Interior Design</option>
+        <option value="Floor_Plan">Floor Plan</option>
+        <option value="Architectural_Design_And_Drafting">Architectural Design And Drafting</option>
+        <option value="Structural_Engineering">Structural Engineering</option>
+        <option value="Electrical_Installation">Electrical Installation</option>
+        <option value="Plumbing_and_Sanitary_Works">Plumbing and Sanitary Works</option>
+        <option value="Design_and_Decoration">Design and Decoration</option>
+        <option value="Construction_Project_Management">Construction Project Management</option>
+        <option value="Structural_Renovation_and_Retrofitting">Structural Renovation and Retrofitting</option>
+        <option value="Building_Inspection_and_Code_Compliance">Building Inspection and Code Compliance</option>
+    </select>
       </div>
       <input class="submit-btn" type="submit" value="Signup" />
 
@@ -185,6 +225,7 @@
     </form>
 
   </div>
+  {{/if}}
 
   <script>
 

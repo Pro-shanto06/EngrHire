@@ -1,267 +1,209 @@
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Edit Engineer Profile</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
-    />
-    <style type="text/css">
-      body { background-color: #f4f4f4; }
-      .container { background-color: #fff; padding: 20px; margin-top: 20px;
-      border-radius: 5px; } h2 { font-size: 24px; color: #333; } label {
-      font-weight: 600; } input[type="text"], input[type="email"],
-      input[type="password"] { width: 100%; padding: 10px; margin: 5px 0;
-      border: 1px solid #ccc; border-radius: 3px; } input[type="submit"] {
-      background-color: #007bff; color: #fff; border: none; padding: 10px 20px;
-      border-radius: 3px; cursor: pointer; } input[type="submit"]:hover {
-      background-color: #0056b3; }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="main-body">
-        <div class="row gutters-sm">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-body">
-                <h2>Edit Engineer Profile</h2>
-                <form
-                  method="POST"
-                  action="/edit-engineer-profile/{{engineerId}}"
-                  enctype="multipart/form-data"
-                >
 
-                  <div class="form-group">
-                    <label for="profilePic">Profile Picture</label>
-                    <input
-                      type="file"
-                      class="form-control-file"
-                      id="profilePic"
-                      name="profilePic"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="full_name">Full Name</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="full_name"
-                      name="full_name"
-                      value="{{engineer.full_name}}"
-                    />
-                  </div>
+<head>
+  <meta charset="utf-8" />
+  <title>Edit Engineer Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" />
+  <style type="text/css">
+    body {
+      background-color: #f4f4f4;
+    }
 
-                  <div class="form-group">
-                    <label for="designation">Designation</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="designation"
-                      name="designation"
-                      value="{{engineer.designation}}"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="mobile">Mobile</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="mobile"
-                      name="mobile"
-                      value="{{engineer.mobile}}"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="field_of_expertise">Field of Expertise</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="field_of_expertise"
-                      name="field_of_expertise"
-                      value="{{engineer.field_of_expertise}}"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="location">Location</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="location"
-                      name="location"
-                      value="{{engineer.location}}"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="website">Website</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="website"
-                      name="website"
-                      value="{{engineer.website}}"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="github">GitHub</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="github"
-                      name="github"
-                      value="{{engineer.github}}"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="twitter">Twitter</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="twitter"
-                      name="twitter"
-                      value="{{engineer.twitter}}"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="skill">Skill</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="skill"
-                      name="skill"
-                      value="{{engineer.skill}}"
-                    />
-                  </div>
-                   <div class="form-group">
-                    <label for="experience">Experience</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="experience"
-                      name="experience"
-                      value="{{engineer.experience}}"
-                    />
-                  </div>
-                   <div class="form-group">
-                    <label for="education">Education</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="education"
-                      name="education"
-                      value="{{engineer.education}}"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="instagram">Instagram</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="instagram"
-                      name="instagram"
-                      value="{{engineer.instagram}}"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="facebook">Facebook</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="facebook"
-                      name="facebook"
-                      value="{{engineer.facebook}}"
-                    />
-                  </div>
-                   <div class="form-group">
-                    <label for="address">Address</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="address"
-                      name="address"
-                      value="{{engineer.address}}"
-                    />
-                  </div>
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 5px;
+    }
 
-                  <div class="form-group">
-  <label for="cardHolderName">Card Holder Name</label>
-  <input
-    type="text"
-    class="form-control"
-    id="cardHolderName"
-    name="cardHolderName"
-    value="{{engineer.cardHolderName}}"
-  />
-</div>
-<div class="form-group">
-  <label for="cardNumber">Credit Card Number</label>
-  <input
-    type="text"
-    class="form-control"
-    id="cardNumber"
-    name="cardNumber"
-    value="{{engineer.cardNumber}}"
-  />
-</div>
-<div class="form-row">
-  <div class="form-group col-md-6">
-    <label for="cardExpMonth">Expiration Month</label>
-    <input
-      type="text"
-      class="form-control"
-      id="cardExpMonth"
-      name="cardExpMonth"
-      value="{{engineer.cardExpMonth}}"
-    />
-  </div>
-  <div class="form-group col-md-6">
-    <label for="cardExpYear">Expiration Year</label>
-    <input
-      type="text"
-      class="form-control"
-      id="cardExpYear"
-      name="cardExpYear"
-      value="{{engineer.cardExpYear}}"
-    />
-  </div>
-</div>
-<div class="form-group">
-  <label for="cardCVV">CVV</label>
-  <input
-    type="text"
-    class="form-control"
-    id="cardCVV"
-    name="cardCVV"
-    value="{{engineer.cardCVV}}"
-  />
-</div>
-<div class="form-group">
-  <label for="balance">balance</label>
-  <input
-    type="text"
-    class="form-control"
-    id="balance"
-    name="balance"
-    value="{{engineer.balance}}"
-  />
-</div>
+    h2 {
+      font-size: 24px;
+      color: #333;
+    }
 
-                  
-                   
+    label {
+      font-weight: 600;
+    }
 
-                  <button type="submit" class="btn btn-primary">Save</button>
-                </form>
-              </div>
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="main-body">
+      <div class="row gutters-sm">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <h2>Edit Engineer Profile</h2>
+              <form method="POST" action="/edit-engineer-profile/{{engineerId}}" enctype="multipart/form-data">
+
+                <div class="form-group">
+                  <label for="profilePic">Profile Picture</label>
+                  <input type="file" class="form-control-file" id="profilePic" name="profilePic" />
+                </div>
+                <div class="form-group">
+                  <label for="full_name">Full Name</label>
+                  <input type="text" class="form-control" id="full_name" name="full_name"
+                    value="{{engineer.full_name}}" />
+                </div>
+
+                <div class="form-group">
+                  <label for="designation">Designation</label>
+                  <input type="text" class="form-control" id="designation" name="designation"
+                    value="{{engineer.designation}}" />
+                </div>
+                <div class="form-group">
+                  <label for="mobile">Mobile</label>
+                  <input type="text" class="form-control" id="mobile" name="mobile" value="{{engineer.mobile}}" />
+                </div>
+                <div class="form-group">
+                  <label for="field_of_expertise">Field of Expertise</label>
+                  <select id="category" name="category" class="form-control" required>
+                    <option value="Architect" {% if engineer.field_of_expertise=='Architect' %}selected{% endif %}>
+                      Architect</option>
+                    <option value="Construction" {% if engineer.field_of_expertise=='Construction' %}selected{% endif
+                      %}>Construction</option>
+                    <option value="Interior_Design" {% if engineer.field_of_expertise=='Interior_Design' %}selected{%
+                      endif %}>Interior Design</option>
+                    <option value="Floor_Plan" {% if engineer.field_of_expertise=='Floor_Plan' %}selected{% endif %}>
+                      Floor Plan</option>
+                    <option value="Architectural_Design_And_Drafting" {% if
+                      engineer.field_of_expertise=='Architectural_Design_And_Drafting' %}selected{% endif %}>
+                      Architectural Design And Drafting</option>
+                    <option value="Structural_Engineering" {% if engineer.field_of_expertise=='Structural_Engineering'
+                      %}selected{% endif %}>Structural Engineering</option>
+                    <option value="Electrical_Installation" {% if engineer.field_of_expertise=='Electrical_Installation'
+                      %}selected{% endif %}>Electrical Installation</option>
+                    <option value="Plumbing_and_Sanitary_Works" {% if
+                      engineer.field_of_expertise=='Plumbing_and_Sanitary_Works' %}selected{% endif %}>Plumbing and
+                      Sanitary Works</option>
+                    <option value="Design_and_Decoration" {% if engineer.field_of_expertise=='Design_and_Decoration'
+                      %}selected{% endif %}>Design and Decoration</option>
+                    <option value="Construction_Project_Management" {% if
+                      engineer.field_of_expertise=='Construction_Project_Management' %}selected{% endif %}>Construction
+                      Project Management</option>
+                    <option value="Structural_Renovation_and_Retrofitting" {% if
+                      engineer.field_of_expertise=='Structural_Renovation_and_Retrofitting' %}selected{% endif %}>
+                      Structural Renovation and Retrofitting</option>
+                    <option value="Building_Inspection_and_Code_Compliance" {% if
+                      engineer.field_of_expertise=='Building_Inspection_and_Code_Compliance' %}selected{% endif %}>
+                      Building Inspection and Code Compliance</option>
+
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="location">Location</label>
+                  <input type="text" class="form-control" id="location" name="location" value="{{engineer.location}}" />
+                </div>
+                <div class="form-group">
+                  <label for="website">Website</label>
+                  <input type="text" class="form-control" id="website" name="website" value="{{engineer.website}}" />
+                </div>
+                <div class="form-group">
+                  <label for="github">GitHub</label>
+                  <input type="text" class="form-control" id="github" name="github" value="{{engineer.github}}" />
+                </div>
+                <div class="form-group">
+                  <label for="twitter">Twitter</label>
+                  <input type="text" class="form-control" id="twitter" name="twitter" value="{{engineer.twitter}}" />
+                </div>
+                <div class="form-group">
+                  <label for="skill">Skill</label>
+                  <input type="text" class="form-control" id="skill" name="skill" value="{{engineer.skill}}" />
+                </div>
+                <div class="form-group">
+                  <label for="experience">Experience</label>
+                  <input type="text" class="form-control" id="experience" name="experience"
+                    value="{{engineer.experience}}" />
+                </div>
+                <div class="form-group">
+                  <label for="education">Education</label>
+                  <input type="text" class="form-control" id="education" name="education"
+                    value="{{engineer.education}}" />
+                </div>
+                <div class="form-group">
+                  <label for="instagram">Instagram</label>
+                  <input type="text" class="form-control" id="instagram" name="instagram"
+                    value="{{engineer.instagram}}" />
+                </div>
+                <div class="form-group">
+                  <label for="facebook">Facebook</label>
+                  <input type="text" class="form-control" id="facebook" name="facebook" value="{{engineer.facebook}}" />
+                </div>
+                <div class="form-group">
+                  <label for="address">Address</label>
+                  <input type="text" class="form-control" id="address" name="address" value="{{engineer.address}}" />
+                </div>
+
+                <div class="form-group">
+                  <label for="cardHolderName">Card Holder Name</label>
+                  <input type="text" class="form-control" id="cardHolderName" name="cardHolderName"
+                    value="{{engineer.cardHolderName}}" />
+                </div>
+                <div class="form-group">
+                  <label for="cardNumber">Credit Card Number</label>
+                  <input type="text" class="form-control" id="cardNumber" name="cardNumber"
+                    value="{{engineer.cardNumber}}" />
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="cardExpMonth">Expiration Month</label>
+                    <input type="text" class="form-control" id="cardExpMonth" name="cardExpMonth"
+                      value="{{engineer.cardExpMonth}}" />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="cardExpYear">Expiration Year</label>
+                    <input type="text" class="form-control" id="cardExpYear" name="cardExpYear"
+                      value="{{engineer.cardExpYear}}" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="cardCVV">CVV</label>
+                  <input type="text" class="form-control" id="cardCVV" name="cardCVV" value="{{engineer.cardCVV}}" />
+                </div>
+                <div class="form-group">
+                  <label for="balance">balance</label>
+                  <input type="text" class="form-control" id="balance" name="balance" value="{{engineer.balance}}" />
+                </div>
+
+
+
+
+                <button type="submit" class="btn btn-primary">Save</button>
+              </form>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"
-    ></script>
-   
-  </body>
+  </div>
+  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
 </html>
