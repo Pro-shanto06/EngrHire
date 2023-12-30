@@ -10,15 +10,6 @@ function acceptBid(bidId, jobId) {
       console.log("Response from server:", response);
       console.log("AJAX request successful.");
       alert("Bid accepted. Engineer will be notified.");
-    
-     
-    
-   
-     
-    
-    
-
-     
       removeBidCard("pending-bids-list", bidId);
 
 
@@ -44,7 +35,7 @@ function rejectBid(bidId, jobId) {
     success: function (response) {
       console.log("Response from server:", response);
       console.log("AJAX request successful.");
-      alert("Bid rejected.");
+      alert("Bid rejected. Engineer will be notified.");
 
       removeBidCard("pending-bids-list", bidId);
       addBidToSection("rejected-bids-list", response);
@@ -66,6 +57,7 @@ function removeBidCard(sectionId, bidId) {
 
 function addBidToSection(sectionId, response) {
   const sectionContainer = $(`#${sectionId}`);
+   const options = { timeZone: 'Asia/Dhaka', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };
   const bidCard = `
 
        
@@ -76,7 +68,7 @@ function addBidToSection(sectionId, response) {
              
               <div class="col-md-6 mt-1">
                   <h4>${response.jobTitle}</h4>
-                  <h5>${new Date(bid.jobDeadline).toLocaleString('en-US', options)}</h5>
+                  <h5>${new Date(response.jobDeadline).toLocaleString('en-US', options)}</h5>
                   <div class="d-flex flex-row">
                       <div class="ratings mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div><span>${response.engineerFullName}</span>
                   </div>
@@ -193,15 +185,39 @@ function updateRejectedBids(rejectedBids) {
   rejectedBidsContainer.empty();
 
   rejectedBids.forEach(function (bid) {
+    const options = { timeZone: 'Asia/Dhaka', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };
     const bidCard = `
-      <a href="#" class "bid-card">
-      <h3 class="bid-title">${bid.jobTitle}</h3>
-      <p class="bid-details">${new Date(bid.jobDeadline).toLocaleString('en-US', options)}</p>
-     
-          <p class="bid-details">${bid.engineerFullName}</p>
-          <p class="bid-details">${bid.bidAmount}</p>
-          <p class="bid-details">${bid.bidDetails}</p>
-      </a>
+
+   <div class="container mt-2 mb-2">
+      <div class="d-flex justify-content-center row">
+        <div class="col-md-10">
+          <div class="row p-2 bg-white border rounded bid-card">
+            <div class="col-md-6 mt-1">
+              <h4>${bid.jobTitle}</h4>
+              <h5>${new Date(bid.jobDeadline).toLocaleString('en-US', options)}</h5>
+              <div class="d-flex flex-row">
+                <div class="ratings mr-2">
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                </div>
+                <span>${bid.engineerFullName}</span>
+              </div>
+              <p class="text-justify text-truncate para mb-0">${bid.bidDetails}<br><br></p>
+            </div>
+            <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+              <div class="d-flex flex-row align-items-center">
+                <h4 class="mr-1">${bid.bidAmount}</h4>
+              </div>
+              
+              <a class="btn btn-primary btn-sm" href="/work/${bid.workId}" style="background-color: #3498db;">View Work</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   
     `;
 
     rejectedBidsContainer.append(bidCard);
@@ -213,6 +229,9 @@ function updatePendingBids(pendingBids) {
   pendingBidsContainer.empty();
 
   pendingBids.forEach(function (bid) {
+
+    const options = { timeZone: 'Asia/Dhaka', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };
+    
     const bidCard = `
     
        
