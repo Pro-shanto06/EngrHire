@@ -163,9 +163,9 @@ const engineerSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  verificationToken: String,
-  resetPasswordToken: String,
-  resetPasswordExpires: Date,
+
+ 
+
   cardHolderName: {
     type: String,
     
@@ -196,6 +196,10 @@ const engineerSchema = new mongoose.Schema({
     max: 5,
     default: 0,
   },
+
+  verificationToken: String,
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
  
 });
 
@@ -243,9 +247,7 @@ const clientSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  verificationToken: String,
-  resetPasswordToken: String,
-  resetPasswordExpires: Date,
+ 
 
   cardHolderName: {
     type: String,
@@ -277,6 +279,9 @@ const clientSchema = new mongoose.Schema({
     max: 5,
     default: 0,
   },
+  verificationToken: String,
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
 });
 
 
@@ -511,13 +516,6 @@ const notificationSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-
-
-
-
-
-
-
 
 
 

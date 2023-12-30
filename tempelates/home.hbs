@@ -61,9 +61,7 @@
           {{#if isEngineer}}
            <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
           {{/if}}
-           {{#if isAdmin}}
-            <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
-          {{/if}}
+         
         {{else}}
           <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
         {{/if}}
@@ -77,6 +75,10 @@
                 <li><a class="nav-link scrollto" href="/engineers">Engineers</a></li>
               {{/if}}
               {{#if isClient}}
+                <li><a class="nav-link scrollto" href="#services">Services</a></li>
+                <li><a class="nav-link scrollto" href="/engineers">Engineers</a></li>
+              {{/if}}
+              {{#if isAdmin}}
                 <li><a class="nav-link scrollto" href="#services">Services</a></li>
                 <li><a class="nav-link scrollto" href="/engineers">Engineers</a></li>
               {{/if}}
@@ -1119,7 +1121,7 @@ function validateSearch() {
 
  </script>
 
- 
+
     <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
     <script src="assets/vendor/aos/aos.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
