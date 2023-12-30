@@ -35,6 +35,7 @@ a:hover {
   padding: 22px 0;
   background: #fff;
   height: 60px;
+  box-shadow: rgb(220 227 233) 0px 20px 30px -10px;
 }
 
 #header.header-scrolled {
@@ -510,10 +511,23 @@ a:hover {
 }
 
 .main {
-  width: 99%;
-  margin-left: 8%;
+  width: 45%;
+  margin-left: 30%;
+  /* padding-bottom: 10%; */
+  /* padding-top: 0; */
+  /* padding-left: 0%; */
   display: flex;
   flex-wrap: wrap;
+  /* border: 1px solid black; */
+  justify-content: center;
+  /* height: 1000; */
+  /* align-items: center; */
+   /* vertical-align: middle; */
+   background-color: white;    
+   box-shadow: inset -1px -1px 6px rgb(173 173 173);
+    
+
+    border-radius: 15px;
 }
 
 .main >h2{
@@ -590,6 +604,7 @@ a:hover {
   z-index: 99;
   transition: all 0.5s ease;
   margin-top: 61px;
+  box-shadow: rgb(198 229 255) 4px 0px 20px 0px;
 }
 .sidebar.open{
   width: 250px;
@@ -927,15 +942,17 @@ a:hover {
 
 .aka {
   position: relative;
-  background-image: url("/img/akabg.png");
+  background-image: url(/img/akabg.png);
   background-size: cover;
   padding: 25px;
   border-radius: 28px;
-  margin-left: 50px;
-  margin-top: 90px;
+  margin: 10px;
+  /* margin-left: 50px; */
+  /* margin-top: 90px; */
   max-width: 480px;
   width: 120%;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  
  
 }
 
@@ -988,10 +1005,11 @@ a:hover {
   margin: 5px 0;
   padding: 10px;
   position: relative;
+  margin-bottom: 15px;
 }
 
 .notification-content {
-  margin-bottom: 5px;
+  margin-bottom: 3px;
  
   border-radius: 10px;
   padding: 10px;
@@ -1010,6 +1028,11 @@ a:hover {
   border-style: none; /* Adjust text color for read notifications */
   border: 1px solid #000000;
   border-radius: 10px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  box-shadow: rgb(225 225 225) 10px 9px 8px 0px;
+  
 }
 
 #mark-as-read {
