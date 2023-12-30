@@ -40,86 +40,100 @@
 
 <body>
 
-    <!-- ======= Header ======= -->
+       <!-- ======= Header ======= -->
     <header id="header" class="fixed-top d-flex align-items-center">
-        <div class="container d-flex align-items-center justify-content-between">
-          <script src="https://unpkg.com/phosphor-icons"></script>
-          <div class="logo">
-            <h1><a href="/" ><img  src="/img/logo.png" alt="">EngrHire BD</a></h1>
-        
-          </div>
-  
-          <nav id="navbar" class="navbar">
-            <ul>
-              <li><a class="nav-link scrollto active" href="/">Home</a></li>
+      <div class="container d-flex align-items-center justify-content-between">
+        <script src="https://unpkg.com/phosphor-icons"></script>
+        <div class="logo">
+          <h1><a href="/"><img src="/img/logo.png" alt="" />EngrHire BD</a></h1>
+        </div>
+
+        <nav id="navbar" class="navbar">
+          <ul>
+            <li><a class="nav-link scrollto active" href="/">Home</a></li>
+
             {{#if user}}
-             {{#if isClient}}
-                  <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
-    {{/if}}
-     {{#if isEngineer}}
-                  <li><a class="nav-link scrollto" href="/engineer-post">Post Jobs</a></li>
-    {{/if}}
-     {{else}}
-  <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
-   {{/if}}
-                <li class="dropdown">
-                <a href="#"><span>Explore</span>
-                </a>
+              {{#if isClient}}
+                <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+              {{/if}}
+              {{#if isEngineer}}
+                <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+              {{/if}}
+              {{#if isAdmin}}
+                <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+              {{/if}}
+            {{else}}
+              <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+            {{/if}}
+
+            <li class="dropdown">
+              <a href="#"><span>Explore</span><i
+                  class="bi bi-chevron-down"
+                ></i></a>
               <ul>
-                  {{#if user}}
-    {{#if isEngineer}}
-      <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
-      <li><a class="nav-link scrollto" href="#services">Services</a></li>
-    {{/if}}
-  
-    {{#if isClient}}
-      <li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
-      <li><a class="nav-link scrollto" href="#services">Services</a></li>
-    {{/if}}
-      {{else}}
-       <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
-  <li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
-      <li><a class="nav-link scrollto" href="#services">Services</a></li>
-       {{/if}}
-  
-  </ul>
-  
-  
-              </li>
-  
-               <li class="dropdown">
-                <a href="#"><span>Help</span>
-                
-                </a>
-                <ul>
-                   
-                  <li><a class="nav-link scrollto" href="#about">About</a></li>
-                  <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-                  <li><a class="nav-link scrollto" href="#faq">FAQ</a></li>
-                 
-                </ul>
-  
-              </li>
-  
-         
-  {{#unless user}}
-  
-  
-      <ul>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/select" class="btn-signup">Sign Up</a></li>
-      </ul>
-  
-  {{/unless}}
-  
-  
-              <div class="search">
-                <input type="text" class="search-box" placeholder="Search..." />
-                <button class="search-btn"><i
-                    class="ph-magnifying-glass-bold"
-                  ></i></button>
-                <button class="close-btn"><i class="ph-x-bold"></i></button>
-              </div>
+                {{#if user}}
+                  {{#if isEngineer}}
+                    <li><a
+                        class="nav-link scrollto"
+                        href="/#services"
+                      >Services</a></li>
+                    <li><a
+                        class="nav-link scrollto"
+                        href="/engineers"
+                      >Engineers</a></li>
+                  {{/if}}
+                  {{#if isClient}}
+                    <li><a
+                        class="nav-link scrollto"
+                        href="/#services"
+                      >Services</a></li>
+                    <li><a
+                        class="nav-link scrollto"
+                        href="/engineers"
+                      >Engineers</a></li>
+                  {{/if}}
+                {{else}}
+                  <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+                  <li><a
+                      class="nav-link scrollto"
+                      href="/#services"
+                    >Services</a></li>
+                  <li><a
+                      class="nav-link scrollto"
+                      href="/engineers"
+                    >Engineers</a></li>
+                {{/if}}
+              </ul>
+            </li>
+
+            <li class="dropdown">
+              <a href="#"><span>Help</span><i
+                  class="bi bi-chevron-down"
+                ></i></a>
+              <ul>
+                <li><a class="nav-link scrollto" href="/#about">About</a></li>
+                <li><a
+                    class="nav-link scrollto"
+                    href="/#contact"
+                  >Contact</a></li>
+                <li><a class="nav-link scrollto" href="/#faq">FAQ</a></li>
+              </ul>
+            </li>
+
+            {{#unless user}}
+              <ul>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/select" class="btn-signup">Sign Up</a></li>
+              </ul>
+            {{/unless}}
+
+           <li class="custom-search-bar">
+  <form action="/search" method="GET" onsubmit="return validateCustomSearch()">
+    <input type="text" name="custom-query" class="custom-search-input" id="customSearchInput" placeholder="Search..." oninput="toggleCustomSearchButton()">
+    <button type="submit" class="custom-search-button" id="customSearchButton" disabled><i class="bi bi-search"></i></button>
+  </form>
+</li>
+
   
           {{#if isClient}}
     <li>
@@ -261,68 +275,66 @@
     </section>
   </div>
 
-  <script src="https://cdn.socket.io/4.1.3/socket.io.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const socket = io('http://localhost:4000');
-      const currentUserRole = '{{user.role}}';
-      const messageArea = document.getElementById('message-area');
-      const textarea = document.getElementById('textarea');
-      const sendBtn = document.getElementById('send-btn');
+<!-- Add socket.io client script in your HTML file -->
+<script src="https://cdn.socket.io/4.1.3/socket.io.min.js"></script>
 
-      function renderMessage(senderRole, message) {
-        const messageElement = document.createElement('div');
-        const messageClass = senderRole.toLowerCase() === currentUserRole.toLowerCase() ? 'outgoing' : 'incoming';
-        messageElement.classList.add(messageClass);
-        messageElement.textContent = `${senderRole}: ${message}`;
-        messageArea.appendChild(messageElement);
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const workId = '{{workId}}';
+    const currentUserRole = '{{user.role}}';
+    const socket = io(`http://localhost:4000/work/${workId}`);
+    const messageArea = document.getElementById('message-area');
+    const textarea = document.getElementById('textarea');
+    const sendBtn = document.getElementById('send-btn');
 
-     
-        messageArea.scrollTop = messageArea.scrollHeight;
-      }
+    function renderMessage(senderRole, message) {
+      const messageElement = document.createElement('div');
+      const messageClass = senderRole.toLowerCase() === currentUserRole.toLowerCase() ? 'outgoing' : 'incoming';
+      messageElement.classList.add(messageClass);
+      messageElement.textContent = `${senderRole}: ${message}`;
+      messageArea.appendChild(messageElement);
+      messageArea.scrollTop = messageArea.scrollHeight;
+    }
 
-      socket.on('chat message', function (data) {
-        if (data.senderRole && data.message) {
-          renderMessage(data.senderRole, data.message);
-        }
-      });
-
-      const workId = '{{workId}}';
-      fetch(`/api/work/${workId}/chat-messages`)
-        .then(response => response.json())
-        .then(messages => {
-          messages.forEach(message => {
-            renderMessage(message.senderRole, message.message);
-          });
-        })
-        .catch(error => console.error('Error fetching messages:', error));
-
-      sendBtn.addEventListener('click', sendMessage);
-      
-
-      textarea.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter' && !event.shiftKey) {
-          event.preventDefault();
-          sendMessage();
-        }
-      });
-
-      function sendMessage() {
-        const message = textarea.textContent.trim(); 
-        const senderRole = currentUserRole;
-
-        if (!senderRole || !message) {
-          console.error('Sender role not defined or message is empty');
-          return;
-        }
-
-        const workId = '{{workId}}';
-        socket.emit('chat message', { senderRole, message, workId });
-
-        textarea.textContent = '';
+    socket.on('chat message', function (data) {
+      if (data.senderRole && data.message) {
+        renderMessage(data.senderRole, data.message);
       }
     });
-  </script>
+
+    fetch(`/api/work/${workId}/chat-messages`)
+      .then(response => response.json())
+      .then(messages => {
+        messages.forEach(message => {
+          renderMessage(message.senderRole, message.message);
+        });
+      })
+      .catch(error => console.error('Error fetching messages:', error));
+
+    sendBtn.addEventListener('click', sendMessage);
+
+    textarea.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+      }
+    });
+
+    function sendMessage() {
+      const message = textarea.textContent.trim();
+      const senderRole = currentUserRole;
+
+      if (!senderRole || !message) {
+        console.error('Sender role not defined or message is empty');
+        return;
+      }
+
+      socket.emit('chat message', { senderRole, message });
+      textarea.textContent = '';
+    }
+  });
+</script>
+
 
 
 
