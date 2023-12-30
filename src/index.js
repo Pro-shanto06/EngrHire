@@ -10,39 +10,34 @@ const mongoose = require("mongoose");
 const app = express();
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
-const jwtSecret = 'yourSecretKey';
-const moment = require('moment');
+const jwtSecret = "yourSecretKey";
+const moment = require("moment");
 
-hbs.registerHelper('eq', function (a, b) {
+hbs.registerHelper("eq", function (a, b) {
   return a === b;
 });
-
-
-
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: "2014751020@uits.edu.bd",
-    pass: "ehsejmpwnrmdktvd", 
+    pass: "ehsejmpwnrmdktvd",
   },
 });
-
 
 const port = process.env.PORT || 4000;
 const server = app.listen(port, () => {
   console.log("port connected");
 });
 
-
-const socketIO = require('socket.io');
+const socketIO = require("socket.io");
 const io = socketIO(server);
 
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 app.use(
   session({
-    secret: "123456", 
+    secret: "123456",
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false },
@@ -56,36 +51,43 @@ app.use(express.urlencoded({ extended: false }));
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/'); 
+    cb(null, "uploads/");
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname)); 
+    cb(null, Date.now() + path.extname(file.originalname));
   },
 });
-
 
 const upload = multer({ storage: storage });
 
 const { connectToDatabase } = require("./mongo");
 connectToDatabase();
-const { Job, Engineer, Client, Bid, Work , Admin , Payment ,FormData,Notification} = require("./mongo");
+const {
+  Job,
+  Engineer,
+  Client,
+  Bid,
+  Work,
+  Admin,
+  Payment,
+  FormData,
+  Notification,
+} = require("./mongo");
 
 const tempelatePath = path.join(__dirname, "../tempelates");
 const publicPath = path.join(__dirname, "../public");
 
 console.log(publicPath);
 
-
 hbs.registerHelper("generateStarRating", (rating) => {
   const roundedRating = Math.round(rating * 2) / 2;
   const fullStars = Math.floor(roundedRating);
   const hasHalfStar = roundedRating % 1 !== 0;
-  const stars = Array(fullStars).fill('★').join('');
+  const stars = Array(fullStars).fill("★").join("");
   return hasHalfStar ? `${stars}½` : stars;
 });
 
 app.set("view engine", "hbs");
-
 
 app.set("views", tempelatePath);
 
@@ -93,35 +95,30 @@ app.use(express.static(publicPath));
 app.use("/uploads", express.static("uploads"));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-
-
-
 function isAuthenticated(req, res, next) {
   if (req.session.user) {
-    
     const user = req.session.user;
 
- 
     if (user.sessionExpired) {
-      req.session.destroy(); 
+      req.session.destroy();
       return res.redirect(
         "/login?message=Session expired. Please log in again."
       );
     }
 
-   
     if (user.role === "Client" && req.originalUrl.startsWith("/engineer")) {
-      return res.status(403).send("Access Denied"); 
+      return res.status(403).send("Access Denied");
     } else if (
       user.role === "Engineer" &&
       req.originalUrl.startsWith("/client")
     ) {
-      return res.status(403).send("Access Denied"); 
-    } else if (user.role === "Admin" &&
-    req.originalUrl.startsWith("/client") || req.originalUrl.startsWith("/engineer") ) {
       return res.status(403).send("Access Denied");
-      
-    } 
+    } else if (
+      (user.role === "Admin" && req.originalUrl.startsWith("/client")) ||
+      req.originalUrl.startsWith("/engineer")
+    ) {
+      return res.status(403).send("Access Denied");
+    }
 
     next();
   } else {
@@ -129,219 +126,199 @@ function isAuthenticated(req, res, next) {
   }
 }
 
+app.get("/about-us", async (req, res) => {
+  let userId = null;
 
+  if (req.session.user) {
+    userId = req.session.user._id;
+  }
 
+  let user = await Engineer.findById(userId);
 
+  if (!user) {
+    user = await Client.findById(userId);
+  }
 
-
-  app.get("/about-us", async (req, res) => {
- 
-    let userId = null;
-   
-    if (req.session.user) {
-      userId = req.session.user._id;
-    }
-  
-    let user = await Engineer.findById(userId);
-  
-    if (!user) {
-        user = await Client.findById(userId);
-      }
-  
-    res.render("about-us", {
-      user: user,
-      userId,
-      isClient: req.session.user?.role === "Client",
-      isEngineer: req.session.user?.role === "Engineer",
-    });
+  res.render("about-us", {
+    user: user,
+    userId,
+    isClient: req.session.user?.role === "Client",
+    isEngineer: req.session.user?.role === "Engineer",
   });
-
-
- app.get("/faq", async (req, res) => {
- 
-    let userId = null;
-   
-    if (req.session.user) {
-      userId = req.session.user._id;
-    }
-  
-    let user = await Engineer.findById(userId);
-  
-      if (!user) {
-        user = await Client.findById(userId);
-      }
-  
-    res.render("faq", {
-      user: user,
-      userId,
-      isClient: req.session.user?.role === "Client",
-      isEngineer: req.session.user?.role === "Engineer",
-    });
-  });
-
-  app.get("/work/:workId/chat", isAuthenticated, async (req, res) => {
-    try {
-      const workId = req.params.workId;
-      
-      const user = req.session.user;  
-      const role = req.session.user?.role;  
-      const userId = user?._id;  
-  
-      let engineer = null;
-      let client = null;
-  
-      if (role === "Engineer") {
-        engineer = await Engineer.findById(userId);
-      } else if (role === "Client") {
-        client = await Client.findById(userId);
-      }
-  
-      if (engineer && engineer.profilePicPath) {
-        engineer.profilePicPath =
-          "/" + engineer.profilePicPath.replace(/\\/g, "/");
-      }
-
-      if (client && client.profilePicPath) {
-        client.profilePicPath =
-          "/" + client.profilePicPath.replace(/\\/g, "/");
-      }
-  
-      res.render("chat", {
-        workId: workId,
-        user: user,
-        userId: userId,
-        client: client,
-        engineer: engineer,
-        role: role,
-        isClient: role === "Client",
-        isEngineer: role === "Engineer",
-      });
-    } catch (error) {
-      console.error(error);
-      res.status(500).send("Error fetching data");
-    }
-  });
-  
-  
-
-  app.get('/api/work/:workId/chat-messages', async (req, res) => {
-    try {
-      const workId = req.params.workId;
-      
-      const work = await Work.findById(workId);
-  
-      if (!work) {
-        console.error('Work not found for workId:', workId);
-        return res.status(404).json({ error: 'Work not found' });
-      }
-  
-     
-      const allChatMessages = [
-        ...work.clientChatMessages.map(message => ({ senderRole: 'Client', message: message.message, timestamp: message.timestamp })),
-        ...work.engineerChatMessages.map(message => ({ senderRole: 'Engineer', message: message.message, timestamp: message.timestamp })),
-      ];
-  
-  
-      allChatMessages.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
-  
-      res.json(allChatMessages);
-    } catch (error) {
-      console.error('Error fetching chat messages:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
 });
 
+app.get("/faq", async (req, res) => {
+  let userId = null;
 
-  io.on('connection', (socket) => {
-    console.log('A user connected');
-  
-   
-    socket.on('chat message', async (data) => {
-      
-      const { senderRole, message, workId } = data;
-  
-      try {
-       
-        const work = await Work.findById(workId);
-  
-        if (!work) {
-          console.error('Work not found for workId:', workId);
-          return;
-        }
-  
-        
-        const senderObjectId = mongoose.Types.ObjectId.isValid(senderRole)
-          ? mongoose.Types.ObjectId(senderRole)
-          : null;
-  
-        
-        let chatMessagesArray;
-        if (senderRole.toLowerCase() === 'client') {
-          chatMessagesArray = 'clientChatMessages';
-        } else if (senderRole.toLowerCase() === 'engineer') {
-          chatMessagesArray = 'engineerChatMessages';
-        } else {
-          console.error('Invalid sender role:', senderRole);
-          return;
-        }
-  
-      
-        work[chatMessagesArray].push({
-          sender: senderObjectId,
-          message: message,
-        });
-  
-        
-        await work.save();
-  
-     
-        io.emit('chat message', { senderRole, message, workId });
-      } catch (error) {
-        console.error('Error saving or broadcasting message:', error);
-      }
-    });
-  
-   
-    socket.on('disconnect', () => {
-      console.log('User disconnected');
-    });
+  if (req.session.user) {
+    userId = req.session.user._id;
+  }
+
+  let user = await Engineer.findById(userId);
+
+  if (!user) {
+    user = await Client.findById(userId);
+  }
+
+  res.render("faq", {
+    user: user,
+    userId,
+    isClient: req.session.user?.role === "Client",
+    isEngineer: req.session.user?.role === "Engineer",
   });
+});
 
+app.get("/work/:workId/chat", isAuthenticated, async (req, res) => {
+  try {
+    const workId = req.params.workId;
 
-  
-  
-  app.get('/engineers', async (req, res) => {
+    const user = req.session.user;
+    const role = req.session.user?.role;
+    const userId = user?._id;
+
+    let engineer = null;
+    let client = null;
+
+    if (role === "Engineer") {
+      engineer = await Engineer.findById(userId);
+    } else if (role === "Client") {
+      client = await Client.findById(userId);
+    }
+
+    if (engineer && engineer.profilePicPath) {
+      engineer.profilePicPath =
+        "/" + engineer.profilePicPath.replace(/\\/g, "/");
+    }
+
+    if (client && client.profilePicPath) {
+      client.profilePicPath = "/" + client.profilePicPath.replace(/\\/g, "/");
+    }
+
+    res.render("chat", {
+      workId: workId,
+      user: user,
+      userId: userId,
+      client: client,
+      engineer: engineer,
+      role: role,
+      isClient: role === "Client",
+      isEngineer: role === "Engineer",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error fetching data");
+  }
+});
+
+app.get("/api/work/:workId/chat-messages", async (req, res) => {
+  try {
+    const workId = req.params.workId;
+
+    const work = await Work.findById(workId);
+
+    if (!work) {
+      console.error("Work not found for workId:", workId);
+      return res.status(404).json({ error: "Work not found" });
+    }
+
+    const allChatMessages = [
+      ...work.clientChatMessages.map((message) => ({
+        senderRole: "Client",
+        message: message.message,
+        timestamp: message.timestamp,
+      })),
+      ...work.engineerChatMessages.map((message) => ({
+        senderRole: "Engineer",
+        message: message.message,
+        timestamp: message.timestamp,
+      })),
+    ];
+
+    allChatMessages.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+
+    res.json(allChatMessages);
+  } catch (error) {
+    console.error("Error fetching chat messages:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+io.on("connection", (socket) => {
+  console.log("A user connected");
+
+  socket.on("chat message", async (data) => {
+    const { senderRole, message, workId } = data;
+
     try {
-      let userId = null;
-  
-      if (req.session.user) {
-        userId = req.session.user._id;
+      const work = await Work.findById(workId);
+
+      if (!work) {
+        console.error("Work not found for workId:", workId);
+        return;
       }
-  
-      let user = await Engineer.findById(userId);
-  
-      if (!user) {
-        user = await Client.findById(userId);
+
+      const senderObjectId = mongoose.Types.ObjectId.isValid(senderRole)
+        ? mongoose.Types.ObjectId(senderRole)
+        : null;
+
+      let chatMessagesArray;
+      if (senderRole.toLowerCase() === "client") {
+        chatMessagesArray = "clientChatMessages";
+      } else if (senderRole.toLowerCase() === "engineer") {
+        chatMessagesArray = "engineerChatMessages";
+      } else {
+        console.error("Invalid sender role:", senderRole);
+        return;
       }
-  
-      // Fetch all engineers from the database
-      const engineers = await Engineer.find();
-  
-      // Send the engineers to the rendering engine along with user information
-      res.render('engineers', {
-        engineers,
-        user,
-        userId,
-        isClient: req.session.user?.role === 'Client',
-        isEngineer: req.session.user?.role === 'Engineer',
+
+      work[chatMessagesArray].push({
+        sender: senderObjectId,
+        message: message,
       });
+
+      await work.save();
+
+      io.emit("chat message", { senderRole, message, workId });
     } catch (error) {
-      console.error('Error fetching engineers:', error);
-      res.status(500).send('Internal Server Error');
+      console.error("Error saving or broadcasting message:", error);
     }
   });
-  
 
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
+  });
+});
+
+app.get("/engineers", async (req, res) => {
+  try {
+    let userId = null;
+
+    if (req.session.user) {
+      userId = req.session.user._id;
+    }
+
+    let user = await Engineer.findById(userId);
+
+    if (!user) {
+      user = await Client.findById(userId);
+    }
+
+    // Fetch all engineers from the database
+    const engineers = await Engineer.find();
+
+    // Send the engineers to the rendering engine along with user information
+    res.render("engineers", {
+      engineers,
+      user,
+      userId,
+      isClient: req.session.user?.role === "Client",
+      isEngineer: req.session.user?.role === "Engineer",
+    });
+  } catch (error) {
+    console.error("Error fetching engineers:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 app.get("/signup", (req, res) => {
   res.render("signup");
@@ -364,9 +341,9 @@ app.get("/rating", (req, res) => {
 });
 
 
-
-
-
+app.get("/forgot-password", (req, res) => {
+  res.render("forgot-password"); 
+});
 
 app.get("/", async (req, res) => {
   let userId = null;
@@ -375,28 +352,22 @@ app.get("/", async (req, res) => {
     userId = req.session.user._id;
   }
 
-  let user = await Engineer.findById(userId);
+  let user =
+    (await Engineer.findById(userId)) ||
+    (await Client.findById(userId)) ||
+    (await Admin.findById(userId));
 
-  if (!user) {
-    user = await Client.findById(userId);
-  }
-
-  const success = req.query.success === 'true';
+  const success = req.query.success === "true";
 
   res.render("home", {
     user,
     userId,
     isClient: req.session.user?.role === "Client",
     isEngineer: req.session.user?.role === "Engineer",
-    success, // Include the success parameter in rendering options
+    isAdmin: req.session.user?.role === "Admin",
+    success,
   });
 });
-
-
-
-
-
-
 
 app.post("/signup", upload.single("profilePic"), async (req, res) => {
   try {
@@ -413,8 +384,9 @@ app.post("/signup", upload.single("profilePic"), async (req, res) => {
     const newEngineer = new Engineer(engineerData);
     await newEngineer.save();
 
-   
-    const verificationToken = jwt.sign({ id: newEngineer._id }, jwtSecret, { expiresIn: "1d" });
+    const verificationToken = jwt.sign({ id: newEngineer._id }, jwtSecret, {
+      expiresIn: "1d",
+    });
     newEngineer.verificationToken = verificationToken;
     await newEngineer.save();
 
@@ -428,65 +400,61 @@ app.post("/signup", upload.single("profilePic"), async (req, res) => {
 
     await transporter.sendMail(verificationMailOptions);
 
-   
-    res.render('login', {
-      successMessage: 'Sign up successful. Please check your email for profile verification.',
+    res.render("login", {
+      successMessage:
+        "Sign up successful. Please check your email for profile verification.",
     });
   } catch (error) {
-    console.error('Error saving to the database:', error);
-    res.status(500).send('Internal Server Error');
+    console.error("Error saving to the database:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
-
-
-
-
 app.post("/signup2", upload.single("profilePic"), async (req, res) => {
   try {
-   
     const clientData = {
       full_name: req.body.full_name,
       email: req.body.email,
-      password: req.body.password, 
+      password: req.body.password,
       mobile: req.body.mobile,
-      profilePicPath: req.file ? req.file.path : "", 
+      profilePicPath: req.file ? req.file.path : "",
     };
 
-    
     const newClient = new Client(clientData);
     await newClient.save();
 
-    const verificationToken = jwt.sign({ id: newClient._id }, jwtSecret, { expiresIn: '1d' });
+    const verificationToken = jwt.sign({ id: newClient._id }, jwtSecret, {
+      expiresIn: "1d",
+    });
     newClient.verificationToken = verificationToken;
     await newClient.save();
 
     const verificationLink = `http://localhost:4000/verify-client/${verificationToken}`;
     const verificationMailOptions = {
-      from: '2014751020@uits.edu.bd', 
+      from: "2014751020@uits.edu.bd",
       to: newClient.email,
-      subject: 'Profile Verification',
+      subject: "Profile Verification",
       text: `Click on the following link to verify your profile: ${verificationLink}`,
     };
 
     await transporter.sendMail(verificationMailOptions);
 
-    res.render('login', {
-      successMessage: 'Sign up successful. Please check your email for profile verification.',
+    res.render("login", {
+      successMessage:
+        "Sign up successful. Please check your email for profile verification.",
     });
   } catch (error) {
-    console.error('Error saving to the database:', error);
-    res.status(500).send('Internal Server Error');
+    console.error("Error saving to the database:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
-app.get('/verify-profile/:token', async (req, res) => {
+app.get("/verify-profile/:token", async (req, res) => {
   const token = req.params.token;
 
   try {
     const decoded = jwt.verify(token, jwtSecret);
 
-    
     const user = await Engineer.findById(decoded.id);
     if (!user) {
       return res.status(404).send("User not found");
@@ -497,18 +465,17 @@ app.get('/verify-profile/:token', async (req, res) => {
 
     res.redirect("/login?verificationSuccess=true");
   } catch (error) {
-    console.error('Token Verification Error:', error);
-    res.status(400).send('Invalid or expired token');
+    console.error("Token Verification Error:", error);
+    res.status(400).send("Invalid or expired token");
   }
 });
 
-app.get('/verify-client/:token', async (req, res) => {
+app.get("/verify-client/:token", async (req, res) => {
   const token = req.params.token;
 
   try {
     const decoded = jwt.verify(token, jwtSecret);
 
-    
     const user = await Client.findById(decoded.id);
     if (!user) {
       return res.status(404).send("User not found");
@@ -519,12 +486,10 @@ app.get('/verify-client/:token', async (req, res) => {
 
     res.redirect("/login?verificationSuccess=true");
   } catch (error) {
-    console.error('Token Verification Error:', error);
-    res.status(400).send('Invalid or expired token');
+    console.error("Token Verification Error:", error);
+    res.status(400).send("Invalid or expired token");
   }
 });
-
-
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -544,17 +509,22 @@ app.post("/login", async (req, res) => {
     }
 
     if (!user) {
-      return res.render('login', { error: 'Invalid email or password. User not found.' });
+      return res.render("login", {
+        error: "Invalid email or password. User not found.",
+      });
     }
 
     if (role !== "Admin" && !user.isVerified) {
-      return res.render('login', { error: 'Profile not verified. Please check your email for verification.' });
+      return res.render("login", {
+        error:
+          "Profile not verified. Please check your email for verification.",
+      });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.render('login', { error: 'Invalid email or password.' });
+      return res.render("login", { error: "Invalid email or password." });
     }
 
     req.session.user = {
@@ -568,15 +538,11 @@ app.post("/login", async (req, res) => {
     } else {
       res.redirect(`/admin-dashboard`);
     }
-
   } catch (error) {
     console.error("Error during login:", error);
-    res.status(500).render('login', { error: 'Internal Server Error' });
+    res.status(500).render("login", { error: "Internal Server Error" });
   }
 });
-
-
-
 
 app.get("/logout", (req, res) => {
   req.session.destroy((err) => {
@@ -590,48 +556,47 @@ app.get("/logout", (req, res) => {
 });
 
 const getStarRating = (rating) => {
-  const roundedRating = Math.round(rating * 2) / 2; 
+  const roundedRating = Math.round(rating * 2) / 2;
   const fullStars = Math.floor(roundedRating);
   const hasHalfStar = roundedRating % 1 !== 0;
 
-  const stars = Array(fullStars).fill('★').join('');
+  const stars = Array(fullStars).fill("★").join("");
 
   return hasHalfStar ? `${stars}½` : stars;
 };
 
-
 app.get("/profile/:engineerId/:type", async (req, res) => {
   let engineerId = req.params.engineerId;
-  let type=req.params.type;
+  let type = req.params.type;
   let engineer = null;
-  let engineerProfile=false,cardInfo=false,rating=false,notification=false
-if (type==1){
-  engineerProfile=true;
-}
-if (type==2){
-  cardInfo=true;
-}
-if (type==3){
-  rating=true;
-}
-if (type == 4) {
-  notification = true;
-}
-
-let userId = null;
-   
-if (req.session.user) {
-  userId = req.session.user._id;
-}
-
-let user = await Engineer.findById(userId);
-
-if (!user) {
-    user = await Client.findById(userId);
+  let engineerProfile = false,
+    cardInfo = false,
+    rating = false,
+    notification = false;
+  if (type == 1) {
+    engineerProfile = true;
+  }
+  if (type == 2) {
+    cardInfo = true;
+  }
+  if (type == 3) {
+    rating = true;
+  }
+  if (type == 4) {
+    notification = true;
   }
 
+  let userId = null;
 
-  
+  if (req.session.user) {
+    userId = req.session.user._id;
+  }
+
+  let user = await Engineer.findById(userId);
+
+  if (!user) {
+    user = await Client.findById(userId);
+  }
 
   try {
     engineer = await Engineer.findById(engineerId);
@@ -641,34 +606,30 @@ if (!user) {
       const isEngineer =
         req.session.user && req.session.user.role === "Engineer";
 
-        const canEdit = isEngineer && engineerId === userId;
+      const canEdit = isEngineer && engineerId === userId;
 
-      
       if (user && user.profilePicPath) {
-        user.profilePicPath =
-          "/" + user.profilePicPath.replace(/\\/g, "/");
+        user.profilePicPath = "/" + user.profilePicPath.replace(/\\/g, "/");
       }
       if (engineer && engineer.profilePicPath) {
         engineer.profilePicPath =
           "/" + engineer.profilePicPath.replace(/\\/g, "/");
       }
-     
 
+      const works = await Work.find({ engineer: engineerId }).populate({
+        path: "client",
+        select: "full_name email profilePicPath",
+      });
 
-      const works = await Work.find({ engineer: engineerId })
-  .populate({
-    path: "client",
-    select: "full_name email profilePicPath",
-  });
-      
-  const engineerNotifications = await Notification.find({
-    recipient: engineerId,
-  })
-    .sort({ createdAt: -1 })
-    .limit(10); 
+      const engineerNotifications = await Notification.find({
+        recipient: engineerId,
+      })
+        .sort({ createdAt: -1 })
+        .limit(10);
 
-
-    const unreadNotificationCount = engineerNotifications.filter(notification => !notification.read).length;
+      const unreadNotificationCount = engineerNotifications.filter(
+        (notification) => !notification.read
+      ).length;
 
       res.render("profile", {
         userId,
@@ -677,15 +638,15 @@ if (!user) {
         isEngineer: req.session.user?.role === "Engineer",
         engineerId,
         engineer: engineer,
-        canEdit: canEdit, 
+        canEdit: canEdit,
         engineerProfile,
         cardInfo,
         rating,
         works,
-        engineerRating: getStarRating(engineer.rating), 
+        engineerRating: getStarRating(engineer.rating),
         notification,
         engineerNotifications,
-        unreadNotificationCount
+        unreadNotificationCount,
       });
     } else {
       res.status(404).send("Engineer not found");
@@ -695,8 +656,6 @@ if (!user) {
     res.status(500).send("Internal server error");
   }
 });
-
-
 
 app.get("/client-profile/:clientId/:type", async (req, res) => {
   try {
@@ -732,7 +691,7 @@ app.get("/client-profile/:clientId/:type", async (req, res) => {
     }
 
     const clientPayments = await Payment.find({ client: clientId }).populate(
-      'engineer'
+      "engineer"
     );
 
     let userId = null;
@@ -771,26 +730,29 @@ app.get("/client-profile/:clientId/:type", async (req, res) => {
 
       const works = await Work.find({ client: clientId })
         .populate({
-          path: 'engineer',
-          select: 'full_name email profilePicPath',
+          path: "engineer",
+          select: "full_name email profilePicPath",
         })
         .populate({
-          path: 'job',
-          select: 'jobTitle category specifiedCategory',
+          path: "job",
+          select: "jobTitle category specifiedCategory",
         });
 
-        const clientNotifications = await Notification.find({ recipient: clientId })
+      const clientNotifications = await Notification.find({
+        recipient: clientId,
+      })
         .sort({ createdAt: -1 })
         .limit(10);
 
+      const unreadNotificationCount = clientNotifications.filter(
+        (notification) => !notification.read
+      ).length;
 
-        const unreadNotificationCount = clientNotifications.filter(notification => !notification.read).length;
-
-      res.render('client-profile', {
+      res.render("client-profile", {
         userId,
         user,
-        isClient: req.session.user?.role === 'Client',
-        isEngineer: req.session.user?.role === 'Engineer',
+        isClient: req.session.user?.role === "Client",
+        isEngineer: req.session.user?.role === "Engineer",
         clientId,
         client,
         canEdit,
@@ -804,295 +766,292 @@ app.get("/client-profile/:clientId/:type", async (req, res) => {
         works,
         clientPayments,
         clientRating: getStarRating(client.rating),
-        jobIds, 
+        jobIds,
         notification,
         clientNotifications,
-        unreadNotificationCount
+        unreadNotificationCount,
       });
     } else {
-      res.status(404).send('Client not found');
+      res.status(404).send("Client not found");
     }
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal server error');
+    res.status(500).send("Internal server error");
   }
 });
-
 
 app.post("/mark-notifications-as-read", async (req, res) => {
   try {
     const clientId = req.session.user._id;
 
     // Mark all unread notifications as read for the client
-    await Notification.updateMany({ recipient: clientId, read: false }, { read: true });
+    await Notification.updateMany(
+      { recipient: clientId, read: false },
+      { read: true }
+    );
 
-    res.send('Notifications marked as read');
+    res.send("Notifications marked as read");
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error marking notifications as read');
+    res.status(500).send("Error marking notifications as read");
   }
 });
-
 
 app.get("/edit-client-profile/:clientId", isAuthenticated, async (req, res) => {
   let clientId = req.params.clientId;
 
   let userId = null;
-   
+
   if (req.session.user) {
     userId = req.session.user._id;
   }
-  
+
   let user = await Engineer.findById(userId);
-  
+
   if (!user) {
+    user = await Client.findById(userId);
+  }
+
+  const clientData = await Client.findById(clientId);
+
+  if (clientData) {
+    res.render("edit-client-profile", {
+      userId,
+      user: user,
+      isClient: req.session.user?.role === "Client",
+      isEngineer: req.session.user?.role === "Engineer",
+      clientId,
+      client: clientData,
+    });
+  } else {
+    res.status(404).send("Client data not found");
+  }
+});
+
+app.post(
+  "/edit-client-profile/:clientId",
+  isAuthenticated,
+  async (req, res) => {
+    upload.single("profilePic")(req, res, async (err) => {
+      if (err) {
+        console.error("File Upload Error:", err);
+        return res.status(500).send("File upload failed.");
+      }
+      try {
+        const {
+          full_name,
+          mobile,
+          address,
+          location,
+          website,
+          twitter,
+          instagram,
+          facebook,
+          cardHolderName,
+          cardNumber,
+          cardExpMonth,
+          cardExpYear,
+          cardCVV,
+          balance,
+        } = req.body;
+
+        const clientEmail = req.session.user.email;
+
+        const currentClient = await Client.findOne({ email: clientEmail });
+        const currentProfilePicPath = currentClient.profilePicPath;
+
+        let profilePicPath = currentProfilePicPath;
+
+        if (req.file) {
+          profilePicPath = req.file.path.replace(/\\/g, "/");
+        }
+
+        const updateData = {
+          mobile,
+          address,
+          location,
+          website,
+          twitter,
+          instagram,
+          facebook,
+          cardHolderName,
+          cardNumber,
+          cardExpMonth,
+          cardExpYear,
+          cardCVV,
+          balance,
+          profilePicPath,
+        };
+
+        if (full_name) {
+          updateData.full_name = full_name;
+        }
+
+        const updatedClient = await Client.findOneAndUpdate(
+          { email: clientEmail },
+          updateData,
+          { new: true }
+        );
+
+        res.redirect(`/client-profile/${req.session.user._id}/1`);
+      } catch (error) {
+        console.error("Error updating client profile:", error);
+        res.status(500).send("Internal Server Error");
+      }
+    });
+  }
+);
+
+app.get(
+  "/edit-engineer-profile/:engineerId",
+  isAuthenticated,
+  async (req, res) => {
+    let engineerId = req.params.engineerId;
+
+    let userId = null;
+
+    if (req.session.user) {
+      userId = req.session.user._id;
+    }
+
+    let user = await Engineer.findById(userId);
+
+    if (!user) {
       user = await Client.findById(userId);
     }
 
- 
-    const clientData = await Client.findById(clientId);
+    const engineerData = await Engineer.findById(engineerId);
 
-    if (clientData) {
-      res.render("edit-client-profile", { 
+    if (engineerData) {
+      res.render("edit-engineer-profile", {
         userId,
         user: user,
         isClient: req.session.user?.role === "Client",
         isEngineer: req.session.user?.role === "Engineer",
-        clientId,
-        client: clientData,
-       });
-    } else {
-      res.status(404).send("Client data not found");
-    }
- 
-});
-
-app.post("/edit-client-profile/:clientId", isAuthenticated, async (req, res) => {
-  upload.single("profilePic")(req, res, async (err) => {
-    if (err) {
-      console.error("File Upload Error:", err);
-      return res.status(500).send("File upload failed.");
-    }
-    try {
-      const {
-        full_name,
-        mobile,
-        address,
-        location,
-        website,
-        twitter,
-        instagram,
-        facebook,
-        cardHolderName,
-        cardNumber,
-        cardExpMonth,
-        cardExpYear,
-        cardCVV,
-        balance
-      } = req.body;
-
-      const clientEmail = req.session.user.email;
-
-      const currentClient = await Client.findOne({ email: clientEmail });
-      const currentProfilePicPath = currentClient.profilePicPath;
-
-      let profilePicPath = currentProfilePicPath;
-
-      if (req.file) {
-        profilePicPath = req.file.path.replace(/\\/g, '/'); 
-      }
-
-      const updateData = {
-        mobile,
-        address,
-        location,
-        website,
-        twitter,
-        instagram,
-        facebook,
-        cardHolderName,
-        cardNumber,
-        cardExpMonth,
-        cardExpYear,
-        cardCVV,
-        balance,
-        profilePicPath,
-      };
-
-      if (full_name) {
-        updateData.full_name = full_name;
-      }
-
-      const updatedClient = await Client.findOneAndUpdate(
-        { email: clientEmail },
-        updateData,
-        { new: true }
-      );
-
-      res.redirect(`/client-profile/${req.session.user._id}/1`);
-    } catch (error) {
-      console.error("Error updating client profile:", error);
-      res.status(500).send("Internal Server Error");
-    }
-  });
-});
-
-
-app.get("/edit-engineer-profile/:engineerId", isAuthenticated, async (req, res) => {
-
-  let engineerId = req.params.engineerId;
-
-  let userId = null;
-   
-  if (req.session.user) {
-    userId = req.session.user._id;
-  }
-  
-  let user = await Engineer.findById(userId);
-  
-  if (!user) {
-      user = await Client.findById(userId);
-    }
-  
-      const engineerData = await Engineer.findById(engineerId);
-      
-
-      if (engineerData) {
-        res.render("edit-engineer-profile", {
-          userId,
-          user: user,
-          isClient: req.session.user?.role === "Client",
-          isEngineer: req.session.user?.role === "Engineer",
-          engineerId,
-          engineer: engineerData,
-        });
-      } else {
-        res.status(404).send("Engineer data not found");
-      }
-   
-});
-
-
-
-
-
-app.post("/edit-engineer-profile/:engineerId", isAuthenticated, async (req, res) => {
-  upload.single("profilePic")(req, res, async (err) => {
-    if (err) {
-      console.error("File Upload Error:", err);
-      return res.status(500).send("File upload failed.");
-    }
-
-    try {
-      const {
-        full_name,
-        designation,
-        mobile,
-        field_of_expertise,
-        location,
-        website,
-        github,
-        twitter,
-        instagram,
-        facebook,
-        skill,
-        experience,
-        education,
-        address,
-        rating, 
-        cardHolderName, 
-        cardNumber, 
-        cardExpMonth, 
-        cardExpYear, 
-        cardCVV,
-        balance
-      } = req.body;
-
-      const engineerEmail = req.session.user.email;
-
-      const currentEngineer = await Engineer.findOne({
-        email: engineerEmail,
+        engineerId,
+        engineer: engineerData,
       });
-      const currentProfilePicPath = currentEngineer.profilePicPath;
-
-      let profilePicPath = currentProfilePicPath;
-
-      if (req.file) {
-        profilePicPath = req.file.path.replace(/\\/g, '/'); 
-      }
-
-      const updateData = {
-        designation,
-        mobile,
-        field_of_expertise,
-        location,
-        website,
-        github,
-        twitter,
-        instagram,
-        facebook,
-        skill,
-        experience,
-        education,
-        address,
-        rating,
-        cardHolderName, 
-        cardNumber,
-        cardExpMonth, 
-        cardExpYear, 
-        cardCVV, 
-        balance,
-        profilePicPath, 
-      };
-
-      if (full_name) {
-        updateData.full_name = full_name;
-      }
-
-      const updatedEngineer = await Engineer.findOneAndUpdate(
-        { email: engineerEmail },
-        updateData,
-        { new: true }
-      );
-
-      res.redirect(`/profile/${req.session.user._id}/1`);
-    } catch (error) {
-      console.error("Error updating client profile:", error);
-      res.status(500).send("Internal Server Error");
+    } else {
+      res.status(404).send("Engineer data not found");
     }
-  });
-});
+  }
+);
 
+app.post(
+  "/edit-engineer-profile/:engineerId",
+  isAuthenticated,
+  async (req, res) => {
+    upload.single("profilePic")(req, res, async (err) => {
+      if (err) {
+        console.error("File Upload Error:", err);
+        return res.status(500).send("File upload failed.");
+      }
+
+      try {
+        const {
+          full_name,
+          designation,
+          mobile,
+          field_of_expertise,
+          location,
+          website,
+          github,
+          twitter,
+          instagram,
+          facebook,
+          skill,
+          experience,
+          education,
+          address,
+          rating,
+          cardHolderName,
+          cardNumber,
+          cardExpMonth,
+          cardExpYear,
+          cardCVV,
+          balance,
+        } = req.body;
+
+        const engineerEmail = req.session.user.email;
+
+        const currentEngineer = await Engineer.findOne({
+          email: engineerEmail,
+        });
+        const currentProfilePicPath = currentEngineer.profilePicPath;
+
+        let profilePicPath = currentProfilePicPath;
+
+        if (req.file) {
+          profilePicPath = req.file.path.replace(/\\/g, "/");
+        }
+
+        const updateData = {
+          designation,
+          mobile,
+          field_of_expertise,
+          location,
+          website,
+          github,
+          twitter,
+          instagram,
+          facebook,
+          skill,
+          experience,
+          education,
+          address,
+          rating,
+          cardHolderName,
+          cardNumber,
+          cardExpMonth,
+          cardExpYear,
+          cardCVV,
+          balance,
+          profilePicPath,
+        };
+
+        if (full_name) {
+          updateData.full_name = full_name;
+        }
+
+        const updatedEngineer = await Engineer.findOneAndUpdate(
+          { email: engineerEmail },
+          updateData,
+          { new: true }
+        );
+
+        res.redirect(`/profile/${req.session.user._id}/1`);
+      } catch (error) {
+        console.error("Error updating client profile:", error);
+        res.status(500).send("Internal Server Error");
+      }
+    });
+  }
+);
 
 app.get("/post-job", isAuthenticated, async (req, res) => {
-
   let userId = null;
-   
+
   if (req.session.user) {
     userId = req.session.user._id;
   }
-  
-  let user = await Engineer.findById(userId);
-  
-  if (!user) {
-      user = await Client.findById(userId);
-    }
 
+  let user = await Engineer.findById(userId);
+
+  if (!user) {
+    user = await Client.findById(userId);
+  }
 
   if (req.session.user.role === "Client") {
     try {
       const clientId = req.session.user._id;
       const client = await Client.findById(clientId);
 
-        if (user && user.profilePicPath) {
-        user.profilePicPath =
-          "/" + user.profilePicPath.replace(/\\/g, "/");
+      if (user && user.profilePicPath) {
+        user.profilePicPath = "/" + user.profilePicPath.replace(/\\/g, "/");
       }
       if (client && client.profilePicPath) {
-        client.profilePicPath =
-          "/" + client.profilePicPath.replace(/\\/g, "/");
+        client.profilePicPath = "/" + client.profilePicPath.replace(/\\/g, "/");
       }
-    
 
       res.render("post-job", {
         userId,
@@ -1147,14 +1106,12 @@ app.post("/post-job", isAuthenticated, async (req, res) => {
     const job = new Job(jobData);
     await job.save();
 
- 
     res.redirect(`/client-profile/${client._id}/3`);
   } catch (error) {
     console.error("Error saving job:", error);
     res.status(500).send("Internal server error");
   }
 });
-
 
 app.get("/edit-job/:jobId", isAuthenticated, async (req, res) => {
   try {
@@ -1177,14 +1134,27 @@ app.get("/edit-job/:jobId", isAuthenticated, async (req, res) => {
       user = await Client.findById(userId);
     }
     if (user && user.profilePicPath) {
-      user.profilePicPath =
-        "/" + user.profilePicPath.replace(/\\/g, "/");
+      user.profilePicPath = "/" + user.profilePicPath.replace(/\\/g, "/");
     }
 
- 
-    const categories = ["Architect", "Construction", "Interior_Design", "Floor_Plan", "Architectural_Design_And_Drafting", "Structural_Engineering", "Electrical_Installation", "Plumbing_and_Sanitary Works", "Design_and_Decoration", "Construction_Project_Management", "Structural_Renovation_and_Retrofitting", "Building_Inspection_and_Code_Compliance"];
+    const categories = [
+      "Architect",
+      "Construction",
+      "Interior_Design",
+      "Floor_Plan",
+      "Architectural_Design_And_Drafting",
+      "Structural_Engineering",
+      "Electrical_Installation",
+      "Plumbing_and_Sanitary Works",
+      "Design_and_Decoration",
+      "Construction_Project_Management",
+      "Structural_Renovation_and_Retrofitting",
+      "Building_Inspection_and_Code_Compliance",
+    ];
 
-    const formattedDate = job.jobDeadline ? job.jobDeadline.toISOString().split('T')[0] : '';
+    const formattedDate = job.jobDeadline
+      ? job.jobDeadline.toISOString().split("T")[0]
+      : "";
 
     res.render("edit-job", {
       job,
@@ -1193,17 +1163,12 @@ app.get("/edit-job/:jobId", isAuthenticated, async (req, res) => {
       user,
       isClient: req.session.user?.role === "Client",
       isEngineer: req.session.user?.role === "Engineer",
-     
     });
   } catch (error) {
     console.error("Error fetching job data:", error);
     res.status(500).send("Internal server error");
   }
 });
-
-
-
-
 
 app.post("/edit-job/:jobId", isAuthenticated, async (req, res) => {
   const jobId = req.params.jobId;
@@ -1246,7 +1211,6 @@ app.post("/edit-job/:jobId", isAuthenticated, async (req, res) => {
   }
 });
 
-
 app.post("/delete-job/:jobId", isAuthenticated, async (req, res) => {
   const jobId = req.params.jobId;
 
@@ -1269,17 +1233,15 @@ app.post("/delete-job/:jobId", isAuthenticated, async (req, res) => {
   }
 });
 
-
-
-
-
-
-
 function sortJobsByDate(jobs, sortBy) {
   if (sortBy === "asc") {
-    return jobs.sort((a, b) => new Date(a.jobDeadline) - new Date(b.jobDeadline));
+    return jobs.sort(
+      (a, b) => new Date(a.jobDeadline) - new Date(b.jobDeadline)
+    );
   } else if (sortBy === "desc") {
-    return jobs.sort((a, b) => new Date(b.jobDeadline) - new Date(a.jobDeadline));
+    return jobs.sort(
+      (a, b) => new Date(b.jobDeadline) - new Date(a.jobDeadline)
+    );
   } else {
     return jobs;
   }
@@ -1290,14 +1252,11 @@ function filterJobsByPrice(jobs, minPrice, maxPrice) {
   const min = parseFloat(minPrice);
   const max = parseFloat(maxPrice);
 
-  return jobs.filter(job => {
+  return jobs.filter((job) => {
     const jobPrice = parseFloat(job.jobPriceRange);
     return jobPrice >= min && jobPrice <= max;
   });
 }
-
-
-
 
 app.get("/job-list/:categoryName", isAuthenticated, async (req, res) => {
   try {
@@ -1307,7 +1266,8 @@ app.get("/job-list/:categoryName", isAuthenticated, async (req, res) => {
 
     if (req.session.user) {
       const userId = req.session.user._id;
-      user = await Engineer.findById(userId) || await Client.findById(userId);
+      user =
+        (await Engineer.findById(userId)) || (await Client.findById(userId));
     }
 
     if (req.session.user.role === "Client") {
@@ -1329,9 +1289,8 @@ app.get("/job-list/:categoryName", isAuthenticated, async (req, res) => {
       // Fetch all jobs that match the price range
       jobs = await Job.find({
         price: { $gte: minPrice, $lte: maxPrice },
-      })
-        .sort({ jobDeadline: sortBy });
-    
+      }).sort({ jobDeadline: sortBy });
+
       // Count all jobs that match the price range
       totalJobs = await Job.countDocuments({
         price: { $gte: minPrice, $lte: maxPrice },
@@ -1341,9 +1300,8 @@ app.get("/job-list/:categoryName", isAuthenticated, async (req, res) => {
       jobs = await Job.find({
         category: req.params.categoryName,
         price: { $gte: minPrice, $lte: maxPrice },
-      })
-        .sort({ jobDeadline: sortBy });
-    
+      }).sort({ jobDeadline: sortBy });
+
       // Count jobs based on category and price range
       totalJobs = await Job.countDocuments({
         category: req.params.categoryName,
@@ -1355,10 +1313,12 @@ app.get("/job-list/:categoryName", isAuthenticated, async (req, res) => {
       user.profilePicPath = "/" + user.profilePicPath.replace(/\\/g, "/");
     }
 
-  
     const sortedAndFilteredJobs = sortJobsByDate(jobs, sortBy);
-    const filteredJobs = filterJobsByPrice(sortedAndFilteredJobs, minPrice, maxPrice);
-   
+    const filteredJobs = filterJobsByPrice(
+      sortedAndFilteredJobs,
+      minPrice,
+      maxPrice
+    );
 
     // Pagination logic
     const startIndex = (page - 1) * pageSize;
@@ -1382,7 +1342,7 @@ app.get("/job-list/:categoryName", isAuthenticated, async (req, res) => {
       clientId,
       engineerId,
       sortBy,
-      category: req.params.categoryName || 'all',
+      category: req.params.categoryName || "all",
       minPrice,
       maxPrice,
       currentPage: page,
@@ -1399,12 +1359,6 @@ app.get("/job-list/:categoryName", isAuthenticated, async (req, res) => {
   }
 });
 
-
-
-
-
-
-
 app.get("/job-details/:jobId", isAuthenticated, async (req, res) => {
   const jobId = req.params.jobId;
   let clientId = null;
@@ -1412,7 +1366,7 @@ app.get("/job-details/:jobId", isAuthenticated, async (req, res) => {
   let client = null;
   let engineer = null;
   let job = null;
-  let hasSubmittedBid = false; 
+  let hasSubmittedBid = false;
 
   let userId = null;
 
@@ -1430,7 +1384,6 @@ app.get("/job-details/:jobId", isAuthenticated, async (req, res) => {
     clientId = req.session.user._id;
   } else if (req.session.user.role === "Engineer") {
     engineerId = req.session.user._id;
-
 
     const existingBid = await Bid.findOne({ job: jobId, engineer: engineerId });
     hasSubmittedBid = !!existingBid;
@@ -1452,7 +1405,8 @@ app.get("/job-details/:jobId", isAuthenticated, async (req, res) => {
         client.profilePicPath = "/" + client.profilePicPath.replace(/\\/g, "/");
       }
       if (engineer && engineer.profilePicPath) {
-        engineer.profilePicPath = "/" + engineer.profilePicPath.replace(/\\/g, "/");
+        engineer.profilePicPath =
+          "/" + engineer.profilePicPath.replace(/\\/g, "/");
       }
 
       res.render("job-details", {
@@ -1465,7 +1419,7 @@ app.get("/job-details/:jobId", isAuthenticated, async (req, res) => {
         client,
         engineer,
         job,
-        hasSubmittedBid, 
+        hasSubmittedBid,
       });
     } else {
       res.status(404).send("Job not found");
@@ -1475,13 +1429,6 @@ app.get("/job-details/:jobId", isAuthenticated, async (req, res) => {
     res.status(500).send("Internal server error");
   }
 });
-
-
-
-
-
-
-
 
 app.post("/submit-bid/:jobId", isAuthenticated, async (req, res) => {
   const jobId = req.params.jobId;
@@ -1495,7 +1442,9 @@ app.post("/submit-bid/:jobId", isAuthenticated, async (req, res) => {
     const existingBid = await Bid.findOne({ job: jobId, engineer: engineerId });
 
     if (existingBid) {
-      return res.status(400).send("Engineer has already submitted a bid for this job");
+      return res
+        .status(400)
+        .send("Engineer has already submitted a bid for this job");
     }
 
     const engineer = await Engineer.findById(engineerId);
@@ -1520,7 +1469,7 @@ app.post("/submit-bid/:jobId", isAuthenticated, async (req, res) => {
     const newNotification = new Notification({
       recipient: job.client._id,
       content: `Engineer ${engineer.full_name} has submitted a bid for your job "${job.jobTitle}".`,
-      type: 'bidSubmitted',
+      type: "bidSubmitted",
       job: jobId,
     });
 
@@ -1533,42 +1482,34 @@ app.post("/submit-bid/:jobId", isAuthenticated, async (req, res) => {
   }
 });
 
-
-
-
 app.get("/my-bids/:engineerId", isAuthenticated, async (req, res) => {
-
-   let engineerId = req.params.engineerId;
+  let engineerId = req.params.engineerId;
   let engineer = null;
 
   let userId = null;
-   
-if (req.session.user) {
-  userId = req.session.user._id;
-}
 
-let user = await Engineer.findById(userId);
+  if (req.session.user) {
+    userId = req.session.user._id;
+  }
 
-if (!user) {
+  let user = await Engineer.findById(userId);
+
+  if (!user) {
     user = await Client.findById(userId);
   }
 
   try {
+    if (req.session.user.role === "Engineer") {
+      engineer = await Engineer.findById(engineerId);
+    }
 
-  if (req.session.user.role === "Engineer") {
-        engineer = await Engineer.findById(engineerId);
-  }
-
-        if (user && user.profilePicPath) {
-          user.profilePicPath =
-            "/" + user.profilePicPath.replace(/\\/g, "/");
-        }
-        if (engineer && engineer.profilePicPath) {
-          engineer.profilePicPath =
-            "/" + engineer.profilePicPath.replace(/\\/g, "/");
-        }
-      
-
+    if (user && user.profilePicPath) {
+      user.profilePicPath = "/" + user.profilePicPath.replace(/\\/g, "/");
+    }
+    if (engineer && engineer.profilePicPath) {
+      engineer.profilePicPath =
+        "/" + engineer.profilePicPath.replace(/\\/g, "/");
+    }
 
     const userBids = await Bid.find({ engineer: req.session.user._id });
 
@@ -1588,38 +1529,32 @@ if (!user) {
 });
 
 app.get("/bids/:clientId", isAuthenticated, async (req, res) => {
-
   let clientId = req.params.clientId;
   let client = null;
 
   let userId = null;
-   
-if (req.session.user) {
-  userId = req.session.user._id;
-}
 
-let user = await Engineer.findById(userId);
+  if (req.session.user) {
+    userId = req.session.user._id;
+  }
 
-if (!user) {
+  let user = await Engineer.findById(userId);
+
+  if (!user) {
     user = await Client.findById(userId);
   }
 
-
-
   try {
-
     if (req.session.user.role === "Client") {
       client = await Client.findById(clientId);
-}
+    }
 
-      if (user && user.profilePicPath) {
-        user.profilePicPath =
-          "/" + user.profilePicPath.replace(/\\/g, "/");
-      }
-      if (client && client.profilePicPath) {
-        client.profilePicPath =
-          "/" + client.profilePicPath.replace(/\\/g, "/");
-      }
+    if (user && user.profilePicPath) {
+      user.profilePicPath = "/" + user.profilePicPath.replace(/\\/g, "/");
+    }
+    if (client && client.profilePicPath) {
+      client.profilePicPath = "/" + client.profilePicPath.replace(/\\/g, "/");
+    }
 
     const bids = await Bid.find({ client: clientId });
 
@@ -1642,7 +1577,6 @@ if (!user) {
   }
 });
 
-
 const createNotification = async (recipient, content, type, job, bid) => {
   const newNotification = new Notification({
     recipient,
@@ -1663,7 +1597,9 @@ app.post("/accept-bid", async (req, res) => {
       return res.status(400).json({ error: "Bid ID is required" });
     }
 
-    const updatedBid = await Bid.findByIdAndUpdate(bidId, { status: "accepted" });
+    const updatedBid = await Bid.findByIdAndUpdate(bidId, {
+      status: "accepted",
+    });
 
     if (!updatedBid) {
       return res.status(404).json({ error: "Bid not found or not updated" });
@@ -1702,7 +1638,7 @@ app.post("/accept-bid", async (req, res) => {
     await createNotification(
       engineerId,
       `Your bid for the job "${acceptedBid.jobTitle}" has been accepted.`,
-      'bidAccepted',
+      "bidAccepted",
       jobId,
       bidId
     );
@@ -1728,7 +1664,9 @@ app.post("/reject-bid", async (req, res) => {
       return res.status(400).json({ error: "Bid ID is required" });
     }
 
-    const updatedBid = await Bid.findByIdAndUpdate(bidId, { status: "rejected" });
+    const updatedBid = await Bid.findByIdAndUpdate(bidId, {
+      status: "rejected",
+    });
 
     if (!updatedBid) {
       return res.status(404).json({ error: "Bid not found or not updated" });
@@ -1758,7 +1696,7 @@ app.post("/reject-bid", async (req, res) => {
     await createNotification(
       engineerId,
       `Your bid for the job "${rejectedBid.jobTitle}" has been rejected.`,
-      'bidRejected',
+      "bidRejected",
       jobId,
       bidId
     );
@@ -1776,9 +1714,6 @@ app.post("/reject-bid", async (req, res) => {
   }
 });
 
-
-
-
 app.get("/api/accepted-bids", isAuthenticated, async (req, res) => {
   try {
     const userRole = req.session.user.role;
@@ -1791,10 +1726,10 @@ app.get("/api/accepted-bids", isAuthenticated, async (req, res) => {
 
     const bidsWithWorkIds = await Promise.all(
       acceptedBids.map(async (bid) => {
-        const work = await Work.findOne({ bid: bid._id }); 
+        const work = await Work.findOne({ bid: bid._id });
 
         if (!work) {
-          return null; 
+          return null;
         }
 
         return {
@@ -1804,7 +1739,6 @@ app.get("/api/accepted-bids", isAuthenticated, async (req, res) => {
           engineerFullName: bid.engineerFullName,
           bidAmount: bid.bidAmount,
           bidDetails: bid.bidDetails,
-         
         };
       })
     );
@@ -1816,7 +1750,6 @@ app.get("/api/accepted-bids", isAuthenticated, async (req, res) => {
 });
 
 app.get("/api/rejected-bids", isAuthenticated, async (req, res) => {
-
   try {
     const userRole = req.session.user.role;
     const userId = req.session.user._id;
@@ -1828,10 +1761,10 @@ app.get("/api/rejected-bids", isAuthenticated, async (req, res) => {
 
     const bidsWithWorkIds = await Promise.all(
       rejectedBids.map(async (bid) => {
-        const work = await Work.findOne({ bid: bid._id }); 
+        const work = await Work.findOne({ bid: bid._id });
 
         if (!work) {
-          return null; 
+          return null;
         }
 
         return {
@@ -1841,7 +1774,6 @@ app.get("/api/rejected-bids", isAuthenticated, async (req, res) => {
           engineerFullName: bid.engineerFullName,
           bidAmount: bid.bidAmount,
           bidDetails: bid.bidDetails,
-         
         };
       })
     );
@@ -1852,17 +1784,14 @@ app.get("/api/rejected-bids", isAuthenticated, async (req, res) => {
   }
 });
 
-
-
-
 app.get("/api/pending-bids", async (req, res) => {
   try {
     if (req.session.user.role == "Client") {
       const pendingBids = await Bid.find({
         status: "pending",
-        client: req.session.user._id, 
+        client: req.session.user._id,
       }).exec();
-     
+
       res.json(pendingBids);
     } else {
       const pendingBids = await Bid.find({
@@ -1875,7 +1804,6 @@ app.get("/api/pending-bids", async (req, res) => {
     res.status(500).json({ error: "Error fetching pending bids" });
   }
 });
-
 
 app.get("/work/:workId", isAuthenticated, async (req, res) => {
   let clientId = null;
@@ -1933,10 +1861,9 @@ app.get("/work/:workId", isAuthenticated, async (req, res) => {
 
     const chatMessages = work.chatMessages;
 
- 
     const isPaymentComplete = work.paymentComplete;
-    const isratedByClient = work.ratedByClient
-    const isratedByEngineer = work.ratedByEngineer
+    const isratedByClient = work.ratedByClient;
+    const isratedByEngineer = work.ratedByEngineer;
 
     res.render("work", {
       work,
@@ -1953,7 +1880,7 @@ app.get("/work/:workId", isAuthenticated, async (req, res) => {
       workId,
       isPaymentComplete,
       isratedByClient,
-      isratedByEngineer
+      isratedByEngineer,
     });
   } catch (error) {
     console.error(error);
@@ -1963,9 +1890,7 @@ app.get("/work/:workId", isAuthenticated, async (req, res) => {
 
 // Import the required modules and set up your transporter
 
-app.get("/forgot-password", (req, res) => {
-  res.render("forgot-password"); // Assuming you have a view named "forgot-password"
-});
+
 
 app.post("/forgot-password", async (req, res) => {
   const { email } = req.body;
@@ -1980,7 +1905,9 @@ app.post("/forgot-password", async (req, res) => {
       return res.status(404).send("User not found");
     }
 
-    const resetToken = jwt.sign({ id: user._id }, "yourSecretKey", { expiresIn: "1h" });
+    const resetToken = jwt.sign({ id: user._id }, "yourSecretKey", {
+      expiresIn: "1h",
+    });
     user.resetPasswordToken = resetToken;
     user.resetPasswordExpires = Date.now() + 3600000;
 
@@ -2004,26 +1931,20 @@ app.post("/forgot-password", async (req, res) => {
   }
 });
 
-
-
-
-app.get('/reset-password/:token', async (req, res) => {
+app.get("/reset-password/:token", async (req, res) => {
   const token = req.params.token;
-
 
   try {
     const decoded = jwt.verify(token, jwtSecret);
 
-
-    res.render('reset-password', { token });
+    res.render("reset-password", { token });
   } catch (error) {
-    console.error('Token Verification Error:', error);
-    res.status(400).send('Invalid or expired token');
+    console.error("Token Verification Error:", error);
+    res.status(400).send("Invalid or expired token");
   }
 });
 
-
-app.post('/reset-password/:token', async (req, res) => {
+app.post("/reset-password/:token", async (req, res) => {
   const token = req.params.token;
   const newPassword = req.body.password;
 
@@ -2047,22 +1968,28 @@ app.post('/reset-password/:token', async (req, res) => {
     await user.save();
 
     // Instead of redirecting directly, render the template with a success message
-    res.render('reset-password', { token, resetSuccess: true });
+    res.render("reset-password", { token, resetSuccess: true });
   } catch (error) {
-    console.error('Error during password reset:', error);
-    res.status(400).send('Invalid or expired token');
+    console.error("Error during password reset:", error);
+    res.status(400).send("Invalid or expired token");
   }
 });
-
-
-
 
 app.get("/admin-dashboard", isAuthenticated, async (req, res) => {
   if (req.session.user.role === "Admin") {
     try {
       const userId = req.session.user._id;
       const user = await Admin.findById(userId);
-      const [engineers, clients, jobs, bids, works, contactMessages, payments, admin] = await Promise.all([
+      const [
+        engineers,
+        clients,
+        jobs,
+        bids,
+        works,
+        contactMessages,
+        payments,
+        admin,
+      ] = await Promise.all([
         Engineer.find(),
         Client.find(),
         Job.find(),
@@ -2071,14 +1998,14 @@ app.get("/admin-dashboard", isAuthenticated, async (req, res) => {
         FormData.find(),
         Payment.find()
           .populate({
-            path: 'work',
+            path: "work",
             populate: {
-              path: 'job',
-              select: 'jobTitle',
+              path: "job",
+              select: "jobTitle",
             },
           })
-          .populate('engineer', 'full_name email')
-          .populate('client', 'full_name email'),
+          .populate("engineer", "full_name email")
+          .populate("client", "full_name email"),
         Admin.findOne({ _id: req.session.user._id }),
       ]);
 
@@ -2107,12 +2034,10 @@ app.get("/admin-dashboard", isAuthenticated, async (req, res) => {
   }
 });
 
-
 app.post("/admin/delete-job/:id", isAuthenticated, async (req, res) => {
   const jobId = req.params.id;
 
   try {
- 
     await Job.findByIdAndDelete(jobId);
     res.redirect("/admin-dashboard");
   } catch (error) {
@@ -2121,12 +2046,10 @@ app.post("/admin/delete-job/:id", isAuthenticated, async (req, res) => {
   }
 });
 
-
 app.post("/admin/delete-client/:id", isAuthenticated, async (req, res) => {
   const clientId = req.params.id;
 
   try {
-
     await Client.findByIdAndDelete(clientId);
     res.redirect("/admin-dashboard");
   } catch (error) {
@@ -2151,7 +2074,6 @@ app.post("/admin/delete-bid/:id", isAuthenticated, async (req, res) => {
   const bidId = req.params.id;
 
   try {
- 
     await Bid.findByIdAndDelete(bidId);
     res.redirect("/admin-dashboard");
   } catch (error) {
@@ -2159,7 +2081,6 @@ app.post("/admin/delete-bid/:id", isAuthenticated, async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-
 
 app.post("/admin/delete-work/:id", isAuthenticated, async (req, res) => {
   const workId = req.params.id;
@@ -2173,11 +2094,9 @@ app.post("/admin/delete-work/:id", isAuthenticated, async (req, res) => {
   }
 });
 
-
-
-app.post('/process-payment', async (req, res) => {
+app.post("/process-payment", async (req, res) => {
   try {
-    const { clientId,engineerId, workId, paymentAmount } = req.body;
+    const { clientId, engineerId, workId, paymentAmount } = req.body;
 
     const payment = new Payment({
       engineer: engineerId,
@@ -2188,42 +2107,32 @@ app.post('/process-payment', async (req, res) => {
 
     await payment.save();
 
-
-
-
     const engineer = await Engineer.findById(engineerId);
     if (!engineer) {
-      return res.status(404).send('Engineer not found');
+      return res.status(404).send("Engineer not found");
     }
-
 
     engineer.balance += parseFloat(paymentAmount);
     await engineer.save();
 
-
     const work = await Work.findById(workId);
     if (!work) {
-      return res.status(404).send('Work not found');
+      return res.status(404).send("Work not found");
     }
 
     const client = await Client.findById(work.client);
     if (!client) {
-      return res.status(404).send('Client not found');
+      return res.status(404).send("Client not found");
     }
 
     client.balance -= parseFloat(paymentAmount);
     await client.save();
 
-
     const isPaymentSuccessful = true;
 
     if (isPaymentSuccessful) {
-
       engineer.balance += parseFloat(paymentAmount);
       await engineer.save();
-
-
-
 
       const work = await Work.findById(workId);
       if (work) {
@@ -2231,39 +2140,35 @@ app.post('/process-payment', async (req, res) => {
         await work.save();
       }
 
-
       return res.redirect(`/work/${workId}?success=true`);
     } else {
-
-      return res.status(400).send('Payment failed');
+      return res.status(400).send("Payment failed");
     }
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error processing payment');
+    res.status(500).send("Error processing payment");
   }
 });
 
-
-
-app.post('/submit-client-rating', isAuthenticated, async (req, res) => {
+app.post("/submit-client-rating", isAuthenticated, async (req, res) => {
   try {
-    const { workId, engineerId, clientRating, clientFeedback ,userId} = req.body;
-
+    const { workId, engineerId, clientRating, clientFeedback, userId } =
+      req.body;
 
     const work = await Work.findById(workId);
     if (!work) {
-      return res.status(404).send('Work not found');
+      return res.status(404).send("Work not found");
     }
 
-
-    if (userId!== engineerId) {
-      return res.status(403).send('Permission denied');
+    if (userId !== engineerId) {
+      return res.status(403).send("Permission denied");
     }
 
     if (work.ratedByEngineer) {
-      return res.status(400).send('Work has already been rated by the engineer');
+      return res
+        .status(400)
+        .send("Work has already been rated by the engineer");
     }
-
 
     work.clientRating = parseFloat(clientRating);
     work.clientFeedback = clientFeedback;
@@ -2271,35 +2176,30 @@ app.post('/submit-client-rating', isAuthenticated, async (req, res) => {
 
     await work.save();
 
-
     res.redirect(`/work/${workId}?engineerRatingSuccess=true`);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error submitting client rating');
+    res.status(500).send("Error submitting client rating");
   }
 });
 
-
-app.post('/submit-engineer-rating', isAuthenticated, async (req, res) => {
+app.post("/submit-engineer-rating", isAuthenticated, async (req, res) => {
   try {
-    const { workId, clientId, engineerRating, engineerFeedback,userId } = req.body;
-
+    const { workId, clientId, engineerRating, engineerFeedback, userId } =
+      req.body;
 
     const work = await Work.findById(workId);
     if (!work) {
-      return res.status(404).send('Work not found');
+      return res.status(404).send("Work not found");
     }
-
 
     if (userId !== clientId) {
-      return res.status(403).send('Permission denied');
+      return res.status(403).send("Permission denied");
     }
 
- 
     if (work.ratedByClient) {
-      return res.status(400).send('Work has already been rated by the client');
+      return res.status(400).send("Work has already been rated by the client");
     }
-
 
     work.engineerRating = parseFloat(engineerRating);
     work.engineerFeedback = engineerFeedback;
@@ -2307,14 +2207,12 @@ app.post('/submit-engineer-rating', isAuthenticated, async (req, res) => {
 
     await work.save();
 
-
     res.redirect(`/work/${workId}?clientRatingSuccess=true`);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error submitting engineer rating');
+    res.status(500).send("Error submitting engineer rating");
   }
 });
-
 
 // ... (previous server-side code)
 
@@ -2336,7 +2234,7 @@ app.post("/submit-form", async (req, res) => {
     await formData.save();
 
     // Redirect to the home page with a success parameter
-    res.redirect('/?success=true');
+    res.redirect("/?success=true");
   } catch (error) {
     console.error(error);
     // Respond with an error message
@@ -2350,21 +2248,21 @@ app.get("/edit-admin-profile/:adminId", isAuthenticated, async (req, res) => {
   let adminId = req.params.adminId;
 
   let userId = null;
-   
+
   if (req.session.user) {
     userId = req.session.user._id;
   }
-  
+
   let user = await Engineer.findById(userId);
-  
+
   if (!user) {
-      user = await Client.findById(userId);
+    user = await Client.findById(userId);
   }
 
   const adminData = await Admin.findById(adminId);
 
   if (adminData) {
-    res.render("edit-admin-profile", { 
+    res.render("edit-admin-profile", {
       userId,
       user: user,
       isAdmin: req.session.user?.role === "Admin",
@@ -2400,12 +2298,12 @@ app.post("/edit-admin-profile/:adminId", isAuthenticated, async (req, res) => {
       let profilePicPath = currentProfilePicPath;
 
       if (req.file) {
-        profilePicPath = req.file.path.replace(/\\/g, '/'); 
+        profilePicPath = req.file.path.replace(/\\/g, "/");
       }
 
       const updateData = {
         email,
-        password,  // You may want to handle password updates securely
+        password, // You may want to handle password updates securely
         mobile,
         address,
         // Add other fields from adminSchema as needed
@@ -2416,7 +2314,9 @@ app.post("/edit-admin-profile/:adminId", isAuthenticated, async (req, res) => {
         updateData.full_name = full_name;
       }
 
-      const updatedAdmin = await Admin.findByIdAndUpdate(adminId, updateData, { new: true });
+      const updatedAdmin = await Admin.findByIdAndUpdate(adminId, updateData, {
+        new: true,
+      });
 
       res.redirect(`/admin-dashboard`);
     } catch (error) {
@@ -2426,47 +2326,78 @@ app.post("/edit-admin-profile/:adminId", isAuthenticated, async (req, res) => {
   });
 });
 
-
-
-
-app.get('/search', async (req, res) => {
+app.get("/search", async (req, res) => {
   try {
     const { query: keyword } = req.query;
 
     // Check if the keyword is present
-    if (!keyword || typeof keyword !== 'string') {
-      return res.status(400).json({ success: false, error: 'Invalid or missing search keyword' });
+    if (!keyword || typeof keyword !== "string") {
+      return res
+        .status(400)
+        .json({ success: false, error: "Invalid or missing search keyword" });
     }
 
-    console.log('Searching for keyword:', keyword);
+    console.log("Searching for keyword:", keyword);
 
-    const engineerfullNameResults = await Engineer.find({ full_name: { $regex: new RegExp(keyword, 'i') } });
-    const designationResults = await Engineer.find({ designation: { $regex: new RegExp(keyword, 'i') } });
-    const locationResultsEngineer = await Engineer.find({ location: { $regex: new RegExp(keyword, 'i') } });
-    const expertiseResults = await Engineer.find({ field_of_expertise: { $regex: new RegExp(keyword, 'i') } });
-    
-    const engineerResults = [...engineerfullNameResults, ...designationResults, ...locationResultsEngineer, ...expertiseResults];
-    
-    const jobTitleResults = await Job.find({ jobTitle: { $regex: new RegExp(keyword, 'i') } });
-    const categoryResults = await Job.find({ category: { $regex: new RegExp(keyword, 'i') } });
-    const locationResultsJob = await Job.find({ jobLocation: { $regex: new RegExp(keyword, 'i') } });
-    const detailsResults = await Job.find({ jobDetails: { $regex: new RegExp(keyword, 'i') } });
-    const requirementsResults = await Job.find({ jobRequirements: { $regex: new RegExp(keyword, 'i') } });
-    
-    const jobResults = [...jobTitleResults, ...categoryResults, ...locationResultsJob, ...detailsResults, ...requirementsResults];
+    const engineerfullNameResults = await Engineer.find({
+      full_name: { $regex: new RegExp(keyword, "i") },
+    });
+    const designationResults = await Engineer.find({
+      designation: { $regex: new RegExp(keyword, "i") },
+    });
+    const locationResultsEngineer = await Engineer.find({
+      location: { $regex: new RegExp(keyword, "i") },
+    });
+    const expertiseResults = await Engineer.find({
+      field_of_expertise: { $regex: new RegExp(keyword, "i") },
+    });
 
+    const engineerResults = [
+      ...engineerfullNameResults,
+      ...designationResults,
+      ...locationResultsEngineer,
+      ...expertiseResults,
+    ];
 
-    const clientfullNameResults = await Client.find({ full_name: { $regex: new RegExp(keyword, 'i') } });
-    const locationResultsClient = await Client.find({ location: { $regex: new RegExp(keyword, 'i') } });
-    
+    const jobTitleResults = await Job.find({
+      jobTitle: { $regex: new RegExp(keyword, "i") },
+    });
+    const categoryResults = await Job.find({
+      category: { $regex: new RegExp(keyword, "i") },
+    });
+    const locationResultsJob = await Job.find({
+      jobLocation: { $regex: new RegExp(keyword, "i") },
+    });
+    const detailsResults = await Job.find({
+      jobDetails: { $regex: new RegExp(keyword, "i") },
+    });
+    const requirementsResults = await Job.find({
+      jobRequirements: { $regex: new RegExp(keyword, "i") },
+    });
+
+    const jobResults = [
+      ...jobTitleResults,
+      ...categoryResults,
+      ...locationResultsJob,
+      ...detailsResults,
+      ...requirementsResults,
+    ];
+
+    const clientfullNameResults = await Client.find({
+      full_name: { $regex: new RegExp(keyword, "i") },
+    });
+    const locationResultsClient = await Client.find({
+      location: { $regex: new RegExp(keyword, "i") },
+    });
+
     const clientResults = [...clientfullNameResults, ...locationResultsClient];
 
-    console.log('Engineer Results:', engineerResults);
-    console.log('Job Results:', jobResults);
-    console.log('Client Results:', clientResults);
+    console.log("Engineer Results:", engineerResults);
+    console.log("Job Results:", jobResults);
+    console.log("Client Results:", clientResults);
 
     // Pass all specific search results to the template
-    res.render('searchResults', {
+    res.render("searchResults", {
       results: {
         engineers: engineerResults,
         jobs: jobResults,
@@ -2477,28 +2408,18 @@ app.get('/search', async (req, res) => {
         expertiseResults: expertiseResults,
         jobTitleResults: jobTitleResults,
         categoryResults: categoryResults,
-        locationResultsJob:locationResultsJob,
-        detailsResults:detailsResults,
+        locationResultsJob: locationResultsJob,
+        detailsResults: detailsResults,
         requirementsResults: requirementsResults,
-        clientfullNameResults:clientfullNameResults,
+        clientfullNameResults: clientfullNameResults,
         locationResultsClient: locationResultsClient,
       },
     });
   } catch (error) {
-    console.error('Error in keyword search:', error);
-    res.status(500).json({ success: false, error: error.message || 'Internal Server Error' });
+    console.error("Error in keyword search:", error);
+    res.status(500).json({
+      success: false,
+      error: error.message || "Internal Server Error",
+    });
   }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-

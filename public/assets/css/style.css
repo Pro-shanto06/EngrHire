@@ -169,10 +169,7 @@ h6 {
   margin-left: 30px;
   border-radius: 50px;
   color: #fff;
-  
 }
-
-
 
 .navbar .getstarted:hover,
 .navbar .getstarted:focus:hover {
@@ -233,7 +230,6 @@ h6 {
   left: 100%;
   visibility: visible;
 }
-
 
 @media (max-width: 1366px) {
   .navbar .dropdown .dropdown ul {
@@ -518,6 +514,7 @@ section {
   transition: 0.5s;
   color: #3498db;
   border: 2px solid #3498db;
+  background: #ffffff;
   margin-left: 42.5%;
 }
 
@@ -760,8 +757,8 @@ section {
   line-height: 1;
   color: #fff;
 }
-.row{
-  margin-bottom: 3rem!important;
+.row {
+  margin-bottom: 3rem !important;
 }
 .services .row a {
   text-decoration: none;
@@ -1626,9 +1623,9 @@ section {
   color: #222222;
   font-size: 14px;
 }
-#footer > .container{
-  padding-top: 50px ;
-  padding-bottom: 10px ;
+#footer > .container {
+  padding-top: 50px;
+  padding-bottom: 10px;
 }
 
 #footer .credits {
@@ -1657,68 +1654,60 @@ section {
 .profile-picture {
   width: 25px; /* Set the desired width */
   height: 25px; /* Set the desired height */
-  border-radius: 50%; 
+  border-radius: 50%;
 }
 
 .profile-name {
-  font-size: 16px; 
+  font-size: 16px;
   margin-left: 10px;
-  color: rgb(255, 255, 255); 
-
+  color: rgb(255, 255, 255);
 }
 
 /*--------------------------------------------------------------
   # Search
   --------------------------------------------------------------*/
-  
- /* Add these styles to your CSS */
 
 
 
-
-
- .search-bar {
-  margin-left:20px;
+.search-bar {
+  margin-left: 20px;
   display: flex;
   align-items: center;
   border: none;
-  border: 1px solid #3498db; 
-  border-radius: 25px; 
+  border: 1px solid #3498db;
+  border-radius: 25px;
   overflow: hidden;
-  background-color: #3498db; 
-  height: 40px;
+  background-color: #3498db;
+  height: 35px;
 }
 
 .search-input {
   margin-top: 15px;
   padding: 10px;
   border: none;
-  width: 150px; /* Adjust the width as needed */
+  width: 180px; 
   outline: none;
-  border-radius: 25px 0 0 25px; 
-  /* Adjust border-radius to match the search bar */
+  border-radius: 25px 0 0 25px;
+
 }
 
 .search-button {
   background-color: #3498db;
   color: #fff;
   border: none;
-  border: 2px solid #3498db; 
-  border-radius: 0 25px 25px 0; /* Adjust border-radius to match the search bar */
-  padding: 8px 15px; 
+  border: 2px solid #3498db;
+  border-radius: 0 25px 25px 0; 
+  padding: 8px 15px;
   cursor: pointer;
 }
 
-/* Add hover effect for the button */
+
 .search-button:hover {
-  background-color: #4aa3df; /* Change the color as needed */
+  background-color: #4aa3df; 
 }
 
 .material-symbols-outlined a {
-  color: #007bff; 
-  text-decoration: none; 
+  color: #007bff;
+  text-decoration: none;
   font-size: 24px;
 }
-
-
-
