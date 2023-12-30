@@ -303,10 +303,10 @@ app.get("/engineers", async (req, res) => {
       user = await Client.findById(userId);
     }
 
-    // Fetch all engineers from the database
+    
     const engineers = await Engineer.find();
 
-    // Send the engineers to the rendering engine along with user information
+  
     res.render("engineers", {
       engineers,
       user,
@@ -2328,16 +2328,30 @@ app.post("/edit-admin-profile/:adminId", isAuthenticated, async (req, res) => {
 
 app.get("/search", async (req, res) => {
   try {
+
+
+    let userId = null;
+
+    if (req.session.user) {
+      userId = req.session.user._id;
+    }
+
+    let user =
+      (await Engineer.findById(userId)) ||
+      (await Client.findById(userId)) ||
+      (await Admin.findById(userId));
+
+
     const { query: keyword } = req.query;
 
-    // Check if the keyword is present
+   
     if (!keyword || typeof keyword !== "string") {
       return res
         .status(400)
         .json({ success: false, error: "Invalid or missing search keyword" });
     }
 
-    console.log("Searching for keyword:", keyword);
+   
 
     const engineerfullNameResults = await Engineer.find({
       full_name: { $regex: new RegExp(keyword, "i") },
@@ -2392,11 +2406,7 @@ app.get("/search", async (req, res) => {
 
     const clientResults = [...clientfullNameResults, ...locationResultsClient];
 
-    console.log("Engineer Results:", engineerResults);
-    console.log("Job Results:", jobResults);
-    console.log("Client Results:", clientResults);
 
-    // Pass all specific search results to the template
     res.render("searchResults", {
       results: {
         engineers: engineerResults,
@@ -2414,6 +2424,11 @@ app.get("/search", async (req, res) => {
         clientfullNameResults: clientfullNameResults,
         locationResultsClient: locationResultsClient,
       },
+      user, 
+      userId,
+      isClient: req.session.user?.role === "Client",  
+    isEngineer: req.session.user?.role === "Engineer",
+    isAdmin: req.session.user?.role === "Admin"
     });
   } catch (error) {
     console.error("Error in keyword search:", error);
