@@ -46,6 +46,10 @@
       padding: 30px 0;
       color: #fff;
     }
+   .sidebar li a.active {
+    background-color: #333; /* Set your desired background color */
+    color: #fff; /* Set your desired text color */
+  }
 
   </style>
 
@@ -667,6 +671,23 @@
              </div>
 </section>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Get all list items
+    const tabs = document.querySelectorAll(".sidebar li a");
+
+    // Add click event listener to each tab
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", function () {
+        // Remove "active" class from all tabs
+        tabs.forEach((t) => t.classList.remove("active"));
+
+        // Add "active" class to the clicked tab
+        this.classList.add("active");
+      });
+    });
+  });
+</script>
 
 
 <script>
