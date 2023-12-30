@@ -69,14 +69,14 @@ function addBidToSection(sectionId, response) {
   const bidCard = `
 
        
-  <div class="container mt-5 mb-5">
+  <div class="container mt-2 mb-2">
     <div class="d-flex justify-content-center row">
       <div class="col-md-10">
           <div class="row p-2 bg-white border rounded bid-card">
              
               <div class="col-md-6 mt-1">
                   <h4>${response.jobTitle}</h4>
-                  <h5>${response.jobDeadline}</h5>
+                  <h5>${new Date(bid.jobDeadline).toLocaleString('en-US', options)}</h5>
                   <div class="d-flex flex-row">
                       <div class="ratings mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div><span>${response.engineerFullName}</span>
                   </div>
@@ -87,7 +87,8 @@ function addBidToSection(sectionId, response) {
                   <div class="d-flex flex-row align-items-center">
                       <h4 class="mr-1">${response.bidAmount}</h4>
                   </div>
-                  <a class="btn btn-primary btn-sm" href="/work/${response.workId}">View Work</a>
+                  <a class="btn btn-primary btn-sm" href="/work/${response.workId}" style="background-color: #3498db;">View Work</a>
+
               </div>
       </div>
     </div>
@@ -148,15 +149,16 @@ function updateAcceptedBids(acceptedBids) {
   acceptedBidsContainer.empty();
 
   acceptedBids.forEach(function (bid) {
+    const options = { timeZone: 'Asia/Dhaka', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };
     const bidCard = `
   
-    <div class="container mt-5 mb-5">
+    <div class="container mt-2 mb-2">
       <div class="d-flex justify-content-center row">
         <div class="col-md-10">
           <div class="row p-2 bg-white border rounded bid-card">
             <div class="col-md-6 mt-1">
               <h4>${bid.jobTitle}</h4>
-              <h5>${bid.jobDeadline}</h5>
+              <h5>${new Date(bid.jobDeadline).toLocaleString('en-US', options)}</h5>
               <div class="d-flex flex-row">
                 <div class="ratings mr-2">
                   <i class="fa fa-star"></i>
@@ -172,7 +174,8 @@ function updateAcceptedBids(acceptedBids) {
               <div class="d-flex flex-row align-items-center">
                 <h4 class="mr-1">${bid.bidAmount}</h4>
               </div>
-              <a class="btn btn-primary btn-sm" href="/work/${bid.workId}">View Work</a>
+              
+              <a class="btn btn-primary btn-sm" href="/work/${bid.workId}" style="background-color: #3498db;">View Work</a>
             </div>
           </div>
         </div>
@@ -193,7 +196,7 @@ function updateRejectedBids(rejectedBids) {
     const bidCard = `
       <a href="#" class "bid-card">
       <h3 class="bid-title">${bid.jobTitle}</h3>
-      <p class="bid-details">${bid.jobDeadline}</p>
+      <p class="bid-details">${new Date(bid.jobDeadline).toLocaleString('en-US', options)}</p>
      
           <p class="bid-details">${bid.engineerFullName}</p>
           <p class="bid-details">${bid.bidAmount}</p>
@@ -213,14 +216,14 @@ function updatePendingBids(pendingBids) {
     const bidCard = `
     
        
-    <div class="container mt-5 mb-5">
+    <div class="container mt-2 mb-2">
       <div class="d-flex justify-content-center row">
         <div class="col-md-10">
             <div class="row p-2 bg-white border rounded bid-card">
                 
                 <div class="col-md-6 mt-1">
                     <h4>${bid.jobTitle}</h5>
-                    <h5>${bid.jobDeadline}</h5>
+                    <h5>${new Date(bid.jobDeadline).toLocaleString('en-US', options)}</h5>
                     <div class="d-flex flex-row">
                         <div class="ratings mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div><span>${bid.engineerFullName}</span>
                     </div>

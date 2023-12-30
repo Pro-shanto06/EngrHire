@@ -15,6 +15,7 @@
     <link href="/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="/css/search.css" />
+      <link href="assets/css/style.css" rel="stylesheet" />
     <html>
 
 
@@ -29,143 +30,184 @@
 
 <body>
 
-    <!-- ======= Header ======= -->
-
+   <!-- ======= Header ======= -->
     <header id="header" class="fixed-top d-flex align-items-center">
-        <div class="container d-flex align-items-center justify-content-between">
-            <script src="https://unpkg.com/phosphor-icons"></script>
-            <div class="logo">
-                <h1><a href="/"><img src="/img/logo.png" alt="">EngrHire BD</a></h1>
-
-            </div>
-
-            <nav id="navbar" class="navbar">
-                <ul>
-                    <li><a class="nav-link scrollto active" href="/">Home</a></li>
-                    {{#if user}}
-                    {{#if isClient}}
-                    <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
-                    {{/if}}
-                    {{#if isEngineer}}
-                    <li><a class="nav-link scrollto" href="/engineer-post">Post Jobs</a></li>
-                    {{/if}}
-                    {{else}}
-                    <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
-                    {{/if}}
-                    <li class="dropdown">
-                        <a href="#"><span>Explore</span>
-                        </a>
-                        <ul>
-                            {{#if user}}
-                            {{#if isEngineer}}
-                            <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
-                            <li><a class="nav-link scrollto" href="#services">Services</a></li>
-                            {{/if}}
-
-                            {{#if isClient}}
-                            <li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
-                            <li><a class="nav-link scrollto" href="#services">Services</a></li>
-                            {{/if}}
-                            {{else}}
-                            <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
-                            <li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
-                            <li><a class="nav-link scrollto" href="#services">Services</a></li>
-                            {{/if}}
-
-                        </ul>
-
-
-                    </li>
-
-                    <li class="dropdown">
-                        <a href="#"><span>Help</span>
-
-                        </a>
-                        <ul>
-
-                            <li><a class="nav-link scrollto" href="#about">About</a></li>
-                            <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-                            <li><a class="nav-link scrollto" href="#faq">FAQ</a></li>
-
-                        </ul>
-
-                    </li>
-
-
-                    {{#unless user}}
-
-
-                    <ul>
-                        <li><a href="/login">Login</a></li>
-                        <li><a href="/select" class="btn-signup">Sign Up</a></li>
-                    </ul>
-
-                    {{/unless}}
-
-
-                    <div class="search">
-                        <input type="text" class="search-box" placeholder="Search..." />
-                        <button class="search-btn"><i class="ph-magnifying-glass-bold"></i></button>
-                        <button class="close-btn"><i class="ph-x-bold"></i></button>
-                    </div>
-
-                    {{#if isClient}}
-                    <li>
-                        <a class="getstarted scrollto" href="/client-profile/{{userId}}/1">
-                            <img src="{{user.profilePicPath}}" alt="Profile Picture"
-                                class="rounded-circle profile-picture" />
-                            <span class="profile-name">{{user.full_name}}</span>
-
-                        </a>
-                    </li>
-
-                    <span class="material-symbols-outlined">
-                        <a href="/logout">Logout</a>
-                    </span>
-
-                    {{/if}}
-
-                    {{#if isEngineer}}
-                    <li>
-                        <a class="getstarted scrollto" href="/profile/{{userId}}/1">
-                            <img src="{{user.profilePicPath}}" alt="Profile Picture"
-                                class="rounded-circle profile-picture" />
-                            <span class="profile-name">{{user.full_name}}</span>
-                        </a>
-                    </li>
-
-                    <span class="material-symbols-outlined">
-                        <a href="/logout">Logout</a>
-                    </span>
-
-                    {{/if}}
-
-
-
-
-                </ul>
-                <i class="bi bi-list mobile-nav-toggle"></i>
-            </nav><!-- .navbar -->
-
+      <div class="container d-flex align-items-center justify-content-between">
+        <script src="https://unpkg.com/phosphor-icons"></script>
+        <div class="logo">
+          <h1><a href="/"><img src="assets/img/logo.png" alt="" />EngrHire BD</a></h1>
         </div>
+
+        <nav id="navbar" class="navbar">
+          <ul>
+            <li><a class="nav-link scrollto active" href="/">Home</a></li>
+
+            {{#if user}}
+              {{#if isClient}}
+                <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+              {{/if}}
+              {{#if isEngineer}}
+                <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+              {{/if}}
+              {{#if isAdmin}}
+                <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+              {{/if}}
+            {{else}}
+              <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+            {{/if}}
+
+            <li class="dropdown">
+              <a href="#"><span>Explore</span><i
+                  class="bi bi-chevron-down"
+                ></i></a>
+              <ul>
+                {{#if user}}
+                  {{#if isEngineer}}
+                    <li><a
+                        class="nav-link scrollto"
+                        href="/#services"
+                      >Services</a></li>
+                    <li><a
+                        class="nav-link scrollto"
+                        href="/engineers"
+                      >Engineers</a></li>
+                  {{/if}}
+                  {{#if isClient}}
+                    <li><a
+                        class="nav-link scrollto"
+                        href="/#services"
+                      >Services</a></li>
+                    <li><a
+                        class="nav-link scrollto"
+                        href="/engineers"
+                      >Engineers</a></li>
+                  {{/if}}
+                {{else}}
+                  <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+                  <li><a
+                      class="nav-link scrollto"
+                      href="/#services"
+                    >Services</a></li>
+                  <li><a
+                      class="nav-link scrollto"
+                      href="/engineers"
+                    >Engineers</a></li>
+                {{/if}}
+              </ul>
+            </li>
+
+            <li class="dropdown">
+              <a href="#"><span>Help</span><i
+                  class="bi bi-chevron-down"
+                ></i></a>
+              <ul>
+                <li><a class="nav-link scrollto" href="/#about">About</a></li>
+                <li><a
+                    class="nav-link scrollto"
+                    href="/#contact"
+                  >Contact</a></li>
+                <li><a class="nav-link scrollto" href="/#faq">FAQ</a></li>
+              </ul>
+            </li>
+
+            {{#unless user}}
+              <ul>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/select" class="btn-signup">Sign Up</a></li>
+              </ul>
+            {{/unless}}
+
+            <li class="search-bar">
+              <form
+                action="/search"
+                method="GET"
+                onsubmit="return validateSearch()"
+              >
+                <input
+                  type="text"
+                  name="query"
+                  class="search-input"
+                  id="searchInput"
+                  placeholder="Search..."
+                  oninput="toggleSearchButton()"
+                />
+                <button
+                  type="submit"
+                  class="search-button"
+                  id="searchButton"
+                  disabled
+                ><i class="bi bi-search"></i></button>
+              </form>
+            </li>
+
+            {{#if isClient}}
+              <li>
+                <a
+                  class="getstarted scrollto"
+                  href="/client-profile/{{userId}}/1"
+                >
+                  <img
+                    src="{{user.profilePicPath}}"
+                    alt="Profile Picture"
+                    class="rounded-circle profile-picture"
+                  />
+                  <span class="profile-name">{{user.full_name}}</span>
+                </a>
+              </li>
+              <span class="material-symbols-outlined">
+                <a href="/logout">Logout</a>
+              </span>
+            {{/if}}
+
+            {{#if isEngineer}}
+              <li>
+                <a class="getstarted scrollto" href="/profile/{{userId}}/1">
+                  <img
+                    src="{{user.profilePicPath}}"
+                    alt="Profile Picture"
+                    class="rounded-circle profile-picture"
+                  />
+                  <span class="profile-name">{{user.full_name}}</span>
+                </a>
+              </li>
+              <span class="material-symbols-outlined">
+                <a href="/logout">Logout</a>
+              </span>
+            {{/if}}
+
+            {{#if isAdmin}}
+              <li>
+                <a class="getstarted scrollto" href="/admin-dashboard">
+                  <img
+                    src="{{user.profilePicPath}}"
+                    alt="Profile Picture"
+                    class="rounded-circle profile-picture"
+                  />
+                  <span class="profile-name">{{user.full_name}}</span>
+                </a>
+              </li>
+              <span class="material-symbols-outlined">
+                <a href="/logout">Logout</a>
+              </span>
+            {{/if}}
+
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav><!-- .navbar -->
+
+      </div>
     </header><!-- End Header -->
 
     <hr />
     <br><br><br>
     <h3 style="font-family: Georgia, 'Times New Roman', Times, serif;" align="center">Search Results</h3>
 
-
-
-
-
-
-
-
 {{#if results.engineerfullNameResults.length}}
 <div class="content">
     <div id="post-container">
         <div class="main">
             <div class="engrwrapper">
+                 <h4>Search result of Engineer by Engineer Name</h4>
                 <table class="jobTable">
                     <thead>
                         <tr>
@@ -177,7 +219,7 @@
                         {{#each results.engineerfullNameResults}}
                         <tr>
                             <td>
-                                 <a href="/profile/{{_id}}/1">
+                                 <a href="/profile/{{_id}}/1" style="color: #3498db;">
                                     {{full_name}}
                                 </a>
                             </td>
@@ -201,6 +243,7 @@
     <div id="post-container">
         <div class="main">
             <div class="engrwrapper">
+                <h4>Search result of Engineer by Engineer Designation</h4>
                 <table class="jobTable">
                     <thead>
                         <tr>
@@ -212,7 +255,7 @@
                         {{#each results.designationResults}}
                         <tr>
                             <td>
-                                <a href="/profile/{{_id}}/1">
+                                <a href="/profile/{{_id}}/1" style="color: #3498db;">
                 {{full_name}}
             </a>
                             </td>
@@ -231,17 +274,12 @@
 
 
 
-
-
-
-
-
-
 {{#if results.locationResultsEngineer.length}}
 <div class="content">
     <div id="post-container">
         <div class="main">
             <div class="engrwrapper">
+                <h4>Search result of Engineer by Engineer location</h4>
                 <table class="jobTable">
                     <thead>
                         <tr>
@@ -253,7 +291,7 @@
                         {{#each results.locationResultsEngineer}}
                         <tr>
                             <td>
-            <a href="/profile/{{_id}}/1">
+            <a href="/profile/{{_id}}/1" style="color: #3498db;">
                 {{full_name}}
             </a>
                             </td>
@@ -272,18 +310,12 @@
 
 
 
-
-
-
-
-
-
-
 {{#if results.expertiseResults.length}}
 <div class="content">
     <div id="post-container">
         <div class="main">
             <div class="engrwrapper">
+                 <h4>Search result of Engineer by Field_of_Expertise</h4>
                 <table class="jobTable">
                     <thead>
                         <tr>
@@ -295,7 +327,7 @@
                         {{#each results.expertiseResults}}
                         <tr>
                             <td>
-            <a href="/profile/{{_id}}/1">
+            <a href="/profile/{{_id}}/1" style="color: #3498db;">
                 {{full_name}}
             </a>
                             </td>
@@ -313,35 +345,12 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 {{#if results.clientfullNameResults.length}}
 <div class="content">
     <div id="post-container">
         <div class="main">
             <div class="engrwrapper">
+                 <h4>Search result of Client by Client Name</h4>
                 <table class="jobTable">
                     <thead>
                         <tr>
@@ -353,7 +362,7 @@
  {{#each results.clientfullNameResults}}
                         <tr>
                             <td>
-            <a href="/client-profile/{{_id}}/1">
+            <a href="/client-profile/{{_id}}/1" style="color: #3498db;">
                 {{full_name}}
             </a>
                             </td>
@@ -371,21 +380,12 @@
     
 
 
-
-
-
-
-
-
-
-
-
-
 {{#if results.locationResultsClient.length}}
 <div class="content">
     <div id="post-container">
         <div class="main">
             <div class="engrwrapper">
+                 <h4>Search result by Client Location</h4>
                 <table class="jobTable">
                     <thead>
                         <tr>
@@ -397,7 +397,7 @@
 {{#each results.locationResultsClient}}
                         <tr>
                             <td>
-            <a href="/client-profile/{{_id}}/1">
+            <a href="/client-profile/{{_id}}/1" style="color: #3498db;">
                 {{full_name}}
             </a>
                             </td>
@@ -423,7 +423,9 @@
 <div class="content">
     <div id="post-container">
         <div class="main">
+            
             <div class="engrwrapper">
+                <h4>Search result by job title</h4>
                 <table class="jobTable">
                     <thead>
                         <tr>
@@ -435,7 +437,7 @@
                         {{#each results.jobTitleResults}}
                         <tr>
                             <td>
-                                <a href="/job-details/{{_id}}">
+                                <a href="/job-details/{{_id}}" style="color: #3498db;">
                                     {{jobTitle}}
                                 </a>
                             </td>
@@ -455,77 +457,29 @@
 
 
 
-
-
-{{!-- 
-awda
-{{#if results.jobTitleResults.length}}
-<div class="content">
-    <div id="post-container">
-        <div class="main">
-            <div class="engrwrapper">
-                <table class="jobTable">
-                    <thead>
-                        <tr>
-                            <th>Job Title</th>
-                            <th>Client Name</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-        {{#each results.jobTitleResults}}
-                        <tr>
-                            <td>
-            <a href="/job-details/{{_id}}">
-                {{jobTitle}}
-            </a>
-                            </td>
-                            <td> {{clientName}}</td>
-                        </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-{{/if}}
-
-wadaw --}}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 {{#if results.categoryResults.length}}
 <div class="content">
     <div id="post-container">
         <div class="main">
             <div class="engrwrapper">
+                <h4>Search result by job category</h4>
                 <table class="jobTable">
                     <thead>
                         <tr>
-                            <th>Job Title by Category</th>
+                            <th>Job Title</th>
+                            <th>Category</th>
                             <th>Client Name</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {{#each results.jobTitleResults}}
+                        {{#each results.categoryResults}}
                         <tr>
                             <td>
-            <a href="/job-details/{{_id}}">
+            <a href="/job-details/{{_id}}" style="color: #3498db;">
                 {{jobTitle}}
             </a>
                             </td>
+                            <td>{{category}}</td>
                             <td>{{clientName}}</td>
                         </tr>
                         {{/each}}
@@ -548,6 +502,7 @@ wadaw --}}
     <div id="post-container">
         <div class="main">
             <div class="engrwrapper">
+                <h4>Search result by job location</h4>
                 <table class="jobTable">
                     <thead>
                         <tr>
@@ -590,11 +545,12 @@ wadaw --}}
     <div id="post-container">
         <div class="main">
             <div class="engrwrapper">
+                <h4>Search result by job details</h4>
                 <table class="jobTable">
                     <thead>
                         <tr>
                             <th>Job Title</th>
-                            <th>Client Name</th>
+                           <th style="width: 200px;">Client Name</th>
                             <th>Job Details</th>
                         </tr>
                     </thead>
@@ -602,7 +558,7 @@ wadaw --}}
                         {{#each results.detailsResults}}
                         <tr>
                             <td>
-            <a href="/job-details/{{_id}}">
+            <a href="/job-details/{{_id}}" style="color: #3498db;">
                 {{jobTitle}}
             </a>
                             </td>
@@ -629,11 +585,12 @@ wadaw --}}
     <div id="post-container">
         <div class="main">
             <div class="engrwrapper">
+                 <h4>Search result by job requirements</h4>
                 <table class="jobTable">
                     <thead>
                         <tr>
                             <th>Job Title</th>
-                            <th>Client Name</th>
+                            <th style="width: 200px;">Client Name</th>
                             <th>Job Requirements</th>
                         </tr>
                     </thead>
@@ -641,7 +598,7 @@ wadaw --}}
                         {{#each results.requirementsResults}}
                         <tr>
                             <td>
-            <a href="/job-details/{{_id}}">
+            <a href="/job-details/{{_id}}" style="color: #3498db;">
                 {{jobTitle}}
             </a>
                             </td>
@@ -682,7 +639,24 @@ wadaw --}}
         }
 
     </script>
+  <script>
+function toggleSearchButton() {
+  var searchInput = document.getElementById('searchInput');
+  var searchButton = document.getElementById('searchButton');
+  
+  // Enable the button if the input is not empty, otherwise disable it
+  searchButton.disabled = searchInput.value.trim() === '';
+}
 
+function validateSearch() {
+  var searchInput = document.getElementById('searchInput');
+  
+  // Check if the input is not empty before form submission
+  return searchInput.value.trim() !== '';
+}
+
+
+ </script>
 
     <script src="/vendor/purecounter/purecounter_vanilla.js"></script>
     <script src="/vendor/aos/aos.js"></script>
