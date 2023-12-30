@@ -1,236 +1,310 @@
 <html lang="en">
 
-<head>
-  <meta charset="utf-8" />
-  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-  <title>EngrHire BD</title>
-  <meta content="" name="description" />
-  <meta content="" name="keywords" />
+    <title>EngrHire BD</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
 
-  <!-- Logo -->
-  <link href="assets/img/logo.png" rel="icon" />
+    <!-- Logo -->
+    <link href="assets/img/logo.png" rel="icon" />
 
-  <link
-    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-    rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"
+    />
 
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
+    <link
+      href="assets/vendor/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+    <link
+      href="assets/vendor/glightbox/css/glightbox.min.css"
+      rel="stylesheet"
+    />
+    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
 
+    <link href="assets/css/style.css" rel="stylesheet" />
+    <link href="assets/css/login.css" rel="stylesheet" />
 
-  <link href="assets/css/login.css" rel="stylesheet" />
+  </head>
 
+  <body>
 
-</head>
+   <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top d-flex align-items-center">
+      <div class="container d-flex align-items-center justify-content-between">
+        <script src="https://unpkg.com/phosphor-icons"></script>
+        <div class="logo">
+          <h1><a href="/"><img src="assets/img/logo.png" alt="" />EngrHire BD</a></h1>
+        </div>
 
-<body>
-
-  <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top d-flex align-items-center">
-    <div class="container d-flex align-items-center justify-content-between">
-      <script src="https://unpkg.com/phosphor-icons"></script>
-      <div class="logo">
-        <h1><a href="/"><img src="assets/img/logo.png" alt="">EngrHire BD</a></h1>
-
-      </div>
-
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a class="nav-link scrollto active" href="/">Home</a></li>
-          {{#if user}}
-          {{#if isClient}}
-          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
-          {{/if}}
-          {{#if isEngineer}}
-          <li><a class="nav-link scrollto" href="/engineer-post">Post Jobs</a></li>
-          {{/if}}
-          {{else}}
-          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
-          {{/if}}
-          <li class="dropdown">
-            <a href="#"><span>Explore</span>
-            </a>
-            <ul>
-              {{#if user}}
-              {{#if isEngineer}}
-              <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
-              <li><a class="nav-link scrollto" href="#services">Services</a></li>
-              {{/if}}
-
-              {{#if isClient}}
-              <li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
-              <li><a class="nav-link scrollto" href="#services">Services</a></li>
-              {{/if}}
-              {{else}}
-              <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
-              <li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
-              <li><a class="nav-link scrollto" href="#services">Services</a></li>
-              {{/if}}
-
-            </ul>
-
-
-          </li>
-
-          <li class="dropdown">
-            <a href="#"><span>Help</span>
-
-            </a>
-            <ul>
-
-              <li><a class="nav-link scrollto" href="#about">About</a></li>
-              <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-              <li><a class="nav-link scrollto" href="#faq">FAQ</a></li>
-
-            </ul>
-
-          </li>
-
-
-          {{#unless user}}
-
-
+        <nav id="navbar" class="navbar">
           <ul>
-            <li><a href="/login">Login</a></li>
-            <li><a href="/select" class="btn-signup">Sign Up</a></li>
+            <li><a class="nav-link scrollto active" href="/">Home</a></li>
+
+            {{#if user}}
+              {{#if isClient}}
+                <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+              {{/if}}
+              {{#if isEngineer}}
+                <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+              {{/if}}
+              {{#if isAdmin}}
+                <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+              {{/if}}
+            {{else}}
+              <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+            {{/if}}
+
+            <li class="dropdown">
+              <a href="#"><span>Explore</span><i
+                  class="bi bi-chevron-down"
+                ></i></a>
+              <ul>
+                {{#if user}}
+                  {{#if isEngineer}}
+                    <li><a
+                        class="nav-link scrollto"
+                        href="/#services"
+                      >Services</a></li>
+                    <li><a
+                        class="nav-link scrollto"
+                        href="/engineers"
+                      >Engineers</a></li>
+                  {{/if}}
+                  {{#if isClient}}
+                    <li><a
+                        class="nav-link scrollto"
+                        href="/#services"
+                      >Services</a></li>
+                    <li><a
+                        class="nav-link scrollto"
+                        href="/engineers"
+                      >Engineers</a></li>
+                  {{/if}}
+                {{else}}
+                  <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+                  <li><a
+                      class="nav-link scrollto"
+                      href="/#services"
+                    >Services</a></li>
+                  <li><a
+                      class="nav-link scrollto"
+                      href="/engineers"
+                    >Engineers</a></li>
+                {{/if}}
+              </ul>
+            </li>
+
+            <li class="dropdown">
+              <a href="#"><span>Help</span><i
+                  class="bi bi-chevron-down"
+                ></i></a>
+              <ul>
+                <li><a class="nav-link scrollto" href="/#about">About</a></li>
+                <li><a
+                    class="nav-link scrollto"
+                    href="/#contact"
+                  >Contact</a></li>
+                <li><a class="nav-link scrollto" href="/#faq">FAQ</a></li>
+              </ul>
+            </li>
+
+            {{#unless user}}
+              <ul>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/select" class="btn-signup">Sign Up</a></li>
+              </ul>
+            {{/unless}}
+
+            <li class="search-bar">
+              <form
+                action="/search"
+                method="GET"
+                onsubmit="return validateSearch()"
+              >
+                <input
+                  type="text"
+                  name="query"
+                  class="search-input"
+                  id="searchInput"
+                  placeholder="Search..."
+                  oninput="toggleSearchButton()"
+                />
+                <button
+                  type="submit"
+                  class="search-button"
+                  id="searchButton"
+                  disabled
+                ><i class="bi bi-search"></i></button>
+              </form>
+            </li>
+
+            {{#if isClient}}
+              <li>
+                <a
+                  class="getstarted scrollto"
+                  href="/client-profile/{{userId}}/1"
+                >
+                  <img
+                    src="{{user.profilePicPath}}"
+                    alt="Profile Picture"
+                    class="rounded-circle profile-picture"
+                  />
+                  <span class="profile-name">{{user.full_name}}</span>
+                </a>
+              </li>
+              <span class="material-symbols-outlined">
+                <a href="/logout">Logout</a>
+              </span>
+            {{/if}}
+
+            {{#if isEngineer}}
+              <li>
+                <a class="getstarted scrollto" href="/profile/{{userId}}/1">
+                  <img
+                    src="{{user.profilePicPath}}"
+                    alt="Profile Picture"
+                    class="rounded-circle profile-picture"
+                  />
+                  <span class="profile-name">{{user.full_name}}</span>
+                </a>
+              </li>
+              <span class="material-symbols-outlined">
+                <a href="/logout">Logout</a>
+              </span>
+            {{/if}}
+
+            {{#if isAdmin}}
+              <li>
+                <a class="getstarted scrollto" href="/admin-dashboard">
+                  <img
+                    src="{{user.profilePicPath}}"
+                    alt="Profile Picture"
+                    class="rounded-circle profile-picture"
+                  />
+                  <span class="profile-name">{{user.full_name}}</span>
+                </a>
+              </li>
+              <span class="material-symbols-outlined">
+                <a href="/logout">Logout</a>
+              </span>
+            {{/if}}
+
           </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav><!-- .navbar -->
 
-          {{/unless}}
+      </div>
+    </header><!-- End Header -->
 
+    <div class="wrapper">
+      <div class="sideimg"></div>
 
-          <div class="search">
-            <input type="text" class="search-box" placeholder="Search..." />
-            <button class="search-btn"><i class="ph-magnifying-glass-bold"></i></button>
-            <button class="close-btn"><i class="ph-x-bold"></i></button>
+      <form action="/login" method="post" class="login-form">
+        <h2>Login</h2>
+        {{#if error}}
+          <div class="error-message-box">
+            <div class="error-message">{{error}}</div>
           </div>
+        {{/if}}
+        {{#if successMessage}}
+          <div class="successMessage-box">
+            <div class="successMessage">{{successMessage}}</div>
+          </div>
+        {{/if}}
 
-          {{#if isClient}}
-          <li>
-            <a class="getstarted scrollto" href="/client-profile/{{userId}}/1">
-              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
-              <span class="profile-name">{{user.full_name}}</span>
+        {{#if resetEmailSent}}
+          <div class="success-message">
+            Password reset email sent successfully. Please check your email.
+          </div>
+        {{/if}}
+        <div class="input-field">
+          <input
+            id="email"
+            placeholder="Email"
+            name="email"
+            type="email"
+            required
+          />
+          <label for="email">Email</label>
+        </div>
+        <div class="input-field">
+          <input
+            id="password"
+            placeholder="Password"
+            name="password"
+            type="password"
+            required
+          />
+          <label for="password">Password</label>
+        </div>
 
-            </a>
-          </li>
-
-          <span class="material-symbols-outlined">
-            <a href="/logout">Logout</a>
-          </span>
-
-          {{/if}}
-
-          {{#if isEngineer}}
-          <li>
-            <a class="getstarted scrollto" href="/profile/{{userId}}/1">
-              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
-              <span class="profile-name">{{user.full_name}}</span>
-            </a>
-          </li>
-
-          <span class="material-symbols-outlined">
-            <a href="/logout">Logout</a>
-          </span>
-
-          {{/if}}
-
-
-
-
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
-
+        <div class="forget">
+          <label for="remember">
+            <input type="checkbox" id="remember" />
+            <p>Remember me</p>
+          </label>
+          <a href="/forgot-password">Forgot password?</a>
+        </div>
+        <input class="submit-btn" type="submit" value="Login" />
+        <div class="register">
+          <p>
+            Don't have an account?
+            <a href="./select">Register</a>
+          </p>
+        </div>
+      </form>
     </div>
-  </header><!-- End Header -->
 
-  <div class="wrapper">
-    <div class="sideimg"></div>
+    <script>
 
-    <form action="/login" method="post" class="login-form">
-      <h2>Login</h2>
-      {{#if error}}
-    <div class="error-message-box">
-      <div class="error-message">{{error}}</div>
-    </div>
-  {{/if}}
-   {{#if successMessage}}
-    <div class="successMessage-box">
-      <div class="successMessage">{{successMessage}}</div>
-    </div>
-  {{/if}}
-
-  {{#if resetEmailSent}}
-    <div class="success-message">
-      Password reset email sent successfully. Please check your email.
-    </div>
-  {{/if}}
-  <div class="input-field">
-    <input id="email" placeholder="Email" name="email" type="email" required />
-    <label for="email">Email</label>
-  </div>
-  <div class="input-field">
-    <input id="password" placeholder="Password" name="password" type="password" required />
-    <label for="password">Password</label>
-  </div>
-
-      <div class="forget">
-        <label for="remember">
-          <input type="checkbox" id="remember" />
-          <p>Remember me</p>
-        </label>
-        <a href="/forgot-password">Forgot password?</a>
-      </div>
-      <input class="submit-btn" type="submit" value="Login" />
-      <div class="register">
-        <p>
-          Don't have an account?
-          <a href="./select">Register</a>
-        </p>
-      </div>
-    </form>
-
-  </div>
+      const urlParams = new URLSearchParams(window.location.search); const
+      resetEmailSent = urlParams.get('resetEmailSent'); const resetSuccess =
+      urlParams.get('resetSuccess'); if (resetSuccess === 'true') {
+      alert('Password reset successful'); } if (resetEmailSent === 'true') {
+      alert("Password reset email sent"); }
+    </script>
 
   <script>
+function toggleSearchButton() {
+  var searchInput = document.getElementById('searchInput');
+  var searchButton = document.getElementById('searchButton');
+  
+  // Enable the button if the input is not empty, otherwise disable it
+  searchButton.disabled = searchInput.value.trim() === '';
+}
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const resetEmailSent = urlParams.get('resetEmailSent');
-    const resetSuccess = urlParams.get('resetSuccess');
-
-
-    if (resetSuccess === 'true') {
-      alert('Password reset successful');
-    }
-
-    if (resetEmailSent === 'true') {
-      alert("Password reset email sent");
-    }
-  </script>
-
-
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+function validateSearch() {
+  var searchInput = document.getElementById('searchInput');
+  
+  // Check if the input is not empty before form submission
+  return searchInput.value.trim() !== '';
+}
 
 
-  <script src="assets/js/main.js"></script>
-  <script src="assets/js/search.js"></script>
+ </script>
 
-</body>
+    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="assets/vendor/aos/aos.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
 
-</html>
+    <script src="assets/js/main.js"></script>
 
-
-</body>
+  </body>
 
 </html>

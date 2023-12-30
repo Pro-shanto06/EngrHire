@@ -44,127 +44,119 @@
 
     <!-- ======= Header ======= -->
     <header id="header" class="fixed-top d-flex align-items-center">
-      <div class="container d-flex align-items-center justify-content-between">
-        <script src="https://unpkg.com/phosphor-icons"></script>
-        <div class="logo">
-          <h1><a href="/" ><img  src="assets/img/logo.png" alt="">EngrHire BD</a></h1>
-      
-        </div>
+  <div class="container d-flex align-items-center justify-content-between">
+    <script src="https://unpkg.com/phosphor-icons"></script>
+    <div class="logo">
+      <h1><a href="/"><img src="assets/img/logo.png" alt="">EngrHire BD</a></h1>
+    </div>
 
-        <nav id="navbar" class="navbar">
+    <nav id="navbar" class="navbar">
+      <ul>
+        <li><a class="nav-link scrollto active" href="/">Home</a></li>
+
+        {{#if user}}
+          {{#if isClient}}
+            <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          {{/if}}
+          {{#if isEngineer}}
+           <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+          {{/if}}
+           {{#if isAdmin}}
+            <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          {{/if}}
+        {{else}}
+          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+        {{/if}}
+
+        <li class="dropdown">
+          <a href="#"><span>Explore</span><i class="bi bi-chevron-down"></i></a>
           <ul>
-            <li><a class="nav-link scrollto active" href="/">Home</a></li>
-                  
-          {{#if user}}
-           {{#if isClient}}
-                <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
-  {{/if}}
-   {{#if isEngineer}}
-                <li><a class="nav-link scrollto" href="/engineer-post">Post Jobs</a></li>
-  {{/if}}
-   {{else}}
-<li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
- {{/if}}
-              <li class="dropdown">
-              <a href="#"><span>Explore</span>
-              </a>
-            <ul>
-                {{#if user}}
-  {{#if isEngineer}}
-    <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
-    <li><a class="nav-link scrollto" href="#services">Services</a></li>
-    <li><a class="nav-link scrollto active" href="/engineers">Engineers</a></li>
-  {{/if}}
+            {{#if user}}
+              {{#if isEngineer}}
+                <li><a class="nav-link scrollto" href="#services">Services</a></li>
+                <li><a class="nav-link scrollto" href="/engineers">Engineers</a></li>
+              {{/if}}
+              {{#if isClient}}
+                <li><a class="nav-link scrollto" href="#services">Services</a></li>
+                <li><a class="nav-link scrollto" href="/engineers">Engineers</a></li>
+              {{/if}}
+            {{else}}
+              <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+              <li><a class="nav-link scrollto" href="#services">Services</a></li>
+              <li><a class="nav-link scrollto" href="/engineers">Engineers</a></li>
+            {{/if}}
+          </ul>
+        </li>
 
-  {{#if isClient}}
-   
-    <li><a class="nav-link scrollto" href="#services">Services</a></li>
-    <li><a class="nav-link scrollto active" href="/engineers">Engineers</a></li>
-  {{/if}}
-    {{else}}
-     <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+        <li class="dropdown">
+          <a href="#"><span>Help</span><i class="bi bi-chevron-down"></i></a>
+          <ul>
+            <li><a class="nav-link scrollto" href="#about">About</a></li>
+            <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+            <li><a class="nav-link scrollto" href="#faq">FAQ</a></li>
+          </ul>
+        </li>
 
-    <li><a class="nav-link scrollto" href="#services">Services</a></li>
-    <li><a class="nav-link scrollto active" href="/engineers">Engineers</a></li>
-     {{/if}}
+        {{#unless user}}
+          <ul>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/select" class="btn-signup">Sign Up</a></li>
+          </ul>
+        {{/unless}}
 
-</ul>
-
-
-            </li>
-
-             <li class="dropdown">
-              <a href="#"><span>Help</span>
-              
-              </a>
-              <ul>
-                 
-                <li><a class="nav-link scrollto" href="#about">About</a></li>
-                <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-                <li><a class="nav-link scrollto" href="#faq">FAQ</a></li>
-               
-              </ul>
-
-            </li>
-
-       
-{{#unless user}}
-
-
-    <ul>
-      <li><a href="/login">Login</a></li>
-      <li><a href="/select" class="btn-signup">Sign Up</a></li>
-    </ul>
-
-{{/unless}}
-
-
-           <li class="search-bar">
-  <form action="/search" method="GET">
-    <input type="text" name="query" class="search-input" placeholder="Search...">
-    <button type="submit" class="search-button"><i class="bi bi-search"></i></button>
+ <li class="search-bar">
+  <form action="/search" method="GET" onsubmit="return validateSearch()">
+    <input type="text" name="query" class="search-input" id="searchInput" placeholder="Search..." oninput="toggleSearchButton()">
+    <button type="submit" class="search-button" id="searchButton" disabled><i class="bi bi-search"></i></button>
   </form>
 </li>
 
 
+
         {{#if isClient}}
-  <li>
-    <a class="getstarted scrollto" href="/client-profile/{{userId}}/1">
-      <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
-      <span class="profile-name">{{user.full_name}}</span>
-      
-    </a>
-  </li>
+          <li>
+            <a class="getstarted scrollto" href="/client-profile/{{userId}}/1">
+              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{user.full_name}}</span>
+            </a>
+          </li>
+          <span class="material-symbols-outlined">
+            <a href="/logout">Logout</a>
+          </span>
+        {{/if}}
 
- <span class="material-symbols-outlined">
-  <a href="/logout">Logout</a>
-</span>
+        {{#if isEngineer}}
+          <li>
+            <a class="getstarted scrollto" href="/profile/{{userId}}/1">
+              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{user.full_name}}</span>
+            </a>
+          </li>
+          <span class="material-symbols-outlined">
+            <a href="/logout">Logout</a>
+          </span>
+        {{/if}}
 
-{{/if}}
+         {{#if isAdmin}}
+          <li>
+            <a class="getstarted scrollto" href="/admin-dashboard">
+              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{user.full_name}}</span>
+            </a>
+          </li>
+          <span class="material-symbols-outlined">
+            <a href="/logout">Logout</a>
+          </span>
+        {{/if}}
 
-{{#if isEngineer}}
-  <li>
-    <a class="getstarted scrollto" href="/profile/{{userId}}/1">
-      <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
-      <span class="profile-name">{{user.full_name}}</span>
-    </a>
-  </li>
+      </ul>
+      <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav><!-- .navbar -->
 
-   <span class="material-symbols-outlined">
-  <a href="/logout">Logout</a>
-</span>
-  
-{{/if}}
+  </div>
+</header><!-- End Header -->
 
 
-
-
-          </ul>
-          <i class="bi bi-list mobile-nav-toggle"></i>
-        </nav><!-- .navbar -->
-
-      </div>
-    </header><!-- End Header -->
 
     <!-- ======= Hero Section ======= -->
     <section id="hero" class="d-flex align-items-center">
@@ -1081,23 +1073,21 @@
       class="back-to-top d-flex align-items-center justify-content-center"
     ><i class="bi bi-arrow-up-short"></i></a>
 
-<!-- Inside your home page template (home.hbs) -->
+
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    // Check if the success parameter is present in the URL
+ 
     const urlParams = new URLSearchParams(window.location.search);
     const success = urlParams.get('success');
 
-    // If success is true, scroll to the contact section and display thank-you message
+
     if (success === 'true') {
       const contactSection = document.getElementById('contact');
       const thankYouMessage = document.getElementById('thankYouMessage');
 
       if (contactSection && thankYouMessage) {
-        // Scroll to the contact section
+
         contactSection.scrollIntoView({ behavior: 'smooth' });
-        
-        // Display the thank-you message
         thankYouMessage.style.display = 'block';
       }
     }
@@ -1109,6 +1099,27 @@
       window.location.href = "/faq";
     }
   </script>
+
+  <script>
+function toggleSearchButton() {
+  var searchInput = document.getElementById('searchInput');
+  var searchButton = document.getElementById('searchButton');
+  
+  // Enable the button if the input is not empty, otherwise disable it
+  searchButton.disabled = searchInput.value.trim() === '';
+}
+
+function validateSearch() {
+  var searchInput = document.getElementById('searchInput');
+  
+  // Check if the input is not empty before form submission
+  return searchInput.value.trim() !== '';
+}
+
+
+ </script>
+
+ 
     <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
     <script src="assets/vendor/aos/aos.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -1119,9 +1130,7 @@
 
 
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/search.js"></script>
-
-    
+  
 
   </body>
 

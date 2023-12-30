@@ -35,3 +35,107 @@ body {
   margin-top: 50px;
   /* background-color: white; */
 }
+
+
+
+.wrapper form {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 50%;
+  padding: 20px;
+}
+
+.wrapper form h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.wrapper form .input-field {
+  position: relative;
+  margin: 15px 0;
+}
+
+.wrapper form .input-field label {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  color: #fff;
+  font-size: 16px;
+  pointer-events: none;
+  transition: 0.15s ease;
+}
+
+.wrapper form .input-field input {
+  width: 100%;
+  height: 40px;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #fff;
+  border-bottom: 2px solid #ccc;
+}
+
+.wrapper form .input-field input:focus ~ label,
+.wrapper form .input-field input:valid ~ label {
+  font-size: 0.8rem;
+  top: 10px;
+  transform: translateY(-160%);
+}
+
+.FE{
+  margin-bottom: 0;
+  margin-left: -245px;
+}
+
+.wrapper form select {
+  width: 100%;
+  padding: 7px;
+  font-size: 16px;
+  background-color: transparent;
+  color: white;
+  border: none;
+  border-bottom: 2px solid #ccc;
+}
+
+.wrapper form .field-dropdown option {
+  width: 100%;
+  padding: 7px;
+  font-size: 16px;
+  background: rgb(255, 255, 255);
+  color: #000;
+}
+
+.wrapper form .submit-btn {
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: 600;
+  border: none;
+  padding: 12px 20px;
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 16px;
+  border: 2px solid transparent;
+  transition: 0.3s ease;
+}
+
+.wrapper form .submit-btn:hover {
+  color: #fff;
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.wrapper form .register p {
+  color: white; 
+}
+.wrapper form .register a {
+  color: #ffffff;
+}
+
+.wrapper form .register a:hover {
+  text-decoration: underline;
+}
+
