@@ -345,10 +345,22 @@ app.get("/engineers", async (req, res) => {
     }
 
 
-    const engineers = await Engineer.find({});
+    const { unreadNotificationCount, unreadNotifications } = await getUnreadNotifications(
+      userId,
+      user?.role
+    );
 
 
-    const { unreadNotificationCount, unreadNotifications } = await getUnreadNotifications(userId);
+    const filterCriteria = {};
+
+
+    const selectedExpertise = req.query.field_of_expertise || 'all';
+    if (selectedExpertise !== 'all') {
+      filterCriteria.field_of_expertise = selectedExpertise;
+    }
+
+
+    const engineers = await Engineer.find(filterCriteria);
 
 
     res.render("engineers", {
@@ -357,6 +369,7 @@ app.get("/engineers", async (req, res) => {
       userId,
       isClient: req.session.user?.role === "Client",
       isEngineer: req.session.user?.role === "Engineer",
+      selectedExpertise,
       unreadNotificationCount,
       unreadNotifications,
     });
@@ -365,6 +378,7 @@ app.get("/engineers", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
 
 
 

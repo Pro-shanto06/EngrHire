@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
 const connectToDatabase = async () => {
- 
+
   if (mongoose.connection.readyState === 0) {
     try {
-      
+
       const atlasConnectionUri =
         "mongodb+srv://proshantosaha1999:W0ZsFvmK5dmk5ayU@cluster0.hwzdkym.mongodb.net/";
 
@@ -29,7 +29,7 @@ const connectToDatabase = async () => {
 const createAdminUser = async () => {
   try {
     const adminUsername = "proshanto";
-    const adminPassword = "123456"; 
+    const adminPassword = "123456";
 
     const adminUser = new Admin({
       full_name: "proshanto",
@@ -161,34 +161,34 @@ const engineerSchema = new mongoose.Schema({
     type: String,
   },
   profilePicPath: {
-    type: String, 
+    type: String,
   },
   isVerified: {
     type: Boolean,
     default: false,
   },
 
- 
+
 
   cardHolderName: {
     type: String,
-    
+
   },
   cardNumber: {
     type: String,
-   
+
   },
   cardExpMonth: {
     type: String,
-   
+
   },
   cardExpYear: {
     type: String,
-    
+
   },
   cardCVV: {
     type: String,
-    
+
   },
   balance: {
     type: Number,
@@ -204,7 +204,7 @@ const engineerSchema = new mongoose.Schema({
   verificationToken: String,
   resetPasswordToken: String,
   resetPasswordExpires: Date,
- 
+
 });
 
 
@@ -231,51 +231,51 @@ const clientSchema = new mongoose.Schema({
     default: "Client",
   },
   website: {
-    type: String, 
+    type: String,
   },
   twitter: {
-    type: String, 
+    type: String,
   },
   instagram: {
-    type: String, 
+    type: String,
   },
   facebook: {
-    type: String, 
+    type: String,
   },
   location: {
     type: String,
   },
   address: {
-    type: String, 
+    type: String,
   },
   profilePicPath: {
-    type: String, 
+    type: String,
   },
   isVerified: {
     type: Boolean,
     default: false,
   },
- 
+
 
   cardHolderName: {
     type: String,
-    
+
   },
   cardNumber: {
     type: String,
-   
+
   },
   cardExpMonth: {
     type: String,
-   
+
   },
   cardExpYear: {
     type: String,
-    
+
   },
   cardCVV: {
     type: String,
-    
+
   },
   balance: {
     type: Number,
@@ -298,10 +298,10 @@ const jobSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  
+
   client: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Client", 
+    ref: "Client",
   },
 
   clientName: {
@@ -328,7 +328,7 @@ const jobSchema = new mongoose.Schema({
     required: true,
   },
   jobDeadline: {
-    type: Date, 
+    type: Date,
     required: true,
   },
   jobPriceRange: {
@@ -375,9 +375,9 @@ const bidSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ["pending", "accepted", "rejected"],
-    default: "pending", 
+    default: "pending",
   },
-  
+
 });
 
 
@@ -472,7 +472,7 @@ const paymentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Work',
   },
-  
+
   amount: {
     type: Number,
     required: true,
@@ -496,7 +496,7 @@ const formDataSchema = new mongoose.Schema({
 const notificationSchema = new mongoose.Schema({
   recipient: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Client', 
+    ref: 'Client',
     required: true,
   },
   content: {
@@ -513,11 +513,11 @@ const notificationSchema = new mongoose.Schema({
   },
   job: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Job', // Reference to the Job model
+    ref: 'Job',
   },
   bid: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Bid', // Reference to the Bid model
+    ref: 'Bid',
   },
   createdAt: {
     type: Date,
@@ -553,7 +553,7 @@ workSchema.post("save", async function (doc, next) {
   try {
     const { client, engineer, clientRating, engineerRating } = doc;
 
-    // Calculate average client rating
+
     const avgClientRating = await Work.aggregate([
       { $match: { client, clientRating: { $exists: true } } },
       {
@@ -564,14 +564,14 @@ workSchema.post("save", async function (doc, next) {
       },
     ]);
 
-    // Update client schema with average rating
+
     if (avgClientRating.length > 0) {
       await Client.findByIdAndUpdate(client, {
         rating: avgClientRating[0].averageRating || 0,
       });
     }
 
-    // Calculate average engineer rating
+
     const avgEngineerRating = await Work.aggregate([
       { $match: { engineer, engineerRating: { $exists: true } } },
       {
@@ -582,7 +582,7 @@ workSchema.post("save", async function (doc, next) {
       },
     ]);
 
-    // Update engineer schema with average rating
+
     if (avgEngineerRating.length > 0) {
       await Engineer.findByIdAndUpdate(engineer, {
         rating: avgEngineerRating[0].averageRating || 0,
@@ -596,7 +596,7 @@ workSchema.post("save", async function (doc, next) {
   }
 });
 
-engineerSchema.index({ full_name: 'text', designation: 'text', location: 'text' , field_of_expertise: 'text'});
+engineerSchema.index({ full_name: 'text', designation: 'text', location: 'text', field_of_expertise: 'text' });
 clientSchema.index({ full_name: 'text', location: 'text' });
 jobSchema.index({
   jobTitle: 'text',
@@ -619,4 +619,4 @@ const Payment = mongoose.model('Payment', paymentSchema);
 const FormData = mongoose.model("FormData", formDataSchema);
 const Notification = mongoose.model('Notification', notificationSchema);
 
-module.exports = { Job, Engineer, Client, Bid, Work,Admin,Payment,FormData,Notification,connectToDatabase };
+module.exports = { Job, Engineer, Client, Bid, Work, Admin, Payment, FormData, Notification, connectToDatabase };
