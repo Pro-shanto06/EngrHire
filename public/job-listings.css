@@ -7,7 +7,7 @@
 
 body {
   font-family: "Open Sans", sans-serif;
-  background-color: #f0f0f0;
+  background-color: #ffffff;
 }
 
 
@@ -24,12 +24,16 @@ a:hover {
   text-decoration: none;
 }
 
+/*--------------------------------------------------------------
+# Header
+--------------------------------------------------------------*/
 #header {
   z-index: 997;
   transition: all 0.5s;
   padding: 22px 0;
   background: #fff;
   height: 60px;
+  box-shadow: rgb(220 227 233) 0px 20px 30px -10px;
 }
 
 #header.header-scrolled {
@@ -114,10 +118,7 @@ a:hover {
   margin-left: 30px;
   border-radius: 50px;
   color: #fff;
-  
 }
-
-
 
 .navbar .getstarted:hover,
 .navbar .getstarted:focus:hover {
@@ -178,7 +179,6 @@ a:hover {
   left: 100%;
   visibility: visible;
 }
-
 
 @media (max-width: 1366px) {
   .navbar .dropdown .dropdown ul {
@@ -305,8 +305,8 @@ a:hover {
 --------------------------------------------------------------*/
 
 .profile-picture {
-  width: 25px; /* Set the desired width */
-  height: 25px; /* Set the desired height */
+  width: 25px; 
+  height: 25px; 
   border-radius: 50%; 
 }
 
@@ -336,11 +336,10 @@ a:hover {
 }
 
 .custom-search-input::placeholder {
-  color: #7f8fa6; /* Placeholder text color */
-  font-size: 16px; /* Placeholder text font size */
+  color: #7f8fa6; 
+  font-size: 16px; 
   position: relative;
-  bottom: 3px; /* Adjust the top position as needed */
-  /* Add any additional styling properties you want */
+  bottom: 3px; 
 }
 
 
@@ -408,7 +407,8 @@ a:hover {
   margin-top: 0;
   padding: 20px;
   background-color: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: none;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
 }
 
@@ -520,32 +520,21 @@ img {
   }
 }
 
-/* .sidebar {
-  float: left;
-  width: 28%;
-  padding: 20px;
-  
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
 
-  margin-top: 20px;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
-  text-align: center;
-  margin-left: 20px;
-} */
 
-/* Style for the content area */
+
 .content {
   float: left;
   width: 70%;
   padding: 20px;
   margin-left: 20%;
+  margin-top: 20px;
 }
 .post-container {
   width: 100%;
 }
 label {
-  margin-right: 10px; /* Adjust the margin as needed */
+  margin-right: 10px; 
   font-size: 25px;
   margin-bottom: 15px;
 }
@@ -553,4 +542,24 @@ label {
 select {
   margin-right: 100px;
   margin-bottom: 15px;
+}
+
+
+
+#notificationIcon {
+  font-size: 1.5rem; 
+  color: #4aa3df; 
+  position: relative;
+}
+
+
+#notificationCount {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 0.7rem; 
+  padding: 0.2em 0.4em;
+  background-color: #d36262; 
+  color: #fff; 
+  border-radius: 50%; 
 }

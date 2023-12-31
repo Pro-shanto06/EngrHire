@@ -408,7 +408,7 @@ li {
 }
 
 .search-box::placeholder {
-  color: #ffffff; /* Change the color to your desired color */
+  color: #ffffff; 
 }
 
 .active .search-box {
@@ -423,4 +423,21 @@ li {
 .active .close-btn {
   z-index: 0;
   transform: translate(250px, 2px);
+}
+
+#notificationIcon {
+  font-size: 1.5rem; 
+  color: #4aa3df;  
+  position: relative;
+}
+
+
+#notificationCount {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 0.7rem; 
+  padding: 0.2em 0.4em;
+  color: #fff; 
+  border-radius: 50%; 
 }

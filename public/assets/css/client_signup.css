@@ -2,10 +2,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* min-height: 100vh; */
   width: 100%;
   padding: 0 10px;
-  background: linear-gradient(to right, #4469c1,#3459b8,#456ac2 );
+  background: linear-gradient(to right, #4469c1, #3459b8, #456ac2);
 }
 
 .sideimg {
@@ -16,27 +15,21 @@ body {
   background-repeat: no-repeat;
   background-position-y: center;
 }
-::placeholder {
-  color: #cecdcd; /* Adjust the color as needed */
-}
+
+
+
 .wrapper {
   z-index: 2;
-  /* width: 400px; */
   border-radius: 8px;
   display: flex;
   max-width: 850px;
   width: 100%;
-  /* margin: auto; */
-  /* padding: 30px; */
   text-align: center;
   border: 2px solid rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(5px);
   margin-top: 50px;
-  /* background-color: white; */
 }
-
-
 
 .wrapper form {
   display: flex;
@@ -79,6 +72,15 @@ body {
   border-bottom: 2px solid #ccc;
 }
 
+.wrapper form .input-field input::placeholder {
+  color: #fff; 
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  transition: 0.15s ease;
+}
+
 .wrapper form .input-field input:focus ~ label,
 .wrapper form .input-field input:valid ~ label {
   font-size: 0.8rem;
@@ -86,7 +88,7 @@ body {
   transform: translateY(-160%);
 }
 
-.FE{
+.wrapper form .FE {
   margin-bottom: 0;
   margin-left: -245px;
 }
@@ -129,8 +131,9 @@ body {
 }
 
 .wrapper form .register p {
-  color: white; 
+  color: white;
 }
+
 .wrapper form .register a {
   color: #ffffff;
 }
@@ -138,4 +141,23 @@ body {
 .wrapper form .register a:hover {
   text-decoration: underline;
 }
+/* Add this CSS to your existing styles or in a separate stylesheet */
 
+/* Styling for the bell icon */
+#notificationIcon {
+  font-size: 1.5rem; /* Adjust the size as needed */
+  color: #4aa3df;  /* Replace with your theme color */
+  position: relative;
+}
+
+
+#notificationCount {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 0.7rem; /* Decrease the font size */
+  padding: 0.2em 0.4em;/* Decrease the padding to decrease the background size */
+  background-color: #d36262; /* Background color for the count */
+  color: #fff; /* Text color for the count */
+  border-radius: 50%; /* Make it round */
+}

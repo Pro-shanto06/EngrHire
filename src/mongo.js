@@ -126,6 +126,10 @@ const engineerSchema = new mongoose.Schema({
       "Building_Inspection_and_Code_Compliance",
     ],
   },
+  role: {
+    type: String,
+    default: "Engineer",
+  },
   location: {
     type: String,
   },
@@ -221,6 +225,10 @@ const clientSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+  },
+  role: {
+    type: String,
+    default: "Client",
   },
   website: {
     type: String, 
@@ -488,7 +496,7 @@ const formDataSchema = new mongoose.Schema({
 const notificationSchema = new mongoose.Schema({
   recipient: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Client', // Reference to the Client model
+    ref: 'Client', 
     required: true,
   },
   content: {

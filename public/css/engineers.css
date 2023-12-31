@@ -7,7 +7,7 @@
 
 body {
   font-family: "Open Sans", sans-serif;
-  background-color: #f0f0f0;
+  background-color: #ffffff;
 }
 
 
@@ -15,21 +15,25 @@ body {
 # Header
 --------------------------------------------------------------*/
 a {
-  color: #3498db;
+  color: #ffffff;
   text-decoration: none;
 }
 
 a:hover {
-  color: #5faee3;
+  color: #e1eaf0;
   text-decoration: none;
 }
 
+/*--------------------------------------------------------------
+# Header
+--------------------------------------------------------------*/
 #header {
   z-index: 997;
   transition: all 0.5s;
   padding: 22px 0;
   background: #fff;
   height: 60px;
+  box-shadow: rgb(220 227 233) 0px 20px 30px -10px;
 }
 
 #header.header-scrolled {
@@ -114,10 +118,7 @@ a:hover {
   margin-left: 30px;
   border-radius: 50px;
   color: #fff;
-  
 }
-
-
 
 .navbar .getstarted:hover,
 .navbar .getstarted:focus:hover {
@@ -178,7 +179,6 @@ a:hover {
   left: 100%;
   visibility: visible;
 }
-
 
 @media (max-width: 1366px) {
   .navbar .dropdown .dropdown ul {
@@ -299,7 +299,6 @@ a:hover {
 .navbar-mobile .dropdown > .dropdown-active {
   display: block;
 }
-
 /*--------------------------------------------------------------
 # profile
 --------------------------------------------------------------*/
@@ -402,6 +401,7 @@ a:hover {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  margin-top: 60px;
 }
 
 .card {
@@ -654,6 +654,7 @@ engr_detaills */
   padding: 30px 25px;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
 .engrwrapper .engrright .engrinfo,
@@ -696,4 +697,26 @@ engr_detaills */
   font-size: 13px;
   margin-bottom: 10px;
   color: #919aa3;
+}
+
+
+/* Add this CSS to your existing styles or in a separate stylesheet */
+
+/* Styling for the bell icon */
+#notificationIcon {
+  font-size: 1.5rem; /* Adjust the size as needed */
+  color: #4aa3df;  /* Replace with your theme color */
+  position: relative;
+}
+
+
+#notificationCount {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 0.7rem; /* Decrease the font size */
+  padding: 0.2em 0.4em;/* Decrease the padding to decrease the background size */
+  background-color: #d36262; /* Background color for the count */
+  color: #fff; /* Text color for the count */
+  border-radius: 50%; /* Make it round */
 }

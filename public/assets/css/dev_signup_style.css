@@ -47,17 +47,6 @@ body {
   margin: 15px 0;
 }
 
-.wrapper form .input-field label {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  color: #fff;
-  font-size: 16px;
-  pointer-events: none;
-  transition: 0.15s ease;
-}
-
 .wrapper form .input-field input {
   width: 100%;
   height: 40px;
@@ -67,18 +56,31 @@ body {
   font-size: 16px;
   color: #fff;
   border-bottom: 2px solid #ccc;
+  position: relative;
 }
 
-.wrapper form .input-field input:focus ~ label,
-.wrapper form .input-field input:valid ~ label {
+.wrapper form .input-field input::placeholder {
+  color: #fff; /* Set the placeholder color to white */
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  transition: 0.15s ease;
+}
+
+.wrapper form .input-field input:focus ~ input::placeholder,
+.wrapper form .input-field input:valid ~ input::placeholder {
   font-size: 0.8rem;
   top: 10px;
   transform: translateY(-160%);
 }
 
-.FE{
+
+.wrapper form .FE {
   margin-bottom: 0;
   margin-left: -245px;
+  color: white;
+
 }
 
 .wrapper form select {
@@ -119,8 +121,9 @@ body {
 }
 
 .wrapper form .register p {
-  color: white; 
+  color: white;
 }
+
 .wrapper form .register a {
   color: #ffffff;
 }
@@ -128,4 +131,23 @@ body {
 .wrapper form .register a:hover {
   text-decoration: underline;
 }
+/* Add this CSS to your existing styles or in a separate stylesheet */
 
+/* Styling for the bell icon */
+#notificationIcon {
+  font-size: 1.5rem; /* Adjust the size as needed */
+  color: #4aa3df;  /* Replace with your theme color */
+  position: relative;
+}
+
+
+#notificationCount {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 0.7rem; /* Decrease the font size */
+  padding: 0.2em 0.4em;/* Decrease the padding to decrease the background size */
+  background-color: #d36262; /* Background color for the count */
+  color: #fff; /* Text color for the count */
+  border-radius: 50%; /* Make it round */
+}

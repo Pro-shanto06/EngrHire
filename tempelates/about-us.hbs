@@ -19,291 +19,271 @@
 
   <link href="assets/css/style.css" rel="stylesheet" />
 
-    
-     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    </head>
-    
-    <body>
-    
-    <!-- ======= Header ======= -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
 
-    <!-- ======= Header ======= -->
-    <header id="header" class="fixed-top d-flex align-items-center">
-      <div class="container d-flex align-items-center justify-content-between">
-        <script src="https://unpkg.com/phosphor-icons"></script>
-        <div class="logo">
-          <h1><a href="/"><img src="assets/img/logo.png" alt="" />EngrHire BD</a></h1>
-        </div>
+<body>
 
-        <nav id="navbar" class="navbar">
+  <!-- ======= Header ======= -->
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+      <script src="https://unpkg.com/phosphor-icons"></script>
+      <div class="logo">
+        <h1><a href="/"><img src="assets/img/logo.png" alt="" />EngrHire BD</a></h1>
+      </div>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="/">Home</a></li>
+
+          {{#if user}}
+          {{#if isClient}}
+          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          {{/if}}
+          {{#if isEngineer}}
+          <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+          {{/if}}
+          {{#if isAdmin}}
+          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          {{/if}}
+          {{else}}
+          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          {{/if}}
+
+          <li class="dropdown">
+            <a href="#"><span>Explore</span><i class="bi bi-chevron-down"></i></a>
+            <ul>
+
+
+              <li><a class="nav-link scrollto" href="/#services">Services</a></li>
+              <li><a class="nav-link scrollto" href="/engineers">Engineers</a></li>
+
+            </ul>
+          </li>
+
+          <li class="dropdown">
+            <a href="#"><span>Help</span><i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a class="nav-link scrollto" href="/#about">About</a></li>
+              <li><a class="nav-link scrollto" href="/#contact">Contact</a></li>
+              <li><a class="nav-link scrollto" href="/#faq">FAQ</a></li>
+            </ul>
+          </li>
+
+          {{#unless user}}
           <ul>
-            <li><a class="nav-link scrollto active" href="/">Home</a></li>
-
-            {{#if user}}
-              {{#if isClient}}
-                <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
-              {{/if}}
-              {{#if isEngineer}}
-                <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
-              {{/if}}
-              {{#if isAdmin}}
-                <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
-              {{/if}}
-            {{else}}
-              <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
-            {{/if}}
-
-            <li class="dropdown">
-              <a href="#"><span>Explore</span><i
-                  class="bi bi-chevron-down"
-                ></i></a>
-              <ul>
-                {{#if user}}
-                  {{#if isEngineer}}
-                    <li><a
-                        class="nav-link scrollto"
-                        href="/#services"
-                      >Services</a></li>
-                    <li><a
-                        class="nav-link scrollto"
-                        href="/engineers"
-                      >Engineers</a></li>
-                  {{/if}}
-                  {{#if isClient}}
-                    <li><a
-                        class="nav-link scrollto"
-                        href="/#services"
-                      >Services</a></li>
-                    <li><a
-                        class="nav-link scrollto"
-                        href="/engineers"
-                      >Engineers</a></li>
-                  {{/if}}
-                {{else}}
-                  <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
-                  <li><a
-                      class="nav-link scrollto"
-                      href="/#services"
-                    >Services</a></li>
-                  <li><a
-                      class="nav-link scrollto"
-                      href="/engineers"
-                    >Engineers</a></li>
-                {{/if}}
-              </ul>
-            </li>
-
-            <li class="dropdown">
-              <a href="#"><span>Help</span><i
-                  class="bi bi-chevron-down"
-                ></i></a>
-              <ul>
-                <li><a class="nav-link scrollto" href="/#about">About</a></li>
-                <li><a
-                    class="nav-link scrollto"
-                    href="/#contact"
-                  >Contact</a></li>
-                <li><a class="nav-link scrollto" href="/#faq">FAQ</a></li>
-              </ul>
-            </li>
-
-            {{#unless user}}
-              <ul>
-                <li><a href="/login">Login</a></li>
-                <li><a href="/select" class="btn-signup">Sign Up</a></li>
-              </ul>
-            {{/unless}}
-
-            <li class="search-bar">
-              <form
-                action="/search"
-                method="GET"
-                onsubmit="return validateSearch()"
-              >
-                <input
-                  type="text"
-                  name="query"
-                  class="search-input"
-                  id="searchInput"
-                  placeholder="Search..."
-                  oninput="toggleSearchButton()"
-                />
-                <button
-                  type="submit"
-                  class="search-button"
-                  id="searchButton"
-                  disabled
-                ><i class="bi bi-search"></i></button>
-              </form>
-            </li>
-
-            {{#if isClient}}
-              <li>
-                <a
-                  class="getstarted scrollto"
-                  href="/client-profile/{{userId}}/1"
-                >
-                  <img
-                    src="{{user.profilePicPath}}"
-                    alt="Profile Picture"
-                    class="rounded-circle profile-picture"
-                  />
-                  <span class="profile-name">{{user.full_name}}</span>
-                </a>
-              </li>
-              <span class="material-symbols-outlined">
-                <a href="/logout">Logout</a>
-              </span>
-            {{/if}}
-
-            {{#if isEngineer}}
-              <li>
-                <a class="getstarted scrollto" href="/profile/{{userId}}/1">
-                  <img
-                    src="{{user.profilePicPath}}"
-                    alt="Profile Picture"
-                    class="rounded-circle profile-picture"
-                  />
-                  <span class="profile-name">{{user.full_name}}</span>
-                </a>
-              </li>
-              <span class="material-symbols-outlined">
-                <a href="/logout">Logout</a>
-              </span>
-            {{/if}}
-
-            {{#if isAdmin}}
-              <li>
-                <a class="getstarted scrollto" href="/admin-dashboard">
-                  <img
-                    src="{{user.profilePicPath}}"
-                    alt="Profile Picture"
-                    class="rounded-circle profile-picture"
-                  />
-                  <span class="profile-name">{{user.full_name}}</span>
-                </a>
-              </li>
-              <span class="material-symbols-outlined">
-                <a href="/logout">Logout</a>
-              </span>
-            {{/if}}
-
+            <li><a href="/login">Login</a></li>
+            <li><a href="/select" class="btn-signup">Sign Up</a></li>
           </ul>
-          <i class="bi bi-list mobile-nav-toggle"></i>
-        </nav><!-- .navbar -->
+          {{/unless}}
 
+          <li class="search-bar">
+            <form action="/search" method="GET" onsubmit="return validateSearch()">
+              <input type="text" name="query" class="search-input" id="searchInput" placeholder="Search..."
+                oninput="toggleSearchButton()" />
+              <button type="submit" class="search-button" id="searchButton" disabled><i
+                  class="bi bi-search"></i></button>
+            </form>
+          </li>
+
+          {{#if isClient}}
+          <li>
+            <a class="getstarted scrollto" href="/client-profile/{{userId}}/1">
+              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{user.full_name}}</span>
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="/profile/{{this.recipient}}/4" id="notificationsDropdown"
+              role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-bell" id="notificationIcon"></i>
+              <span class="badge bg-theme-color" id="notificationCount">{{unreadNotificationCount}}</span>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="notificationsDropdown" style="right: 0; left: auto; top: 40px;">
+              {{#if unreadNotificationCount}}
+              {{#each unreadNotifications}}
+              <li><a class="dropdown-item" href="/profile/{{this.recipient}}/4">{{this.content}}</a></li>
+              {{/each}}
+              {{else}}
+              <li><a class="dropdown-item" href="/profile/{{this.recipient}}/4">No unread notifications</a></li>
+              {{/if}}
+            </ul>
+          </li>
+          <span class="material-symbols-outlined">
+            <a href="/logout">Logout</a>
+          </span>
+          {{/if}}
+
+          {{#if isEngineer}}
+          <li>
+            <a class="getstarted scrollto" href="/profile/{{userId}}/1">
+              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{user.full_name}}</span>
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="/profile/{{this.recipient}}/4" id="notificationsDropdown"
+              role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-bell" id="notificationIcon"></i>
+              <span class="badge bg-theme-color" id="notificationCount">{{unreadNotificationCount}}</span>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="notificationsDropdown" style="right: 0; left: auto; top: 40px;">
+              {{#if unreadNotificationCount}}
+              {{#each unreadNotifications}}
+              <li><a class="dropdown-item" href="/profile/{{this.recipient}}/4">{{this.content}}</a></li>
+              {{/each}}
+              {{else}}
+              <li><a class="dropdown-item" href="/profile/{{this.recipient}}/4">No unread notifications</a></li>
+              {{/if}}
+            </ul>
+          </li>
+          <span class="material-symbols-outlined">
+            <a href="/logout">Logout</a>
+          </span>
+          {{/if}}
+
+          {{#if isAdmin}}
+          <li>
+            <a class="getstarted scrollto" href="/admin-dashboard">
+              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{user.full_name}}</span>
+            </a>
+          </li>
+          <span class="material-symbols-outlined">
+            <a href="/logout">Logout</a>
+          </span>
+          {{/if}}
+
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= About Us Section ======= -->
+  <section id="about" class="about">
+    <div class="container">
+      <br><br><br><br><br><br><br><br>
+
+      <div class="section-title" data-aos="fade-up">
+        <h2>About Us</h2>
       </div>
-    </header><!-- End Header -->
 
-      <!-- ======= About Us Section ======= -->
-      <section id="about" class="about">
-        <div class="container">
-          <br><br><br><br><br><br><br><br>
+      <div class="row content">
+        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="50">
+          <p>
+            At our platform, we've created a dynamic and dedicated
+            freelancing hub for construction professionals.
+          </p>
+          <ul>
+            <li><i class="ri-check-double-line"></i>
+              Streamlined Project Matching</li>
+            <li><i class="ri-check-double-line"></i>
+              Specialized Construction Tools</li>
+            <li><i class="ri-check-double-line"></i>
+              Secure and Collaborative Environment</li>
+          </ul>
+        </div>
+        <div class="col-lg-6 pt-4 pt-lg-0" data-aos="fade-up" data-aos-delay="50">
+          <p>
+            Our platform connects construction professionals and clients,
+            streamlining the project process. Our platform offers a secure,
+            collaborative environment with project listings and contractor
+            profiles. Whether you're a professional seeking projects or a
+            client looking for experts, we're your trusted construction
+            network
+          </p>
+          <p>At our platform, we pride ourselves on being the bridge that connects construction professionals and
+            clients, simplifying and enhancing the entire project lifecycle. Our robust platform is designed to provide
+            a seamless and efficient experience for both professionals and clients involved in the construction
+            industry.
+            One of the key features of our platform is the creation of a secure and collaborative environment. We
+            understand the importance of trust and confidentiality in the construction business. Therefore, our platform
+            employs state-of-the-art security measures to ensure that all interactions and data exchange remain
+            confidential and protected.
+            Within this secure space, users have access to detailed project listings that cover a wide range of
+            construction needs. Whether it's a residential, commercial, or industrial project, our platform is a
+            comprehensive marketplace where professionals can find exciting opportunities to contribute their expertise.
+            For clients, this means having a diverse pool of qualified and experienced contractors at their fingertips.
+            To facilitate informed decision-making, we provide detailed contractor profiles. These profiles highlight
+            the skills, qualifications, and past project experiences of each professional, empowering clients to make
+            well-informed choices when selecting experts for their projects. On the flip side, professionals can
+            showcase their skills and credentials, making it easier for them to connect with clients seeking their
+            specific expertise.
+            Whether you're a seasoned professional seeking new and exciting projects or a client in search of
+            construction experts, our platform is your trusted construction network. We are committed to fostering
+            collaboration, transparency, and success within the construction industry. Join us, and let's build the
+            future together.
+          </p>
 
-          <div class="section-title" data-aos="fade-up">
-            <h2>About Us</h2>
-          </div>
+        </div>
+      </div>
 
-          <div class="row content">
-            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="50">
-              <p>
-                At our platform, we've created a dynamic and dedicated
-                freelancing hub for construction professionals.
-              </p>
-              <ul>
-                <li><i class="ri-check-double-line"></i>
-                  Streamlined Project Matching</li>
-                <li><i class="ri-check-double-line"></i>
-                  Specialized Construction Tools</li>
-                <li><i class="ri-check-double-line"></i>
-                  Secure and Collaborative Environment</li>
-              </ul>
-            </div>
-            <div
-              class="col-lg-6 pt-4 pt-lg-0"
-              data-aos="fade-up"
-              data-aos-delay="50"
-            >
-              <p>
-                Our platform connects construction professionals and clients,
-                streamlining the project process. Our platform offers a secure,
-                collaborative environment with project listings and contractor
-                profiles. Whether you're a professional seeking projects or a
-                client looking for experts, we're your trusted construction
-                network
-              </p>
-              <p>At our platform, we pride ourselves on being the bridge that connects construction professionals and clients, simplifying and enhancing the entire project lifecycle. Our robust platform is designed to provide a seamless and efficient experience for both professionals and clients involved in the construction industry.
-One of the key features of our platform is the creation of a secure and collaborative environment. We understand the importance of trust and confidentiality in the construction business. Therefore, our platform employs state-of-the-art security measures to ensure that all interactions and data exchange remain confidential and protected.
-Within this secure space, users have access to detailed project listings that cover a wide range of construction needs. Whether it's a residential, commercial, or industrial project, our platform is a comprehensive marketplace where professionals can find exciting opportunities to contribute their expertise. For clients, this means having a diverse pool of qualified and experienced contractors at their fingertips.
-To facilitate informed decision-making, we provide detailed contractor profiles. These profiles highlight the skills, qualifications, and past project experiences of each professional, empowering clients to make well-informed choices when selecting experts for their projects. On the flip side, professionals can showcase their skills and credentials, making it easier for them to connect with clients seeking their specific expertise.
-Whether you're a seasoned professional seeking new and exciting projects or a client in search of construction experts, our platform is your trusted construction network. We are committed to fostering collaboration, transparency, and success within the construction industry. Join us, and let's build the future together.
-              </p>
-      
-            </div>
+    </div>
+  </section><!-- End About Us Section -->
+
+
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+      <div class="row d-flex align-items-center">
+        <div class="col-lg-6 text-lg-left text-center">
+          <div class="copyright">
+            &copy; Copyright
+            <strong>EngrHire BD</strong>. All Rights Reserved
           </div>
 
         </div>
-      </section><!-- End About Us Section -->
-
-      
-
-    <!-- ======= Footer ======= -->
-    <footer id="footer">
-      <div class="container">
-        <div class="row d-flex align-items-center">
-          <div class="col-lg-6 text-lg-left text-center">
-            <div class="copyright">
-              &copy; Copyright
-              <strong>EngrHire BD</strong>. All Rights Reserved
-            </div>
-           
-          </div>
-          <div class="col-lg-6">
-            <nav class="footer-links text-lg-right text-center pt-2 pt-lg-0">
-              <a href="#intro" class="scrollto">Home</a>
-              <a href="#about" class="scrollto">About</a>
-              <a href="#">Privacy Policy</a>
-              <a href="#">Terms of Use</a>
-            </nav>
-          </div>
+        <div class="col-lg-6">
+          <nav class="footer-links text-lg-right text-center pt-2 pt-lg-0">
+            <a href="#intro" class="scrollto">Home</a>
+            <a href="#about" class="scrollto">About</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Use</a>
+          </nav>
         </div>
       </div>
-    </footer><!-- End Footer -->
+    </div>
+  </footer><!-- End Footer -->
 
-    <a
-      href="#"
-      class="back-to-top d-flex align-items-center justify-content-center"
-    ><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
   <script>
-function toggleSearchButton() {
-  var searchInput = document.getElementById('searchInput');
-  var searchButton = document.getElementById('searchButton');
-  
-  // Enable the button if the input is not empty, otherwise disable it
-  searchButton.disabled = searchInput.value.trim() === '';
-}
-
-function validateSearch() {
-  var searchInput = document.getElementById('searchInput');
-  
-  // Check if the input is not empty before form submission
-  return searchInput.value.trim() !== '';
-}
+    function toggleSearchButton() {
+      var searchInput = document.getElementById('searchInput');
+      var searchButton = document.getElementById('searchButton');
 
 
- </script>
-   
-    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-    <script src="assets/vendor/aos/aos.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
+      searchButton.disabled = searchInput.value.trim() === '';
+    }
 
- 
-    <script src="assets/js/main.js"></script>
+    function validateSearch() {
+      var searchInput = document.getElementById('searchInput');
 
-  </body>
+
+      return searchInput.value.trim() !== '';
+    }
+
+
+  </script>
+
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+
+  <script src="assets/js/main.js"></script>
+
+</body>
 
 </html>

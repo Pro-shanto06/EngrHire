@@ -1,1100 +1,933 @@
 <html lang="en">
 
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-    <title>EngrHire BD</title>
-    <meta content="" name="description" />
-    <meta content="" name="keywords" />
+  <title>EngrHire BD</title>
+  <meta content="" name="description" />
+  <meta content="" name="keywords" />
 
-    <!-- Logo -->
-    <link href="assets/img/logo.png" rel="icon" />
-   
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <!-- Logo -->
+  <link href="assets/img/logo.png" rel="icon" />
 
-    <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
-    <link
-      href="assets/vendor/bootstrap/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
-      rel="stylesheet"
-    />
-    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
-    <link
-      href="assets/vendor/glightbox/css/glightbox.min.css"
-      rel="stylesheet"
-    />
-    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
-    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
 
-    <link href="assets/css/style.css" rel="stylesheet" />
+  <link href="assets/css/style.css" rel="stylesheet" />
 
- 
-  </head>
 
-  <body>
+</head>
 
-    <!-- ======= Header ======= -->
-    <header id="header" class="fixed-top d-flex align-items-center">
-  <div class="container d-flex align-items-center justify-content-between">
-    <script src="https://unpkg.com/phosphor-icons"></script>
-    <div class="logo">
-      <h1><a href="/"><img src="assets/img/logo.png" alt="">EngrHire BD</a></h1>
-    </div>
+<body>
 
-    <nav id="navbar" class="navbar">
-      <ul>
-        <li><a class="nav-link scrollto active" href="/">Home</a></li>
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+      <script src="https://unpkg.com/phosphor-icons"></script>
+      <div class="logo">
+        <h1><a href="/"><img src="assets/img/logo.png" alt="">EngrHire BD</a></h1>
+      </div>
 
-        {{#if user}}
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="/">Home</a></li>
+
+          {{#if user}}
           {{#if isClient}}
-            <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
           {{/if}}
           {{#if isEngineer}}
-           <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+          <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
           {{/if}}
-         
-        {{else}}
-          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
-        {{/if}}
 
-        <li class="dropdown">
-          <a href="#"><span>Explore</span><i class="bi bi-chevron-down"></i></a>
-          <ul>
-            {{#if user}}
-              {{#if isEngineer}}
-                <li><a class="nav-link scrollto" href="#services">Services</a></li>
-                <li><a class="nav-link scrollto" href="/engineers">Engineers</a></li>
-              {{/if}}
-              {{#if isClient}}
-                <li><a class="nav-link scrollto" href="#services">Services</a></li>
-                <li><a class="nav-link scrollto" href="/engineers">Engineers</a></li>
-              {{/if}}
-              {{#if isAdmin}}
-                <li><a class="nav-link scrollto" href="#services">Services</a></li>
-                <li><a class="nav-link scrollto" href="/engineers">Engineers</a></li>
-              {{/if}}
-            {{else}}
-              <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+          {{else}}
+          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          {{/if}}
+
+          <li class="dropdown">
+            <a href="#"><span>Explore</span><i class="bi bi-chevron-down"></i></a>
+            <ul>
+
               <li><a class="nav-link scrollto" href="#services">Services</a></li>
               <li><a class="nav-link scrollto" href="/engineers">Engineers</a></li>
-            {{/if}}
-          </ul>
-        </li>
 
-        <li class="dropdown">
-          <a href="#"><span>Help</span><i class="bi bi-chevron-down"></i></a>
-          <ul>
-            <li><a class="nav-link scrollto" href="#about">About</a></li>
-            <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-            <li><a class="nav-link scrollto" href="#faq">FAQ</a></li>
-          </ul>
-        </li>
+            </ul>
+          </li>
 
-        {{#unless user}}
+          <li class="dropdown">
+            <a href="#"><span>Help</span><i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a class="nav-link scrollto" href="#about">About</a></li>
+              <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+              <li><a class="nav-link scrollto" href="#faq">FAQ</a></li>
+            </ul>
+          </li>
+
+          {{#unless user}}
           <ul>
             <li><a href="/login">Login</a></li>
             <li><a href="/select" class="btn-signup">Sign Up</a></li>
           </ul>
-        {{/unless}}
+          {{/unless}}
 
- <li class="search-bar">
-  <form action="/search" method="GET" onsubmit="return validateSearch()">
-    <input type="text" name="query" class="search-input" id="searchInput" placeholder="Search..." oninput="toggleSearchButton()">
-    <button type="submit" class="search-button" id="searchButton" disabled><i class="bi bi-search"></i></button>
-  </form>
-</li>
+          <li class="search-bar">
+            <form action="/search" method="GET" onsubmit="return validateSearch()">
+              <input type="text" name="query" class="search-input" id="searchInput" placeholder="Search..."
+                oninput="toggleSearchButton()">
+              <button type="submit" class="search-button" id="searchButton" disabled><i
+                  class="bi bi-search"></i></button>
+            </form>
+          </li>
 
 
 
-        {{#if isClient}}
+          {{#if isClient}}
           <li>
             <a class="getstarted scrollto" href="/client-profile/{{userId}}/1">
               <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
               <span class="profile-name">{{user.full_name}}</span>
             </a>
           </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="/profile/{{this.recipient}}/6" id="notificationsDropdown"
+              role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-bell" id="notificationIcon"></i>
+              <span class="badge bg-theme-color" id="notificationCount">{{unreadNotificationCount}}</span>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="notificationsDropdown" style="right: 0; left: auto; top: 40px;">
+              {{#if unreadNotificationCount}}
+              {{#each unreadNotifications}}
+              <li><a class="dropdown-item" href="/profile/{{this.recipient}}/6">{{this.content}}</a></li>
+              {{/each}}
+              {{else}}
+              <li><a class="dropdown-item" href="/profile/{{this.recipient}}/6">No unread notifications</a></li>
+              {{/if}}
+            </ul>
+          </li>
+
           <span class="material-symbols-outlined">
             <a href="/logout">Logout</a>
           </span>
-        {{/if}}
+          {{/if}}
 
-        {{#if isEngineer}}
+          {{#if isEngineer}}
           <li>
             <a class="getstarted scrollto" href="/profile/{{userId}}/1">
               <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
               <span class="profile-name">{{user.full_name}}</span>
             </a>
           </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="/profile/{{this.recipient}}/4" id="notificationsDropdown"
+              role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-bell" id="notificationIcon"></i>
+              <span class="badge bg-theme-color" id="notificationCount">{{unreadNotificationCount}}</span>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="notificationsDropdown" style="right: 0; left: auto; top: 40px;">
+              {{#if unreadNotificationCount}}
+              {{#each unreadNotifications}}
+              <li><a class="dropdown-item" href="/profile/{{this.recipient}}/4">{{this.content}}</a></li>
+              {{/each}}
+              {{else}}
+              <li><a class="dropdown-item" href="/profile/{{this.recipient}}/4">No unread notifications</a></li>
+              {{/if}}
+            </ul>
+          </li>
+
+
+
           <span class="material-symbols-outlined">
             <a href="/logout">Logout</a>
           </span>
-        {{/if}}
+          {{/if}}
 
-         {{#if isAdmin}}
+          {{#if isAdmin}}
           <li>
             <a class="getstarted scrollto" href="/admin-dashboard">
               <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
               <span class="profile-name">{{user.full_name}}</span>
             </a>
           </li>
+
           <span class="material-symbols-outlined">
             <a href="/logout">Logout</a>
           </span>
-        {{/if}}
-
-      </ul>
-      <i class="bi bi-list mobile-nav-toggle"></i>
-    </nav><!-- .navbar -->
-
-  </div>
-</header><!-- End Header -->
+          {{/if}}
 
 
 
-    <!-- ======= Hero Section ======= -->
-    <section id="hero" class="d-flex align-items-center">
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
 
-      <div class="container">
-        <div class="row">
-          <div
-            class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center"
-          >
-            <h1 data-aos="fade-up">FIND THE RIGHT FREELANCE SERVICE, RIGHT AWAY</h1>
-            <h2 data-aos="fade-up" data-aos-delay="400">Manage projects, track
-              progress, collaborate effortlessly on our platform.</h2>
-            <div data-aos="fade-up" data-aos-delay="800">
-              <a href="#about" class="btn-get-started scrollto">Get Started</a>
-            </div>
+    </div>
+  </header><!-- End Header -->
+
+
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+          <h1 data-aos="fade-up">FIND THE RIGHT FREELANCE SERVICE, RIGHT AWAY</h1>
+          <h2 data-aos="fade-up" data-aos-delay="400">Manage projects, track
+            progress, collaborate effortlessly on our platform.</h2>
+          <div data-aos="fade-up" data-aos-delay="800">
+            <a href="#about" class="btn-get-started scrollto">Get Started</a>
           </div>
-          <div
-            class="col-lg-6 order-1 order-lg-2 hero-img"
-            data-aos="fade-left"
-            data-aos-delay="200"
-          >
-            <img
-              src="img/eee.png"
-              class="img-fluid animated"
-              alt=""
-            />
+        </div>
+        <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="fade-left" data-aos-delay="200">
+          <img src="img/eee.png" class="img-fluid animated" alt="" />
+        </div>
+      </div>
+    </div>
+
+  </section><!-- End Hero -->
+
+
+  {{#if isEngineer}}
+  <!-- ======= Suggested Jobs Section ======= -->
+  <section id="suggested-jobs" class="d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-title" data-aos="fade-up">
+            <h2>Suggested Jobs For You</h2>
+          </div>
+
+          <div class="row">
+            {{#each suggestedJobs}}
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+              <div class="icon-box">
+                <div class="icon"><i class="bx bx-file"></i></div>
+                <h4 class="title"><a href="/job-details/{{this.jobId}}">{{this.jobTitle}}</a></h4>
+                <p class="description">
+                  <strong>Client:</strong> {{this.clientName}}<br>
+                  <strong>Category:</strong> {{this.category}}<br>
+                  <strong>Location:</strong> {{this.jobLocation}}<br>
+                  <strong>Price Range:</strong> {{this.jobPriceRange}}
+                </p>
+              </div>
+            </div>
+            {{/each}}
           </div>
         </div>
       </div>
+    </div>
+  </section><!-- End Suggested Jobs Section -->
+  {{/if}}
 
-    </section><!-- End Hero -->
 
 
-      <!-- ======= About Us Section ======= -->
-      <section id="about" class="about">
-        <div class="container">
+  <!-- ======= About Us Section ======= -->
+  <section id="about" class="about">
+    <div class="container">
 
-          <div class="section-title" data-aos="fade-up">
-            <h2>About Us</h2>
-          </div>
+      <div class="section-title" data-aos="fade-up">
+        <h2>About Us</h2>
+      </div>
 
-          <div class="row content">
-            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="50">
-              <p>
-                At our platform, we've created a dynamic and dedicated
-                freelancing hub for construction professionals.
-              </p>
-              <ul>
-                <li><i class="ri-check-double-line"></i>
-                  Streamlined Project Matching</li>
-                <li><i class="ri-check-double-line"></i>
-                  Specialized Construction Tools</li>
-                <li><i class="ri-check-double-line"></i>
-                  Secure and Collaborative Environment</li>
-              </ul>
-            </div>
-            <div
-              class="col-lg-6 pt-4 pt-lg-0"
-              data-aos="fade-up"
-              data-aos-delay="50"
-            >
-              <p>
-                Our platform connects construction professionals and clients,
-                streamlining the project process. Our platform offers a secure,
-                collaborative environment with project listings and contractor
-                profiles. Whether you're a professional seeking projects or a
-                client looking for experts, we're your trusted construction
-                network
-              </p>
-              <a href="/about-us" class="btn-learn-more">Learn More</a>
-            </div>
-          </div>
-
+      <div class="row content">
+        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="50">
+          <p>
+            At our platform, we've created a dynamic and dedicated
+            freelancing hub for construction professionals.
+          </p>
+          <ul>
+            <li><i class="ri-check-double-line"></i>
+              Streamlined Project Matching</li>
+            <li><i class="ri-check-double-line"></i>
+              Specialized Construction Tools</li>
+            <li><i class="ri-check-double-line"></i>
+              Secure and Collaborative Environment</li>
+          </ul>
         </div>
-      </section><!-- End About Us Section -->
-
-      <!-- ======= Counts Section ======= -->
-      <section id="counts" class="counts">
-        <div class="container">
-
-          <div class="row">
-            <div
-              class="image col-xl-5 d-flex align-items-stretch justify-content-center justify-content-xl-start"
-              data-aos="fade-right"
-              data-aos-delay="150"
-            >
-              <img src="assets/img/counts-img.svg" alt="" class="img-fluid" />
-            </div>
-
-            <div
-              class="col-xl-7 d-flex align-items-stretch pt-4 pt-xl-0"
-              data-aos="fade-left"
-              data-aos-delay="300"
-            >
-              <div class="content d-flex flex-column justify-content-center">
-                <div class="row">
-                  <div class="col-md-6 d-md-flex align-items-md-stretch">
-                    <div class="count-box">
-                      <i class="bi bi-emoji-smile"></i>
-                      <span
-                        data-purecounter-start="0"
-                        data-purecounter-end="0"
-                        data-purecounter-duration="1"
-                        class="purecounter"
-                      ></span>
-                      <p><strong>Happy Clients</strong>
-                        are the true testament to our commitment to excellence</p>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6 d-md-flex align-items-md-stretch">
-                    <div class="count-box">
-                      <i class="bi bi-journal-richtext"></i>
-                      <span
-                        data-purecounter-start="0"
-                        data-purecounter-end="0"
-                        data-purecounter-duration="1"
-                        class="purecounter"
-                      ></span>
-                      <p><strong>Projects: </strong>
-                        Our platform boasts a diverse range of successful
-                        projects</p>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6 d-md-flex align-items-md-stretch">
-                    <div class="count-box">
-                      <i class="bi bi-clock"></i>
-                      <span
-                        data-purecounter-start="0"
-                        data-purecounter-end="0"
-                        data-purecounter-duration="1"
-                        class="purecounter"
-                      ></span>
-                      <p>With
-                        <strong>Years of experience</strong>
-                        under our belt, we bring a wealth of knowledge and
-                        expertise to every project</p>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6 d-md-flex align-items-md-stretch">
-                    <div class="count-box">
-                      <i class="bi bi-award"></i>
-                      <span
-                        data-purecounter-start="0"
-                        data-purecounter-end="0"
-                        data-purecounter-duration="1"
-                        class="purecounter"
-                      ></span>
-                      <p><strong>Awards</strong>
-                        We take pride in our achievements</p>
-                    </div>
-                  </div>
-                </div>
-              </div><!-- End .content-->
-            </div>
-          </div>
-
+        <div class="col-lg-6 pt-4 pt-lg-0" data-aos="fade-up" data-aos-delay="50">
+          <p>
+            Our platform connects construction professionals and clients,
+            streamlining the project process. Our platform offers a secure,
+            collaborative environment with project listings and contractor
+            profiles. Whether you're a professional seeking projects or a
+            client looking for experts, we're your trusted construction
+            network
+          </p>
+          <a href="/about-us" class="btn-learn-more">Learn More</a>
         </div>
-      </section><!-- End Counts Section -->
+      </div>
 
-      <!-- ======= Services Section ======= -->
-      <section id="services" class="services">
-        <div class="container">
+    </div>
+  </section><!-- End About Us Section -->
 
-          <div class="section-title" data-aos="fade-up">
-            <h2>Services</h2>
-          </div>
+  <!-- ======= Counts Section ======= -->
+  <section id="counts" class="counts">
+    <div class="container">
 
-          <div class="row">
-
-            <div
-              class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0"
-            >
-              <a href="/job-list/Architect" style="text-decoration: none;">
-                <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
-                  <div class="icon"><img
-                      src="/img/2-removebg-preview.png"
-                      alt=""
-                    /></div>
-                  <h4 class="title">Architect</h4>
-                  <p class="description">Architectural works blend creativity
-                    and technical precision to shape our built environment.</p>
-                </div>
-              </a>
-            </div>
-
-            <div
-              class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0"
-            >
-              <a href="/job-list/Construction" style="text-decoration: none;">
-                <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
-                  <div class="icon"><img
-                      src="/img/image-removebg-preview.png"
-                      alt=""
-                    /></div>
-                  <h4 class="title">Construction</h4>
-                  <p class="description">Construction transforms plans and
-                    blueprints into tangible structures, bridging vision with
-                    reality</p>
-                </div>
-              </a>
-            </div>
-
-            <div
-              class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0"
-            >
-              <a
-                href="/job-list/Interior_Design"
-                style="text-decoration: none;"
-              >
-                <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
-                  <div class="icon"><img
-                      src="/img/1-removebg-preview.png"
-                      alt=""
-                    /></div>
-                  <h4 class="title">Interior Design</h4>
-                  <p class="description">Interior design crafts functional and
-                    beautiful spaces, enhancing the way we live and work.</p>
-                </div>
-              </a>
-            </div>
-
-            <div
-              class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0"
-            >
-              <a href="/job-list/Floor_Plan" style="text-decoration: none;">
-                <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
-                  <div class="icon"><img
-                      src="/img/3-removebg-preview.png"
-                      alt=""
-                    /></div>
-                  <h4 class="title">Floor Plan</h4>
-                  <p class="description">A floor plan is a visual blueprint of a
-                    space, illustrating its layout and dimensions.</p>
-                </div>
-              </a>
-            </div>
-
-          </div>
-
-          <div class="row">
-            <div
-              class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0"
-            >
-              <a
-                href="/job-list/Architectural_Design_And_Drafting"
-                style="text-decoration: none;"
-              >
-                <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
-                  <div class="icon"><img
-                      src="/img/4-removebg-preview.png"
-                      alt=""
-                    /></div>
-                  <h4 class="title">Architectural Design And Drafting</h4>
-                  <p class="description">Architectural design and drafting are
-                    the foundation of creating innovative and precise building
-                    plans.</p>
-                </div>
-              </a>
-            </div>
-
-            <div
-              class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0"
-            >
-              <a
-                href="/job-list/Structural_Engineering"
-                style="text-decoration: none;"
-              >
-                <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
-                  <div class="icon"><img
-                      src="/img/5-removebg-preview.png"
-                      alt=""
-                    /></div>
-                  <h4 class="title">Structural Engineering</h4>
-                  <p class="description">Structural engineering ensures the
-                    stability and safety of buildings and infrastructure</p>
-                </div>
-              </a>
-            </div>
-
-            <div
-              class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0"
-            >
-              <a
-                href="/job-list/Electrical_Installation"
-                style="text-decoration: none;"
-              >
-                <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
-                  <div class="icon"><img src="/img/elec.png" alt="" /></div>
-                  <h4 class="title">Electrical Installation</h4>
-                  <p class="description">Electrical installation involves the
-                    setup and connection of electrical systems in buildings and
-                    structures.</p>
-                </div>
-              </a>
-            </div>
-
-            <div
-              class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0"
-            >
-              <a
-                href="/job-list/Plumbing_and_sanitary_works"
-                style="text-decoration: none;"
-              >
-                <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
-                  <div class="icon"><img
-                      src="/img/7-removebg-preview.png"
-                      alt=""
-                    /></div>
-                  <h4 class="title">Plumbing and sanitary works</h4>
-                  <p class="description">Plumbing and sanitary works encompass
-                    the installation and maintenance of water and sewage systems
-                    in buildings.</p>
-                </div>
-              </a>
-            </div>
-
-          </div>
-          <div class="row">
-            <div
-              class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0"
-            >
-              <a
-                href="/job-list/Design_and_Decoration"
-                style="text-decoration: none;"
-              >
-                <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
-                  <div class="icon"><img
-                      src="/img/8-removebg-preview.png"
-                      alt=""
-                    /></div>
-                  <h4 class="title">Design and Decoration</h4>
-                  <p class="description">Design and decoration transform
-                    interiors, adding aesthetic appeal and personalization to
-                    living and working spaces.</p>
-                </div>
-              </a>
-            </div>
-
-            <div
-              class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0"
-            >
-              <a
-                href="/job-list/Construction_project_management"
-                style="text-decoration: none;"
-              >
-                <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
-                  <div class="icon"><img
-                      src="/img/9-removebg-preview.png"
-                      alt=""
-                    /></div>
-                  <h4 class="title">Construction project management</h4>
-                  <p class="description">Construction project management
-                    orchestrates the planning, execution, and completion of
-                    construction projects</p>
-                </div>
-              </a>
-            </div>
-
-            <div
-              class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0"
-            >
-              <a
-                href="/job-list/Structural_Renovation_and_Retrofitting"
-                style="text-decoration: none;"
-              >
-                <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
-                  <div class="icon"><img
-                      src="/img/10-removebg-preview.png"
-                      alt=""
-                    /></div>
-                  <h4 class="title">Structural Renovation and Retrofitting</h4>
-                  <p class="description">Structural renovation and retrofitting
-                    enhance the durability and performance of existing
-                    buildings.</p>
-                </div>
-              </a>
-            </div>
-
-            <div
-              class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0"
-            >
-              <a
-                href="/job-list/Building_Inspection_and_Code_Compliance"
-                style="text-decoration: none;"
-              >
-                <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
-                  <div class="icon"><img
-                      src="/img/11-removebg-preview.png"
-                      alt=""
-                    /></div>
-                  <h4 class="title">Building Inspection and Code Compliance</h4>
-                  <p class="description">Building inspection and code compliance
-                    ensure that structures meet safety and regulatory standards.</p>
-                </div>
-              </a>
-            </div>
-
-          </div>
+      <div class="row">
+        <div class="image col-xl-5 d-flex align-items-stretch justify-content-center justify-content-xl-start"
+          data-aos="fade-right" data-aos-delay="150">
+          <img src="assets/img/counts-img.svg" alt="" class="img-fluid" />
         </div>
-      </section><!-- End Services Section -->
 
-      <!-- ======= More Services Section ======= -->
-      <section id="more-services" class="more-services">
-        <div class="container">
-
-          <div class="row">
-            <div class="col-md-6 d-flex align-items-stretch">
-              <div
-                class="card"
-                style='background-image: url("assets/img/service-icons/structural-engineering-service-500x500.webp");'
-                data-aos="fade-up"
-                data-aos-delay="100"
-              >
-                <div class="card-body">
-                  <h5 class="card-title"><a href="">Structural Engineering</a></h5>
-                  <p class="card-text">Structural engineers design and analyze
-                    the structural components of buildings, bridges, dams, and
-                    other infrastructure to ensure they can withstand various
-                    loads and environmental conditions.</p>
-                  <div class="read-more"><a href="#"><i
-                        class="bi bi-arrow-right"
-                      ></i>
-                      Read More</a></div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
-              <div
-                class="card"
-                style='background-image: url("assets/img/service-icons/geo.png");'
-                data-aos="fade-up"
-                data-aos-delay="200"
-              >
-                <div class="card-body">
-                  <h5 class="card-title"><a href="">Geotechnical Engineering:</a></h5>
-                  <p class="card-text">Geotechnical engineers study the behavior
-                    of soil and rock and its interaction with structures. They
-                    provide insights into foundation design, slope stability,
-                    and underground construction.</p>
-                  <div class="read-more"><a href="#"><i
-                        class="bi bi-arrow-right"
-                      ></i>
-                      Read More</a></div>
+        <div class="col-xl-7 d-flex align-items-stretch pt-4 pt-xl-0" data-aos="fade-left" data-aos-delay="300">
+          <div class="content d-flex flex-column justify-content-center">
+            <div class="row">
+              <div class="col-md-6 d-md-flex align-items-md-stretch">
+                <div class="count-box">
+                  <i class="bi bi-emoji-smile"></i>
+                  <span data-purecounter-start="0" data-purecounter-end="0" data-purecounter-duration="1"
+                    class="purecounter"></span>
+                  <p><strong>Happy Clients</strong>
+                    are the true testament to our commitment to excellence</p>
                 </div>
               </div>
 
-            </div>
-            <div class="col-md-6 d-flex align-items-stretch mt-4">
-              <div
-                class="card"
-                style='background-image: url("assets/img/service-icons/Transportation-Blog-pic-1.png");'
-                data-aos="fade-up"
-                data-aos-delay="100"
-              >
-                <div class="card-body">
-                  <h5 class="card-title"><a href="">Transportation Engineering</a></h5>
-                  <p class="card-text">Transportation engineers focus on the
-                    planning, design, and maintenance of transportation systems,
-                    including roads, highways, railways, airports, and public
-                    transit networks.
+              <div class="col-md-6 d-md-flex align-items-md-stretch">
+                <div class="count-box">
+                  <i class="bi bi-journal-richtext"></i>
+                  <span data-purecounter-start="0" data-purecounter-end="0" data-purecounter-duration="1"
+                    class="purecounter"></span>
+                  <p><strong>Projects: </strong>
+                    Our platform boasts a diverse range of successful
+                    projects</p>
+                </div>
+              </div>
+
+              <div class="col-md-6 d-md-flex align-items-md-stretch">
+                <div class="count-box">
+                  <i class="bi bi-clock"></i>
+                  <span data-purecounter-start="0" data-purecounter-end="0" data-purecounter-duration="1"
+                    class="purecounter"></span>
+                  <p>With
+                    <strong>Years of experience</strong>
+                    under our belt, we bring a wealth of knowledge and
+                    expertise to every project
                   </p>
-                  <div class="read-more"><a href="#"><i
-                        class="bi bi-arrow-right"
-                      ></i>
-                      Read More</a></div>
+                </div>
+              </div>
+
+              <div class="col-md-6 d-md-flex align-items-md-stretch">
+                <div class="count-box">
+                  <i class="bi bi-award"></i>
+                  <span data-purecounter-start="0" data-purecounter-end="0" data-purecounter-duration="1"
+                    class="purecounter"></span>
+                  <p><strong>Awards</strong>
+                    We take pride in our achievements</p>
                 </div>
               </div>
             </div>
-            <div class="col-md-6 d-flex align-items-stretch mt-4">
-              <div
-                class="card"
-                style='background-image: url("assets/img/service-icons/Environmental-Engineering.jpg");'
-                data-aos="fade-up"
-                data-aos-delay="200"
-              >
-                <div class="card-body">
-                  <h5 class="card-title"><a href="">Environmental Engineering</a></h5>
-                  <p class="card-text">
-                    Environmental engineers work on projects related to
-                    environmental protection and sustainability. They deal with
-                    issues such as water and wastewater treatment, pollution
-                    control, and waste management.</p>
-                  <div class="read-more"><a href="#"><i
-                        class="bi bi-arrow-right"
-                      ></i>
-                      Read More</a></div>
-                </div>
-              </div>
+          </div><!-- End .content-->
+        </div>
+      </div>
+
+    </div>
+  </section><!-- End Counts Section -->
+
+  <!-- ======= Services Section ======= -->
+  <section id="services" class="services">
+    <div class="container">
+
+      <div class="section-title" data-aos="fade-up">
+        <h2>Services</h2>
+      </div>
+
+      <div class="row">
+
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+          <a href="/job-list/Architect" style="text-decoration: none;">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
+              <div class="icon"><img src="/img/2-removebg-preview.png" alt="" /></div>
+              <h4 class="title">Architect</h4>
+              <p class="description">Architectural works blend creativity
+                and technical precision to shape our built environment.</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+          <a href="/job-list/Construction" style="text-decoration: none;">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
+              <div class="icon"><img src="/img/image-removebg-preview.png" alt="" /></div>
+              <h4 class="title">Construction</h4>
+              <p class="description">Construction transforms plans and
+                blueprints into tangible structures, bridging vision with
+                reality</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+          <a href="/job-list/Interior_Design" style="text-decoration: none;">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
+              <div class="icon"><img src="/img/1-removebg-preview.png" alt="" /></div>
+              <h4 class="title">Interior Design</h4>
+              <p class="description">Interior design crafts functional and
+                beautiful spaces, enhancing the way we live and work.</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+          <a href="/job-list/Floor_Plan" style="text-decoration: none;">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
+              <div class="icon"><img src="/img/3-removebg-preview.png" alt="" /></div>
+              <h4 class="title">Floor Plan</h4>
+              <p class="description">A floor plan is a visual blueprint of a
+                space, illustrating its layout and dimensions.</p>
+            </div>
+          </a>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+          <a href="/job-list/Architectural_Design_And_Drafting" style="text-decoration: none;">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
+              <div class="icon"><img src="/img/4-removebg-preview.png" alt="" /></div>
+              <h4 class="title">Architectural Design And Drafting</h4>
+              <p class="description">Architectural design and drafting are
+                the foundation of creating innovative and precise building
+                plans.</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+          <a href="/job-list/Structural_Engineering" style="text-decoration: none;">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
+              <div class="icon"><img src="/img/5-removebg-preview.png" alt="" /></div>
+              <h4 class="title">Structural Engineering</h4>
+              <p class="description">Structural engineering ensures the
+                stability and safety of buildings and infrastructure</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+          <a href="/job-list/Electrical_Installation" style="text-decoration: none;">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
+              <div class="icon"><img src="/img/elec.png" alt="" /></div>
+              <h4 class="title">Electrical Installation</h4>
+              <p class="description">Electrical installation involves the
+                setup and connection of electrical systems in buildings and
+                structures.</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+          <a href="/job-list/Plumbing_and_sanitary_works" style="text-decoration: none;">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
+              <div class="icon"><img src="/img/7-removebg-preview.png" alt="" /></div>
+              <h4 class="title">Plumbing and sanitary works</h4>
+              <p class="description">Plumbing and sanitary works encompass
+                the installation and maintenance of water and sewage systems
+                in buildings.</p>
+            </div>
+          </a>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+          <a href="/job-list/Design_and_Decoration" style="text-decoration: none;">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
+              <div class="icon"><img src="/img/8-removebg-preview.png" alt="" /></div>
+              <h4 class="title">Design and Decoration</h4>
+              <p class="description">Design and decoration transform
+                interiors, adding aesthetic appeal and personalization to
+                living and working spaces.</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+          <a href="/job-list/Construction_project_management" style="text-decoration: none;">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
+              <div class="icon"><img src="/img/9-removebg-preview.png" alt="" /></div>
+              <h4 class="title">Construction project management</h4>
+              <p class="description">Construction project management
+                orchestrates the planning, execution, and completion of
+                construction projects</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+          <a href="/job-list/Structural_Renovation_and_Retrofitting" style="text-decoration: none;">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
+              <div class="icon"><img src="/img/10-removebg-preview.png" alt="" /></div>
+              <h4 class="title">Structural Renovation and Retrofitting</h4>
+              <p class="description">Structural renovation and retrofitting
+                enhance the durability and performance of existing
+                buildings.</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+          <a href="/job-list/Building_Inspection_and_Code_Compliance" style="text-decoration: none;">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
+              <div class="icon"><img src="/img/11-removebg-preview.png" alt="" /></div>
+              <h4 class="title">Building Inspection and Code Compliance</h4>
+              <p class="description">Building inspection and code compliance
+                ensure that structures meet safety and regulatory standards.</p>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section><!-- End Services Section -->
+
+  <!-- ======= More Services Section ======= -->
+  <section id="more-services" class="more-services">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-6 d-flex align-items-stretch">
+          <div class="card"
+            style='background-image: url("assets/img/service-icons/structural-engineering-service-500x500.webp");'
+            data-aos="fade-up" data-aos-delay="100">
+            <div class="card-body">
+              <h5 class="card-title"><a href="">Structural Engineering</a></h5>
+              <p class="card-text">Structural engineers design and analyze
+                the structural components of buildings, bridges, dams, and
+                other infrastructure to ensure they can withstand various
+                loads and environmental conditions.</p>
+              <div class="read-more"><a href="#"><i class="bi bi-arrow-right"></i>
+                  Read More</a></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+          <div class="card" style='background-image: url("assets/img/service-icons/geo.png");' data-aos="fade-up"
+            data-aos-delay="200">
+            <div class="card-body">
+              <h5 class="card-title"><a href="">Geotechnical Engineering:</a></h5>
+              <p class="card-text">Geotechnical engineers study the behavior
+                of soil and rock and its interaction with structures. They
+                provide insights into foundation design, slope stability,
+                and underground construction.</p>
+              <div class="read-more"><a href="#"><i class="bi bi-arrow-right"></i>
+                  Read More</a></div>
             </div>
           </div>
 
         </div>
-      </section><!-- End More Services Section -->
-
-      <!-- ======= Features Section ======= -->
-      <section id="features" class="features">
-        <div class="container">
-
-          <div class="section-title" data-aos="fade-up">
-            <h2>Features</h2>
-          </div>
-
-          <div class="row" data-aos="fade-up" data-aos-delay="300">
-            <div class="col-lg-3 col-md-4">
-              <div class="icon-box">
-                <i class="ri-store-line" style="color: #ffbb2c;"></i>
-                <h3><a href="">Project Listings</a></h3>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
-              <div class="icon-box">
-                <i class="ri-bar-chart-box-line" style="color: #5578ff;"></i>
-                <h3><a href="">Engineer Profiles</a></h3>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
-              <div class="icon-box">
-                <i class="ri-calendar-todo-line" style="color: #e80368;"></i>
-                <h3><a href="">Secure Payment System</a></h3>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-4 mt-4 mt-lg-0">
-              <div class="icon-box">
-                <i class="ri-paint-brush-line" style="color: #e361ff;"></i>
-                <h3><a href="">Real-time Messaging</a></h3>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-4 mt-4">
-              <div class="icon-box">
-                <i class="ri-database-2-line" style="color: #47aeff;"></i>
-                <h3><a href="">Project Management Tools</a></h3>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-4 mt-4">
-              <div class="icon-box">
-                <i class="ri-gradienter-line" style="color: #ffa76e;"></i>
-                <h3><a href="">Review and Rating System</a></h3>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-4 mt-4">
-              <div class="icon-box">
-                <i class="ri-file-list-3-line" style="color: #11dbcf;"></i>
-                <h3><a href="">Advanced Search Filters</a></h3>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-4 mt-4">
-              <div class="icon-box">
-                <i class="ri-price-tag-2-line" style="color: #4233ff;"></i>
-                <h3><a href="">Document Sharing</a></h3>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-4 mt-4">
-              <div class="icon-box">
-                <i class="ri-anchor-line" style="color: #b2904f;"></i>
-                <h3><a href="">Notification System</a></h3>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-4 mt-4">
-              <div class="icon-box">
-                <i class="ri-disc-line" style="color: #b20969;"></i>
-                <h3><a href="">Escrow Services</a></h3>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-4 mt-4">
-              <div class="icon-box">
-                <i class="ri-base-station-line" style="color: #ff5828;"></i>
-                <h3><a href="">Resource Center</a></h3>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-4 mt-4">
-              <div class="icon-box">
-                <i class="ri-fingerprint-line" style="color: #29cc61;"></i>
-                <h3><a href="">Community Forum</a></h3>
-              </div>
+        <div class="col-md-6 d-flex align-items-stretch mt-4">
+          <div class="card" style='background-image: url("assets/img/service-icons/Transportation-Blog-pic-1.png");'
+            data-aos="fade-up" data-aos-delay="100">
+            <div class="card-body">
+              <h5 class="card-title"><a href="">Transportation Engineering</a></h5>
+              <p class="card-text">Transportation engineers focus on the
+                planning, design, and maintenance of transportation systems,
+                including roads, highways, railways, airports, and public
+                transit networks.
+              </p>
+              <div class="read-more"><a href="#"><i class="bi bi-arrow-right"></i>
+                  Read More</a></div>
             </div>
           </div>
-
         </div>
-      </section><!-- End Features Section -->
-
-       <!-- ======= Team Section ======= -->
-      <section id="team" class="team section-bg">
-        <div class="container">
-
-          <div class="section-title" data-aos="fade-up">
-            <h2>Team</h2>
-          </div>
-
-          <div class="row">
-
-            <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
-              <div class="member" data-aos="fade-up" data-aos-delay="100">
-                <div class="member-img">
-                  <img
-                    src="assets/img/team/romel.jpg"
-                    class="img-fluid"
-                    alt=""
-                  />
-                  <div class="social">
-                    {{!-- <a href=""><i class="bi bi-twitter"></i></a> --}}
-                    <a href="https://www.facebook.com/romel.rahman.796"><i class="bi bi-facebook"></i></a>
-                    {{!-- <a href=""><i class="bi bi-instagram"></i></a> --}}
-                    <a href="https://www.linkedin.com/in/eakhlasur-rahman-121407220?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"><i class="bi bi-linkedin"></i></a>
-                  </div>
-                </div>
-                <div class="member-info">
-                  <h4>Eakhlasur Rahman</h4>
-                </div>
-              </div>
+        <div class="col-md-6 d-flex align-items-stretch mt-4">
+          <div class="card" style='background-image: url("assets/img/service-icons/Environmental-Engineering.jpg");'
+            data-aos="fade-up" data-aos-delay="200">
+            <div class="card-body">
+              <h5 class="card-title"><a href="">Environmental Engineering</a></h5>
+              <p class="card-text">
+                Environmental engineers work on projects related to
+                environmental protection and sustainability. They deal with
+                issues such as water and wastewater treatment, pollution
+                control, and waste management.</p>
+              <div class="read-more"><a href="#"><i class="bi bi-arrow-right"></i>
+                  Read More</a></div>
             </div>
-
-            <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
-              <div class="member" data-aos="fade-up" data-aos-delay="200">
-                <div class="member-img">
-                  <img
-                    src="assets/img/team/pro.jpg"
-                    class="img-fluid"
-                    alt=""
-                  />
-                  <div class="social">
-                    {{!-- <a href=""><i class="bi bi-twitter"></i></a> --}}
-                    <a href="https://www.facebook.com/Pacific000"><i class="bi bi-facebook"></i></a>
-                    {{!-- <a href=""><i class="bi bi-instagram"></i></a> --}}
-                    <a href="https://www.linkedin.com/in/proshanto-saha-55ba161ab/"><i class="bi bi-linkedin"></i></a>
-                  </div>
-                </div>
-                <div class="member-info">
-                  <h4>Proshanto Saha</h4>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
-              <div class="member" data-aos="fade-up" data-aos-delay="300">
-                <div class="member-img">
-                  <img
-                    src="assets/img/team/nihad.jpg"
-                    class="img-fluid"
-                    alt=""
-                  />
-                  <div class="social">
-                    {{!-- <a href=""><i class="bi bi-twitter"></i></a> --}}
-                    <a href="https://www.facebook.com/Nihaaaaaaaaad?mibextid=2JQ9oc"><i class="bi bi-facebook"></i></a>
-                    {{!-- <a href=""><i class="bi bi-instagram"></i></a> --}}
-                    <a href="https://www.linkedin.com/in/mdnihad?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"><i class="bi bi-linkedin"></i></a>
-                  </div>
-                </div>
-                <div class="member-info">
-                  <h4>Md. Nihad</h4>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
-              <div class="member" data-aos="fade-up" data-aos-delay="400">
-                <div class="member-img">
-                  <img
-                    src="assets/img/team/akanto.jpg"
-                    class="img-fluid"
-                    alt=""
-                  />
-                  <div class="social">
-                    
-                    <a href="https://www.facebook.com/aaeeartaza/"><i class="bi bi-facebook"></i></a>
-                    
-                    <a href="https://www.linkedin.com/in/aaeartaza/"><i class="bi bi-linkedin"></i></a>
-                  </div>
-                </div>
-                <div class="member-info">
-                  <h4>Ahmed Akanto</h4>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-      </section><!-- End Team Section --> 
-
-      <!-- ======= F.A.Q Section ======= -->
-      <section id="faq" class="faq">
-        <div class="container">
-
-          <div class="section-title" data-aos="fade-up">
-            <h2>Frequently Asked Questions</h2>
-          </div>
-
-          <div
-            class="row faq-item d-flex align-items-stretch"
-            data-aos="fade-up"
-            data-aos-delay="100"
-          >
-            <div class="col-lg-5">
-              <i class="ri-question-line"></i>
-              <h4>How do I post a project on the platform?</h4>
-            </div>
-            <div class="col-lg-7">
-              <p>
-                To post a project, simply create an account, log in, and click
-                on the "Post Job" button. Fill in the project details, budget,
-                and any specific requirements.
-              </p>
-            </div>
-          </div><!-- End F.A.Q Item-->
-
-          <div
-            class="row faq-item d-flex align-items-stretch"
-            data-aos="fade-up"
-            data-aos-delay="200"
-          >
-            <div class="col-lg-5">
-              <i class="ri-question-line"></i>
-              <h4>How do I choose the right professional for my project?</h4>
-            </div>
-            <div class="col-lg-7">
-              <p>
-                You can search for professionals based on their expertise,
-                reviews, and location. Review their profiles, past work, and
-                communicate with them to make an informed decision.
-              </p>
-            </div>
-          </div><!-- End F.A.Q Item-->
-
-          <div
-            class="row faq-item d-flex align-items-stretch"
-            data-aos="fade-up"
-            data-aos-delay="300"
-          >
-            <div class="col-lg-5">
-              <i class="ri-question-line"></i>
-              <h4>How do I create a professional profile?</h4>
-            </div>
-            <div class="col-lg-7">
-              <p>
-                Sign up or log in, then click on "Create Profile." Fill in your
-                details, showcase your portfolio, certifications, and expertise.
-              </p>
-            </div>
-          </div><!-- End F.A.Q Item-->
-
-          <div
-            class="row faq-item d-flex align-items-stretch"
-            data-aos="fade-up"
-            data-aos-delay="400"
-          >
-            <div class="col-lg-5">
-              <i class="ri-question-line"></i>
-              <h4>How do I find projects that match my skills?</h4>
-            </div>
-            <div class="col-lg-7">
-              <p>
-                Browse project listings or use our advanced search filters to
-                find projects that align with your expertise and location.
-              </p>
-            </div>
-          </div><!-- End F.A.Q Item-->
-
-          <div
-            class="row faq-item d-flex align-items-stretch"
-            data-aos="fade-up"
-            data-aos-delay="500"
-          >
-            <div class="col-lg-5">
-              <i class="ri-question-line"></i>
-              <h4>Can I trust the professionals on your platform?</h4>
-            </div>
-            <div class="col-lg-7">
-              <p>
-                We encourage transparency and provide a review and rating
-                system. Clients can read about the experiences of others before
-                making a selection.
-              </p>
-            </div>
-          </div><!-- End F.A.Q Item-->
-          
-          <button class="faq-btn" type="button" onclick="redirectToFAQ()">More Details</button>
-          
-        </div>
-      </section><!-- End F.A.Q Section -->
-
-      <!-- ======= Contact Section ======= -->
-      <section id="contact" class="contact">
-        <div class="container">
-
-          <div class="section-title" data-aos="fade-up">
-            <h2>Contact Us</h2>
-          </div>
-
-          <div class="row">
-
-            <div
-              class="col-lg-4 col-md-6"
-              data-aos="fade-up"
-              data-aos-delay="100"
-            >
-              <div class="contact-about">
-                <h3>EngrHire BD</h3>
-                <p>We aim to respond promptly and ensure that your experience on
-                  our platform is smooth and enjoyable. Your feedback is
-                  valuable to us, and we're here to help in any way we can.</p>
-                <div class="social-links">
-                  <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                  <a href="#" class="facebook"><i
-                      class="bi bi-facebook"
-                    ></i></a>
-                  <a href="#" class="instagram"><i
-                      class="bi bi-instagram"
-                    ></i></a>
-                  <a href="#" class="linkedin"><i
-                      class="bi bi-linkedin"
-                    ></i></a>
-                </div>
-              </div>
-            </div>
-
-            <div
-              class="col-lg-3 col-md-6 mt-4 mt-md-0"
-              data-aos="fade-up"
-              data-aos-delay="200"
-            >
-              <div class="info">
-                <div>
-                  <i class="ri-map-pin-line"></i>
-                  <p>UITS<br />Baridhara, J-Block, DHaka</p>
-                </div>
-
-                <div>
-                  <i class="ri-mail-send-line"></i>
-                  <p>engrhirebd@gmail.com</p>
-                </div>
-
-                <div>
-                  <i class="ri-phone-line"></i>
-                  <p>+880 198 7654 321</p>
-                </div>
-
-              </div>
-            </div>
-
-            <div
-              class="col-lg-5 col-md-12"
-              data-aos="fade-up"
-              data-aos-delay="300"
-            >
-              <form
-                action="/submit-form" method="post"
-                role="form"
-                class="form"
-              >
-                <div class="form-group">
-                  <input type="text" name="name" class="form-control" placeholder="Your Name" required>
-      
-                </div>
-                <div class="form-group">
-                  <input type="email" name="email" class="form-control" placeholder="Your Email" required>
-      
-                </div>
-                <div class="form-group">
-                  <input type="text" name="subject" class="form-control" placeholder="Subject" required>
-      
-                </div>
-                <div class="form-group">
-                  <textarea name="message" class="form-control" rows="5" placeholder="Message" required></textarea>
-
-               {{#if success}}
-  <div class="my-3">
-    <div class="loading">Loading</div>
-    <div class="error-message"></div>
-    <div id="thankYouMessage" class="sent-message">Your message has been sent. Thank you!</div>
-  </div>
-{{/if}}
-
-     
-                </div>
-               
-                <div class="text-center"><button type="submit">Send Message</button></div>
-              </form>
-            </div>
-
-          </div>
-
-        </div>
-      </section><!-- End Contact Section -->
-
-    </main><!-- End #main -->
-
-    <!-- ======= Footer ======= -->
-    <footer id="footer">
-      <div class="container">
-        <div class="row d-flex align-items-center">
-          <div class="col-lg-6 text-lg-left text-center">
-            <div class="copyright">
-              &copy; Copyright
-              <strong>EngrHire BD</strong>. All Rights Reserved
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <nav class="footer-links text-lg-right text-center pt-2 pt-lg-0">
-              <a href="#intro" class="scrollto">Home</a>
-              <a href="#about" class="scrollto">About</a>
-              <a href="#">Privacy Policy</a>
-              <a href="#">Terms of Use</a>
-            </nav>
           </div>
         </div>
       </div>
-    </footer><!-- End Footer -->
 
-    <a
-      href="#"
-      class="back-to-top d-flex align-items-center justify-content-center"
-    ><i class="bi bi-arrow-up-short"></i></a>
+    </div>
+  </section><!-- End More Services Section -->
+
+  <!-- ======= Features Section ======= -->
+  <section id="features" class="features">
+    <div class="container">
+
+      <div class="section-title" data-aos="fade-up">
+        <h2>Features</h2>
+      </div>
+
+      <div class="row" data-aos="fade-up" data-aos-delay="300">
+        <div class="col-lg-3 col-md-4">
+          <div class="icon-box">
+            <i class="ri-store-line" style="color: #ffbb2c;"></i>
+            <h3><a href="">Project Listings</a></h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
+          <div class="icon-box">
+            <i class="ri-bar-chart-box-line" style="color: #5578ff;"></i>
+            <h3><a href="">Engineer Profiles</a></h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
+          <div class="icon-box">
+            <i class="ri-calendar-todo-line" style="color: #e80368;"></i>
+            <h3><a href="">Secure Payment System</a></h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4 mt-lg-0">
+          <div class="icon-box">
+            <i class="ri-paint-brush-line" style="color: #e361ff;"></i>
+            <h3><a href="">Real-time Messaging</a></h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4">
+          <div class="icon-box">
+            <i class="ri-database-2-line" style="color: #47aeff;"></i>
+            <h3><a href="">Project Management Tools</a></h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4">
+          <div class="icon-box">
+            <i class="ri-gradienter-line" style="color: #ffa76e;"></i>
+            <h3><a href="">Review and Rating System</a></h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4">
+          <div class="icon-box">
+            <i class="ri-file-list-3-line" style="color: #11dbcf;"></i>
+            <h3><a href="">Advanced Search Filters</a></h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4">
+          <div class="icon-box">
+            <i class="ri-price-tag-2-line" style="color: #4233ff;"></i>
+            <h3><a href="">Document Sharing</a></h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4">
+          <div class="icon-box">
+            <i class="ri-anchor-line" style="color: #b2904f;"></i>
+            <h3><a href="">Notification System</a></h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4">
+          <div class="icon-box">
+            <i class="ri-disc-line" style="color: #b20969;"></i>
+            <h3><a href="">Escrow Services</a></h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4">
+          <div class="icon-box">
+            <i class="ri-base-station-line" style="color: #ff5828;"></i>
+            <h3><a href="">Resource Center</a></h3>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mt-4">
+          <div class="icon-box">
+            <i class="ri-fingerprint-line" style="color: #29cc61;"></i>
+            <h3><a href="">Community Forum</a></h3>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section><!-- End Features Section -->
+
+  <!-- ======= Team Section ======= -->
+  <section id="team" class="team section-bg">
+    <div class="container">
+
+      <div class="section-title" data-aos="fade-up">
+        <h2>Team</h2>
+      </div>
+
+      <div class="row">
+
+        <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
+          <div class="member" data-aos="fade-up" data-aos-delay="100">
+            <div class="member-img">
+              <img src="assets/img/team/romel.jpg" class="img-fluid" alt="" />
+              <div class="social">
+                {{!-- <a href=""><i class="bi bi-twitter"></i></a> --}}
+                <a href="https://www.facebook.com/romel.rahman.796"><i class="bi bi-facebook"></i></a>
+                {{!-- <a href=""><i class="bi bi-instagram"></i></a> --}}
+                <a
+                  href="https://www.linkedin.com/in/eakhlasur-rahman-121407220?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"><i
+                    class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4>Eakhlasur Rahman</h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
+          <div class="member" data-aos="fade-up" data-aos-delay="200">
+            <div class="member-img">
+              <img src="assets/img/team/pro.jpg" class="img-fluid" alt="" />
+              <div class="social">
+                {{!-- <a href=""><i class="bi bi-twitter"></i></a> --}}
+                <a href="https://www.facebook.com/Pacific000"><i class="bi bi-facebook"></i></a>
+                {{!-- <a href=""><i class="bi bi-instagram"></i></a> --}}
+                <a href="https://www.linkedin.com/in/proshanto-saha-55ba161ab/"><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4>Proshanto Saha</h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
+          <div class="member" data-aos="fade-up" data-aos-delay="300">
+            <div class="member-img">
+              <img src="assets/img/team/nihad.jpg" class="img-fluid" alt="" />
+              <div class="social">
+                {{!-- <a href=""><i class="bi bi-twitter"></i></a> --}}
+                <a href="https://www.facebook.com/Nihaaaaaaaaad?mibextid=2JQ9oc"><i class="bi bi-facebook"></i></a>
+                {{!-- <a href=""><i class="bi bi-instagram"></i></a> --}}
+                <a
+                  href="https://www.linkedin.com/in/mdnihad?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"><i
+                    class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4>Md. Nihad</h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
+          <div class="member" data-aos="fade-up" data-aos-delay="400">
+            <div class="member-img">
+              <img src="assets/img/team/akanto.jpg" class="img-fluid" alt="" />
+              <div class="social">
+
+                <a href="https://www.facebook.com/aaeeartaza/"><i class="bi bi-facebook"></i></a>
+
+                <a href="https://www.linkedin.com/in/aaeartaza/"><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4>Ahmed Akanto</h4>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section><!-- End Team Section -->
+
+  <!-- ======= F.A.Q Section ======= -->
+  <section id="faq" class="faq">
+    <div class="container">
+
+      <div class="section-title" data-aos="fade-up">
+        <h2>Frequently Asked Questions</h2>
+      </div>
+
+      <div class="row faq-item d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+        <div class="col-lg-5">
+          <i class="ri-question-line"></i>
+          <h4>How do I post a project on the platform?</h4>
+        </div>
+        <div class="col-lg-7">
+          <p>
+            To post a project, simply create an account, log in, and click
+            on the "Post Job" button. Fill in the project details, budget,
+            and any specific requirements.
+          </p>
+        </div>
+      </div><!-- End F.A.Q Item-->
+
+      <div class="row faq-item d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+        <div class="col-lg-5">
+          <i class="ri-question-line"></i>
+          <h4>How do I choose the right professional for my project?</h4>
+        </div>
+        <div class="col-lg-7">
+          <p>
+            You can search for professionals based on their expertise,
+            reviews, and location. Review their profiles, past work, and
+            communicate with them to make an informed decision.
+          </p>
+        </div>
+      </div><!-- End F.A.Q Item-->
+
+      <div class="row faq-item d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
+        <div class="col-lg-5">
+          <i class="ri-question-line"></i>
+          <h4>How do I create a professional profile?</h4>
+        </div>
+        <div class="col-lg-7">
+          <p>
+            Sign up or log in, then click on "Create Profile." Fill in your
+            details, showcase your portfolio, certifications, and expertise.
+          </p>
+        </div>
+      </div><!-- End F.A.Q Item-->
 
 
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
- 
-    const urlParams = new URLSearchParams(window.location.search);
-    const success = urlParams.get('success');
 
 
-    if (success === 'true') {
-      const contactSection = document.getElementById('contact');
-      const thankYouMessage = document.getElementById('thankYouMessage');
 
-      if (contactSection && thankYouMessage) {
+      <button class="faq-btn" type="button" onclick="redirectToFAQ()">More Details</button>
 
-        contactSection.scrollIntoView({ behavior: 'smooth' });
-        thankYouMessage.style.display = 'block';
+    </div>
+  </section><!-- End F.A.Q Section -->
+
+  <!-- ======= Contact Section ======= -->
+  <section id="contact" class="contact">
+    <div class="container">
+
+      <div class="section-title" data-aos="fade-up">
+        <h2>Contact Us</h2>
+      </div>
+
+      <div class="row">
+
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+          <div class="contact-about">
+            <h3>EngrHire BD</h3>
+            <p>We aim to respond promptly and ensure that your experience on
+              our platform is smooth and enjoyable. Your feedback is
+              valuable to us, and we're here to help in any way we can.</p>
+            <div class="social-links">
+              <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+              <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mt-4 mt-md-0" data-aos="fade-up" data-aos-delay="200">
+          <div class="info">
+            <div>
+              <i class="ri-map-pin-line"></i>
+              <p>UITS<br />Baridhara, J-Block, DHaka</p>
+            </div>
+
+            <div>
+              <i class="ri-mail-send-line"></i>
+              <p>engrhirebd@gmail.com</p>
+            </div>
+
+            <div>
+              <i class="ri-phone-line"></i>
+              <p>+880 198 7654 321</p>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-lg-5 col-md-12" data-aos="fade-up" data-aos-delay="300">
+          <form action="/submit-form" method="post" role="form" class="form">
+            <div class="form-group">
+              <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+
+            </div>
+            <div class="form-group">
+              <input type="email" name="email" class="form-control" placeholder="Your Email" required>
+
+            </div>
+            <div class="form-group">
+              <input type="text" name="subject" class="form-control" placeholder="Subject" required>
+
+            </div>
+            <div class="form-group">
+              <textarea name="message" class="form-control" rows="5" placeholder="Message" required></textarea>
+
+              {{#if success}}
+              <div class="my-3">
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div id="thankYouMessage" class="sent-message">Your message has been sent. Thank you!</div>
+              </div>
+              {{/if}}
+
+
+            </div>
+
+            <div class="text-center"><button type="submit">Send Message</button></div>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+      <div class="row d-flex align-items-center">
+        <div class="col-lg-6 text-lg-left text-center">
+          <div class="copyright">
+            &copy; Copyright
+            <strong>EngrHire BD</strong>. All Rights Reserved
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <nav class="footer-links text-lg-right text-center pt-2 pt-lg-0">
+            <a href="#intro" class="scrollto">Home</a>
+            <a href="#about" class="scrollto">About</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Use</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const success = urlParams.get('success');
+
+
+      if (success === 'true') {
+        const contactSection = document.getElementById('contact');
+        const thankYouMessage = document.getElementById('thankYouMessage');
+
+        if (contactSection && thankYouMessage) {
+
+          contactSection.scrollIntoView({ behavior: 'smooth' });
+          thankYouMessage.style.display = 'block';
+        }
       }
-    }
-  });
-</script>
+    });
+  </script>
 
   <script>
     function redirectToFAQ() {
@@ -1103,37 +936,37 @@
   </script>
 
   <script>
-function toggleSearchButton() {
-  var searchInput = document.getElementById('searchInput');
-  var searchButton = document.getElementById('searchButton');
-  
-  
-  searchButton.disabled = searchInput.value.trim() === '';
-}
-
-function validateSearch() {
-  var searchInput = document.getElementById('searchInput');
-  
-
-  return searchInput.value.trim() !== '';
-}
+    function toggleSearchButton() {
+      var searchInput = document.getElementById('searchInput');
+      var searchButton = document.getElementById('searchButton');
 
 
- </script>
+      searchButton.disabled = searchInput.value.trim() === '';
+    }
+
+    function validateSearch() {
+      var searchInput = document.getElementById('searchInput');
 
 
-    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-    <script src="assets/vendor/aos/aos.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
+      return searchInput.value.trim() !== '';
+    }
 
 
-    <script src="assets/js/main.js"></script>
-  
+  </script>
 
-  </body>
+
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+
+  <script src="assets/js/main.js"></script>
+
+
+</body>
 
 </html>

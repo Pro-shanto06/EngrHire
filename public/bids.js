@@ -61,30 +61,26 @@ function addBidToSection(sectionId, response) {
   const bidCard = `
 
        
-  <div class="container mt-2 mb-2">
-    <div class="d-flex justify-content-center row">
+  <div class="mt-2 mb-2">
+  <div class="d-flex justify-content-center row">
       <div class="col-md-10">
-          <div class="row p-2 bg-white border rounded bid-card">
-             
-              <div class="col-md-6 mt-1">
-                  <h4>${response.jobTitle}</h4>
-                  <h5>${new Date(response.jobDeadline).toLocaleString('en-US', options)}</h5>
-                  <div class="d-flex flex-row">
-                      <div class="ratings mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div><span>${response.engineerFullName}</span>
-                  </div>
-                  
-                  <p class="text-justify text-truncate para mb-0">${response.bidDetails}<br><br></p>
+          <div class="row p-2 bg-white border rounded bid-card" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+              <div class="col-md-8">
+                  <h4 class="mb-2">${response.jobTitle}</h4>
+                  <h6 class="text-muted mb-3">${new Date(response.jobDeadline).toLocaleString('en-US', options)}</h6>
+                  <p class="text-justify text-truncate para mb-3">${response.bidDetails}<br><br></p>
               </div>
-              <div class="align-items-center align-content-center col-md-3 border-left mt-1">
-                  <div class="d-flex flex-row align-items-center">
-                      <h4 class="mr-1">${response.bidAmount}</h4>
+              <div class="col-md-4 border-left">
+                  <div class="d-flex flex-column align-items-center">
+                      <h4 class="mb-3">${response.bidAmount}</h4>
+                      <a class="btn btn-primary btn-sm" href="/work/${response.workId}" style="background-color: #3498db;">View Work</a>
                   </div>
-                  <a class="btn btn-primary btn-sm" href="/work/${response.workId}" style="background-color: #3498db;">View Work</a>
-
               </div>
+          </div>
       </div>
-    </div>
-    </div>
+  </div>
+</div>
+
  
 
     
@@ -144,36 +140,27 @@ function updateAcceptedBids(acceptedBids) {
     const options = { timeZone: 'Asia/Dhaka', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };
     const bidCard = `
   
-    <div class="container mt-2 mb-2">
-      <div class="d-flex justify-content-center row">
-        <div class="col-md-10">
-          <div class="row p-2 bg-white border rounded bid-card">
-            <div class="col-md-6 mt-1">
-              <h4>${bid.jobTitle}</h4>
-              <h5>${new Date(bid.jobDeadline).toLocaleString('en-US', options)}</h5>
-              <div class="d-flex flex-row">
-                <div class="ratings mr-2">
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                </div>
-                <span>${bid.engineerFullName}</span>
-              </div>
-              <p class="text-justify text-truncate para mb-0">${bid.bidDetails}<br><br></p>
-            </div>
-            <div class="align-items-center align-content-center col-md-3 border-left mt-1">
-              <div class="d-flex flex-row align-items-center">
-                <h4 class="mr-1">${bid.bidAmount}</h4>
-              </div>
-              
+    <div class="mb-4 mt-4">
+    <div class="d-flex justify-content-center row">
+      <div class="col-md-8">
+        <div class="row p-3 bg-white border rounded bid-card" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+          <div class="col-md-8">
+            <h4 class="mb-2">${bid.jobTitle}</h4>
+            <h6 class="text-muted mb-3">${new Date(bid.jobDeadline).toLocaleString('en-US', options)}</h6>
+            <p class="text-justify text-truncate para mb-3">${bid.bidDetails}<br><br></p>
+          </div>
+          <div class="col-md-4 border-left">
+            <div class="d-flex flex-column align-items-center">
+              <h4 class="mb-3">${bid.bidAmount}</h4>
               <a class="btn btn-primary btn-sm" href="/work/${bid.workId}" style="background-color: #3498db;">View Work</a>
             </div>
           </div>
         </div>
       </div>
     </div>
-   
+  </div>
+  
+
     `;
 
     acceptedBidsContainer.append(bidCard);
@@ -196,12 +183,7 @@ function updateRejectedBids(rejectedBids) {
               <h4>${bid.jobTitle}</h4>
               <h5>${new Date(bid.jobDeadline).toLocaleString('en-US', options)}</h5>
               <div class="d-flex flex-row">
-                <div class="ratings mr-2">
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                </div>
+              
                 <span>${bid.engineerFullName}</span>
               </div>
               <p class="text-justify text-truncate para mb-0">${bid.bidDetails}<br><br></p>
@@ -235,38 +217,33 @@ function updatePendingBids(pendingBids) {
     const bidCard = `
     
        
-    <div class="container mt-2 mb-2">
-      <div class="d-flex justify-content-center row">
-        <div class="col-md-10">
-            <div class="row p-2 bg-white border rounded bid-card">
-                
-                <div class="col-md-6 mt-1">
-                    <h4>${bid.jobTitle}</h5>
-                    <h5>${new Date(bid.jobDeadline).toLocaleString('en-US', options)}</h5>
-                    <div class="d-flex flex-row">
-                        <div class="ratings mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div><span>${bid.engineerFullName}</span>
-                    </div>
-                    
-                    <p class="text-justify text-truncate para mb-0">${bid.bidDetails}<br><br></p>
-                </div>
-                <div class="align-items-center align-content-center col-md-3 border-left mt-1">
-                    <div class="d-flex flex-row align-items-center">
-                        <h4 class="mr-1">${bid.bidAmount}</h4>
-                    </div>
-                  
-                    <div class="d-flex flex-column mt-4 bid-actions">
-                    <button class="btn accept-bid" style="color: green;" class="" data-bidid="${bid._id}" data-jobid="${bid.job}"
-                      onclick="acceptBid('${bid._id}', '${bid.job}')">Accept</button>
-                      <button class="btn  reject-bid" style="color: red;" class="" data-bidid="${bid._id}" data-jobid="${bid.job}"
-                      onclick="rejectBid('${bid._id}', '${bid.job}')">Reject</button>
-
-                      
-                      </div>
-                </div>
+    <div class="mt-2 mb-2">
+    <div class="d-flex justify-content-center row">
+      <div class="col-md-10">
+        <div class="row p-2 bg-white border rounded bid-card">
+          <div class="col-md-6 mt-1">
+            <h4>${bid.jobTitle}</h4>
+            <h5>${new Date(bid.jobDeadline).toLocaleString('en-US', options)}</h5>
+            <div class="d-flex flex-row">
+              <span>${bid.engineerFullName}</span>
+            </div>
+            <p class="text-justify text-truncate para mb-0">${bid.bidDetails}<br><br></p>
+          </div>
+          <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+            <div class="d-flex flex-row align-items-center">
+              <h4 class="mr-1">${bid.bidAmount}</h4>
+            </div>
+            <div class="d-flex flex-column mt-4 bid-actions">
+              <button class="btn accept-bid" style="background-color: #28a745; color: #fff; margin-bottom: 10px;" data-bidid="${bid._id}" data-jobid="${bid.job}" onclick="acceptBid('${bid._id}', '${bid.job}')">Accept</button>
+              <button class="btn reject-bid" style="background-color: #dc3545; color: #fff; " data-bidid="${bid._id}" data-jobid="${bid.job}" onclick="rejectBid('${bid._id}', '${bid.job}')">Reject</button>
+            </div>
+          </div>
         </div>
       </div>
-      </div>
-      
+    </div>
+  </div>
+  
+  
     `;
 
     pendingBidsContainer.append(bidCard);

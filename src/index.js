@@ -11,7 +11,7 @@ const app = express();
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const jwtSecret = "yourSecretKey";
-const moment = require("moment");
+
 
 hbs.registerHelper("eq", function (a, b) {
   return a === b;
@@ -126,47 +126,79 @@ function isAuthenticated(req, res, next) {
   }
 }
 
-app.get("/about-us", async (req, res) => {
-  let userId = null;
 
-  if (req.session.user) {
-    userId = req.session.user._id;
-  }
-
-  let user = await Engineer.findById(userId);
-
-  if (!user) {
-    user = await Client.findById(userId);
-  }
-
-  res.render("about-us", {
-    user: user,
-    userId,
-    isClient: req.session.user?.role === "Client",
-    isEngineer: req.session.user?.role === "Engineer",
+async function getUnreadNotifications(userId) {
+  const unreadNotifications = await Notification.find({
+    recipient: userId,
+    read: false,
   });
+
+  const unreadNotificationCount = unreadNotifications.length;
+
+  return { unreadNotificationCount, unreadNotifications };
+}
+
+app.get("/about-us", async (req, res) => {
+  try {
+
+    const userId = req.session.user ? req.session.user._id : null;
+
+
+    let user = await Engineer.findById(userId);
+
+    if (!user) {
+      user = await Client.findById(userId);
+    }
+
+
+    const { unreadNotificationCount, unreadNotifications } = await getUnreadNotifications(userId);
+
+
+    res.render("about-us", {
+      user,
+      userId,
+      isClient: req.session.user?.role === "Client",
+      isEngineer: req.session.user?.role === "Engineer",
+      unreadNotificationCount,
+      unreadNotifications,
+    });
+  } catch (error) {
+    console.error("Error fetching user or notifications:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
+
 
 app.get("/faq", async (req, res) => {
-  let userId = null;
+  try {
 
-  if (req.session.user) {
-    userId = req.session.user._id;
+    const userId = req.session.user ? req.session.user._id : null;
+
+
+    let user = await Engineer.findById(userId);
+
+    if (!user) {
+      user = await Client.findById(userId);
+    }
+
+
+    const { unreadNotificationCount, unreadNotifications } = await getUnreadNotifications(userId);
+
+
+    res.render("faq", {
+      user,
+      userId,
+      isClient: req.session.user?.role === "Client",
+      isEngineer: req.session.user?.role === "Engineer",
+      unreadNotificationCount,
+      unreadNotifications,
+    });
+  } catch (error) {
+    console.error("Error fetching user or notifications:", error);
+    res.status(500).send("Internal Server Error");
   }
-
-  let user = await Engineer.findById(userId);
-
-  if (!user) {
-    user = await Client.findById(userId);
-  }
-
-  res.render("faq", {
-    user: user,
-    userId,
-    isClient: req.session.user?.role === "Client",
-    isEngineer: req.session.user?.role === "Engineer",
-  });
 });
+
 
 app.get("/work/:workId/chat", isAuthenticated, async (req, res) => {
   try {
@@ -184,6 +216,12 @@ app.get("/work/:workId/chat", isAuthenticated, async (req, res) => {
     } else if (role === "Client") {
       client = await Client.findById(userId);
     }
+
+
+    const { unreadNotificationCount, unreadNotifications } = await getUnreadNotifications(
+      userId,
+      role
+    );
 
     if (engineer && engineer.profilePicPath) {
       engineer.profilePicPath =
@@ -203,12 +241,15 @@ app.get("/work/:workId/chat", isAuthenticated, async (req, res) => {
       role: role,
       isClient: role === "Client",
       isEngineer: role === "Engineer",
+      unreadNotificationCount,
+      unreadNotifications,
     });
   } catch (error) {
     console.error(error);
     res.status(500).send("Error fetching data");
   }
 });
+
 
 app.get("/api/work/:workId/chat-messages", async (req, res) => {
   try {
@@ -244,7 +285,7 @@ app.get("/api/work/:workId/chat-messages", async (req, res) => {
 });
 
 io.of(/^\/work\/\w+$/).on('connection', (socket) => {
-  const workId = socket.nsp.name.split('/').pop(); // Extract workId from namespace
+  const workId = socket.nsp.name.split('/').pop();
 
   console.log(`User connected to chat for workId: ${workId}`);
 
@@ -293,11 +334,9 @@ io.of(/^\/work\/\w+$/).on('connection', (socket) => {
 
 app.get("/engineers", async (req, res) => {
   try {
-    let userId = null;
 
-    if (req.session.user) {
-      userId = req.session.user._id;
-    }
+    const userId = req.session.user ? req.session.user._id : null;
+
 
     let user = await Engineer.findById(userId);
 
@@ -305,22 +344,29 @@ app.get("/engineers", async (req, res) => {
       user = await Client.findById(userId);
     }
 
-    
-    const engineers = await Engineer.find();
 
-  
+    const engineers = await Engineer.find({});
+
+
+    const { unreadNotificationCount, unreadNotifications } = await getUnreadNotifications(userId);
+
+
     res.render("engineers", {
       engineers,
       user,
       userId,
       isClient: req.session.user?.role === "Client",
       isEngineer: req.session.user?.role === "Engineer",
+      unreadNotificationCount,
+      unreadNotifications,
     });
   } catch (error) {
     console.error("Error fetching engineers:", error);
     res.status(500).send("Internal Server Error");
   }
 });
+
+
 
 app.get("/signup", (req, res) => {
   res.render("signup");
@@ -338,14 +384,13 @@ app.get("/select", (req, res) => {
   res.render("select");
 });
 
-app.get("/rating", (req, res) => {
-  res.render("rating");
-});
-
 
 app.get("/forgot-password", (req, res) => {
-  res.render("forgot-password"); 
+  res.render("forgot-password");
 });
+
+
+
 
 app.get("/", async (req, res) => {
   let userId = null;
@@ -361,15 +406,56 @@ app.get("/", async (req, res) => {
 
   const success = req.query.success === "true";
 
-  res.render("home", {
-    user,
-    userId,
-    isClient: req.session.user?.role === "Client",
-    isEngineer: req.session.user?.role === "Engineer",
-    isAdmin: req.session.user?.role === "Admin",
-    success,
-  });
+  let unreadNotificationCount = 0;
+  let unreadNotifications = [];
+
+  if (user && user.role === "Engineer") {
+    const fieldOfExpertise = user.field_of_expertise;
+
+    const suggestedJobs = await Job.find({
+      category: fieldOfExpertise,
+    });
+
+
+    ({ unreadNotificationCount, unreadNotifications } = await getUnreadNotifications(userId));
+
+    res.render("home", {
+      user,
+      userId,
+      isClient: req.session.user?.role === "Client",
+      isEngineer: req.session.user?.role === "Engineer",
+      isAdmin: req.session.user?.role === "Admin",
+      success,
+      suggestedJobs: suggestedJobs.map((job) => ({
+        jobId: job._id,
+        jobTitle: job.jobTitle,
+        clientName: job.clientName,
+        category: job.category,
+        jobLocation: job.jobLocation,
+        jobPriceRange: job.jobPriceRange,
+      })),
+      unreadNotificationCount,
+      unreadNotifications,
+    });
+  } else {
+
+    ({ unreadNotificationCount, unreadNotifications } = await getUnreadNotifications(userId));
+
+    res.render("home", {
+      user,
+      userId,
+      isClient: req.session.user?.role === "Client",
+      isEngineer: req.session.user?.role === "Engineer",
+      isAdmin: req.session.user?.role === "Admin",
+      success,
+      unreadNotificationCount,
+      unreadNotifications,
+    });
+  }
 });
+
+
+
 
 app.post("/signup", upload.single("profilePic"), async (req, res) => {
   try {
@@ -724,10 +810,10 @@ app.get("/client-profile/:clientId/:type", async (req, res) => {
         client.profilePicPath = "/" + client.profilePicPath.replace(/\\/g, "/");
       }
 
-      // Fetching client jobs
+
       clientJobs = await Job.find({ client: client._id });
 
-      // Extracting jobIds from clientJobs
+
       const jobIds = clientJobs.map((job) => job._id);
 
       const works = await Work.find({ client: clientId })
@@ -786,7 +872,7 @@ app.post("/mark-notifications-as-read", async (req, res) => {
   try {
     const clientId = req.session.user._id;
 
-    // Mark all unread notifications as read for the client
+
     await Notification.updateMany(
       { recipient: clientId, read: false },
       { read: true }
@@ -1031,46 +1117,56 @@ app.post(
 );
 
 app.get("/post-job", isAuthenticated, async (req, res) => {
-  let userId = null;
+  try {
 
-  if (req.session.user) {
-    userId = req.session.user._id;
-  }
+    const userId = req.session.user ? req.session.user._id : null;
 
-  let user = await Engineer.findById(userId);
 
-  if (!user) {
-    user = await Client.findById(userId);
-  }
+    let user = await Engineer.findById(userId);
 
-  if (req.session.user.role === "Client") {
-    try {
-      const clientId = req.session.user._id;
-      const client = await Client.findById(clientId);
-
-      if (user && user.profilePicPath) {
-        user.profilePicPath = "/" + user.profilePicPath.replace(/\\/g, "/");
-      }
-      if (client && client.profilePicPath) {
-        client.profilePicPath = "/" + client.profilePicPath.replace(/\\/g, "/");
-      }
-
-      res.render("post-job", {
-        userId,
-        user: user,
-        isClient: req.session.user?.role === "Client",
-        isEngineer: req.session.user?.role === "Engineer",
-        client: client,
-        clientId,
-      });
-    } catch (error) {
-      console.error("Error fetching client data:", error);
-      res.status(500).send("Internal server error");
+    if (!user) {
+      user = await Client.findById(userId);
     }
-  } else {
-    res.status(403).send("Access Denied");
+
+
+    const { unreadNotificationCount, unreadNotifications } = await getUnreadNotifications(userId);
+
+    if (req.session.user.role === "Client") {
+      try {
+        const clientId = req.session.user._id;
+        const client = await Client.findById(clientId);
+
+        if (user && user.profilePicPath) {
+          user.profilePicPath = "/" + user.profilePicPath.replace(/\\/g, "/");
+        }
+        if (client && client.profilePicPath) {
+          client.profilePicPath = "/" + client.profilePicPath.replace(/\\/g, "/");
+        }
+
+
+        res.render("post-job", {
+          userId,
+          user: user,
+          isClient: req.session.user?.role === "Client",
+          isEngineer: req.session.user?.role === "Engineer",
+          client: client,
+          clientId,
+          unreadNotificationCount,
+          unreadNotifications,
+        });
+      } catch (error) {
+        console.error("Error fetching client data:", error);
+        res.status(500).send("Internal server error");
+      }
+    } else {
+      res.status(403).send("Access Denied");
+    }
+  } catch (error) {
+    console.error("Error fetching user or notifications:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
+
 
 app.post("/post-job", isAuthenticated, async (req, res) => {
   const {
@@ -1120,16 +1216,19 @@ app.get("/edit-job/:jobId", isAuthenticated, async (req, res) => {
     const jobId = req.params.jobId;
     const job = await Job.findById(jobId);
 
-    // Ensure the job exists and the current user is the owner
+
     if (!job || job.client.toString() !== req.session.user._id) {
       return res.status(404).send("Job not found or unauthorized access");
     }
 
-    // Fetch user details
+
     let userId = null;
     if (req.session.user) {
       userId = req.session.user._id;
     }
+
+
+    const { unreadNotificationCount, unreadNotifications } = await getUnreadNotifications(userId);
 
     let user = await Engineer.findById(userId);
     if (!user) {
@@ -1158,6 +1257,7 @@ app.get("/edit-job/:jobId", isAuthenticated, async (req, res) => {
       ? job.jobDeadline.toISOString().split("T")[0]
       : "";
 
+
     res.render("edit-job", {
       job,
       formattedDate,
@@ -1165,12 +1265,15 @@ app.get("/edit-job/:jobId", isAuthenticated, async (req, res) => {
       user,
       isClient: req.session.user?.role === "Client",
       isEngineer: req.session.user?.role === "Engineer",
+      unreadNotificationCount,
+      unreadNotifications,
     });
   } catch (error) {
     console.error("Error fetching job data:", error);
     res.status(500).send("Internal server error");
   }
 });
+
 
 app.post("/edit-job/:jobId", isAuthenticated, async (req, res) => {
   const jobId = req.params.jobId;
@@ -1188,12 +1291,12 @@ app.post("/edit-job/:jobId", isAuthenticated, async (req, res) => {
   try {
     const job = await Job.findById(jobId);
 
-    // Ensure the job exists and the current user is the owner (you may need to modify this check)
+
     if (!job || job.client.toString() !== req.session.user._id) {
       return res.status(404).send("Job not found or unauthorized access");
     }
 
-    // Update job details
+
     job.jobTitle = job_title;
     job.category = category;
     job.specifiedCategory = specified_category;
@@ -1203,7 +1306,7 @@ app.post("/edit-job/:jobId", isAuthenticated, async (req, res) => {
     job.jobDeadline = new Date(job_deadline);
     job.jobPriceRange = job_price_range;
 
-    // Save the updated job to the database
+
     await job.save();
 
     res.redirect(`/client-profile/${req.session.user._id}/3`);
@@ -1219,15 +1322,15 @@ app.post("/delete-job/:jobId", isAuthenticated, async (req, res) => {
   try {
     const job = await Job.findById(jobId);
 
-    // Ensure the job exists and the current user is the owner
+
     if (!job || job.client.toString() !== req.session.user._id) {
       return res.status(404).send("Job not found or unauthorized access");
     }
 
-    // Delete the job
+
     await Job.findByIdAndDelete(jobId);
 
-    // Redirect to a page or send a response indicating success
+
     res.redirect(`/client-profile/${req.session.user._id}/3`);
   } catch (error) {
     console.error("Error deleting job:", error);
@@ -1249,7 +1352,7 @@ function sortJobsByDate(jobs, sortBy) {
   }
 }
 
-// Helper function to filter jobs by price range
+
 function filterJobsByPrice(jobs, minPrice, maxPrice) {
   const min = parseFloat(minPrice);
   const max = parseFloat(maxPrice);
@@ -1260,7 +1363,7 @@ function filterJobsByPrice(jobs, minPrice, maxPrice) {
   });
 }
 
-app.get("/job-list/:categoryName", isAuthenticated, async (req, res) => {
+app.get("/job-list/:categoryName", async (req, res) => {
   try {
     let clientId = null;
     let engineerId = null;
@@ -1272,39 +1375,38 @@ app.get("/job-list/:categoryName", isAuthenticated, async (req, res) => {
         (await Engineer.findById(userId)) || (await Client.findById(userId));
     }
 
-    if (req.session.user.role === "Client") {
-      clientId = req.session.user._id;
-    } else if (req.session.user.role === "Engineer") {
-      engineerId = req.session.user._id;
-    }
+
+    const { unreadNotificationCount, unreadNotifications } = await getUnreadNotifications(
+      req.session.user?._id
+    );
 
     const sortBy = req.query.sort || "asc";
     const minPrice = req.query.minPrice || 0;
     const maxPrice = req.query.maxPrice || Infinity;
     const page = parseInt(req.query.page) || 1;
-    const pageSize = 5; // Number of jobs per page
+    const pageSize = 5;
 
     let jobs;
     let totalJobs;
 
     if (req.params.categoryName === "all") {
-      // Fetch all jobs that match the price range
+
       jobs = await Job.find({
         price: { $gte: minPrice, $lte: maxPrice },
       }).sort({ jobDeadline: sortBy });
 
-      // Count all jobs that match the price range
+
       totalJobs = await Job.countDocuments({
         price: { $gte: minPrice, $lte: maxPrice },
       });
     } else {
-      // Fetch jobs based on category and price range
+
       jobs = await Job.find({
         category: req.params.categoryName,
         price: { $gte: minPrice, $lte: maxPrice },
       }).sort({ jobDeadline: sortBy });
 
-      // Count jobs based on category and price range
+
       totalJobs = await Job.countDocuments({
         category: req.params.categoryName,
         price: { $gte: minPrice, $lte: maxPrice },
@@ -1322,7 +1424,7 @@ app.get("/job-list/:categoryName", isAuthenticated, async (req, res) => {
       maxPrice
     );
 
-    // Pagination logic
+
     const startIndex = (page - 1) * pageSize;
     const endIndex = startIndex + pageSize;
     const visibleJobs = filteredJobs.slice(startIndex, endIndex);
@@ -1335,6 +1437,7 @@ app.get("/job-list/:categoryName", isAuthenticated, async (req, res) => {
 
     const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
     const showPageNumbers = totalPages > 1;
+
     res.render("job-list", {
       jobs: visibleJobs,
       userId: user?._id,
@@ -1354,12 +1457,16 @@ app.get("/job-list/:categoryName", isAuthenticated, async (req, res) => {
       currentPageMinusOne,
       pages: showPageNumbers ? pages : [],
       totalPages,
+      unreadNotificationCount,
+      unreadNotifications,
     });
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).send("Internal server error");
+    res.status(500).send(`Internal server error: ${error.message}`);
   }
 });
+
+
 
 app.get("/job-details/:jobId", isAuthenticated, async (req, res) => {
   const jobId = req.params.jobId;
@@ -1467,7 +1574,7 @@ app.post("/submit-bid/:jobId", isAuthenticated, async (req, res) => {
 
     await newBid.save();
 
-    // Create a new notification for the client
+
     const newNotification = new Notification({
       recipient: job.client._id,
       content: `Engineer ${engineer.full_name} has submitted a bid for your job "${job.jobTitle}".`,
@@ -1485,22 +1592,27 @@ app.post("/submit-bid/:jobId", isAuthenticated, async (req, res) => {
 });
 
 app.get("/my-bids/:engineerId", isAuthenticated, async (req, res) => {
-  let engineerId = req.params.engineerId;
-  let engineer = null;
-
-  let userId = null;
-
-  if (req.session.user) {
-    userId = req.session.user._id;
-  }
-
-  let user = await Engineer.findById(userId);
-
-  if (!user) {
-    user = await Client.findById(userId);
-  }
-
   try {
+    let engineerId = req.params.engineerId;
+    let engineer = null;
+
+    let userId = null;
+
+    if (req.session.user) {
+      userId = req.session.user._id;
+    }
+
+    let user = await Engineer.findById(userId);
+
+    if (!user) {
+      user = await Client.findById(userId);
+    }
+
+
+    const { unreadNotificationCount, unreadNotifications } = await getUnreadNotifications(
+      req.session.user?._id
+    );
+
     if (req.session.user.role === "Engineer") {
       engineer = await Engineer.findById(engineerId);
     }
@@ -1523,6 +1635,8 @@ app.get("/my-bids/:engineerId", isAuthenticated, async (req, res) => {
       engineerId: engineerId,
       bids: userBids,
       engineer,
+      unreadNotificationCount,
+      unreadNotifications,
     });
   } catch (error) {
     console.error(error);
@@ -1530,23 +1644,29 @@ app.get("/my-bids/:engineerId", isAuthenticated, async (req, res) => {
   }
 });
 
+
 app.get("/bids/:clientId", isAuthenticated, async (req, res) => {
-  let clientId = req.params.clientId;
-  let client = null;
-
-  let userId = null;
-
-  if (req.session.user) {
-    userId = req.session.user._id;
-  }
-
-  let user = await Engineer.findById(userId);
-
-  if (!user) {
-    user = await Client.findById(userId);
-  }
-
   try {
+    let clientId = req.params.clientId;
+    let client = null;
+
+    let userId = null;
+
+    if (req.session.user) {
+      userId = req.session.user._id;
+    }
+
+    let user = await Engineer.findById(userId);
+
+    if (!user) {
+      user = await Client.findById(userId);
+    }
+
+
+    const { unreadNotificationCount, unreadNotifications } = await getUnreadNotifications(
+      req.session.user?._id
+    );
+
     if (req.session.user.role === "Client") {
       client = await Client.findById(clientId);
     }
@@ -1569,6 +1689,8 @@ app.get("/bids/:clientId", isAuthenticated, async (req, res) => {
         clientId: clientId,
         client,
         bids,
+        unreadNotificationCount,
+        unreadNotifications,
       });
     } else {
       res.status(404).send("Bids not found");
@@ -1578,6 +1700,7 @@ app.get("/bids/:clientId", isAuthenticated, async (req, res) => {
     res.status(500).send("Internal server error");
   }
 });
+
 
 const createNotification = async (recipient, content, type, job, bid) => {
   const newNotification = new Notification({
@@ -1636,7 +1759,7 @@ app.post("/accept-bid", async (req, res) => {
 
     const savedWork = await newWork.save();
 
-    // Create a notification for the engineer
+
     await createNotification(
       engineerId,
       `Your bid for the job "${acceptedBid.jobTitle}" has been accepted.`,
@@ -1694,7 +1817,7 @@ app.post("/reject-bid", async (req, res) => {
       return res.status(404).json({ error: "Related data not found" });
     }
 
-    // Create a notification for the engineer
+
     await createNotification(
       engineerId,
       `Your bid for the job "${rejectedBid.jobTitle}" has been rejected.`,
@@ -1808,27 +1931,32 @@ app.get("/api/pending-bids", async (req, res) => {
 });
 
 app.get("/work/:workId", isAuthenticated, async (req, res) => {
-  let clientId = null;
-  let engineerId = null;
-  let userId = null;
-
-  if (req.session.user) {
-    userId = req.session.user._id;
-  }
-
-  let user = await Engineer.findById(userId);
-
-  if (!user) {
-    user = await Client.findById(userId);
-  }
-
-  if (req.session.user.role === "Client") {
-    clientId = req.session.user._id;
-  } else if (req.session.user.role === "Engineer") {
-    engineerId = req.session.user._id;
-  }
-
   try {
+    let clientId = null;
+    let engineerId = null;
+    let userId = null;
+
+    if (req.session.user) {
+      userId = req.session.user._id;
+    }
+
+    let user = await Engineer.findById(userId);
+
+    if (!user) {
+      user = await Client.findById(userId);
+    }
+
+
+    const { unreadNotificationCount, unreadNotifications } = await getUnreadNotifications(
+      req.session.user?._id
+    );
+
+    if (req.session.user.role === "Client") {
+      clientId = req.session.user._id;
+    } else if (req.session.user.role === "Engineer") {
+      engineerId = req.session.user._id;
+    }
+
     if (user && user.profilePicPath) {
       user.profilePicPath = "/" + user.profilePicPath.replace(/\\/g, "/");
     }
@@ -1883,6 +2011,8 @@ app.get("/work/:workId", isAuthenticated, async (req, res) => {
       isPaymentComplete,
       isratedByClient,
       isratedByEngineer,
+      unreadNotificationCount,
+      unreadNotifications,
     });
   } catch (error) {
     console.error(error);
@@ -1890,7 +2020,8 @@ app.get("/work/:workId", isAuthenticated, async (req, res) => {
   }
 });
 
-// Import the required modules and set up your transporter
+
+
 
 
 
@@ -1925,7 +2056,7 @@ app.post("/forgot-password", async (req, res) => {
 
     await transporter.sendMail(mailOptions);
 
-    // Instead of redirecting directly, render the template with a success message
+
     res.render("forgot-password", { resetEmailSent: true });
   } catch (error) {
     console.error("Error during forgot password:", error);
@@ -1969,7 +2100,7 @@ app.post("/reset-password/:token", async (req, res) => {
 
     await user.save();
 
-    // Instead of redirecting directly, render the template with a success message
+
     res.render("reset-password", { token, resetSuccess: true });
   } catch (error) {
     console.error("Error during password reset:", error);
@@ -2072,29 +2203,9 @@ app.post("/admin/delete-engineer/:id", isAuthenticated, async (req, res) => {
   }
 });
 
-app.post("/admin/delete-bid/:id", isAuthenticated, async (req, res) => {
-  const bidId = req.params.id;
 
-  try {
-    await Bid.findByIdAndDelete(bidId);
-    res.redirect("/admin-dashboard");
-  } catch (error) {
-    console.error("Error deleting bid:", error);
-    res.status(500).send("Internal Server Error");
-  }
-});
 
-app.post("/admin/delete-work/:id", isAuthenticated, async (req, res) => {
-  const workId = req.params.id;
 
-  try {
-    await Work.findByIdAndDelete(workId);
-    res.redirect("/admin-dashboard");
-  } catch (error) {
-    console.error("Error deleting work:", error);
-    res.status(500).send("Internal Server Error");
-  }
-});
 
 app.post("/process-payment", async (req, res) => {
   try {
@@ -2216,15 +2327,13 @@ app.post("/submit-engineer-rating", isAuthenticated, async (req, res) => {
   }
 });
 
-// ... (previous server-side code)
 
-// Define the route for the form submission
 app.post("/submit-form", async (req, res) => {
   try {
-    // Destructure form data from req.body
+
     const { name, email, subject, message } = req.body;
 
-    // Create a new FormData document based on the submitted form data
+
     const formData = new FormData({
       name,
       email,
@@ -2232,20 +2341,19 @@ app.post("/submit-form", async (req, res) => {
       message,
     });
 
-    // Save the form data to the database
+
     await formData.save();
 
-    // Redirect to the home page with a success parameter
+
     res.redirect("/?success=true");
   } catch (error) {
     console.error(error);
-    // Respond with an error message
+
     res.status(500).send("Internal server error");
   }
 });
 
-// Add a route for displaying the edit form
-// GET route for rendering the edit admin profile page
+
 app.get("/edit-admin-profile/:adminId", isAuthenticated, async (req, res) => {
   let adminId = req.params.adminId;
 
@@ -2276,7 +2384,7 @@ app.get("/edit-admin-profile/:adminId", isAuthenticated, async (req, res) => {
   }
 });
 
-// POST route for handling the form submission
+
 app.post("/edit-admin-profile/:adminId", isAuthenticated, async (req, res) => {
   upload.single("profilePic")(req, res, async (err) => {
     if (err) {
@@ -2290,7 +2398,7 @@ app.post("/edit-admin-profile/:adminId", isAuthenticated, async (req, res) => {
         password,
         mobile,
         address,
-        // Add other fields from adminSchema as needed
+
       } = req.body;
 
       const adminId = req.params.adminId;
@@ -2305,10 +2413,9 @@ app.post("/edit-admin-profile/:adminId", isAuthenticated, async (req, res) => {
 
       const updateData = {
         email,
-        password, // You may want to handle password updates securely
+        password,
         mobile,
         address,
-        // Add other fields from adminSchema as needed
         profilePicPath,
       };
 
@@ -2330,8 +2437,6 @@ app.post("/edit-admin-profile/:adminId", isAuthenticated, async (req, res) => {
 
 app.get("/search", async (req, res) => {
   try {
-
-
     let userId = null;
 
     if (req.session.user) {
@@ -2344,16 +2449,17 @@ app.get("/search", async (req, res) => {
       (await Admin.findById(userId));
 
 
+    const { unreadNotificationCount, unreadNotifications } = await getUnreadNotifications(
+      req.session.user?._id
+    );
+
     const { query: keyword } = req.query;
 
-   
     if (!keyword || typeof keyword !== "string") {
       return res
         .status(400)
         .json({ success: false, error: "Invalid or missing search keyword" });
     }
-
-   
 
     const engineerfullNameResults = await Engineer.find({
       full_name: { $regex: new RegExp(keyword, "i") },
@@ -2408,7 +2514,6 @@ app.get("/search", async (req, res) => {
 
     const clientResults = [...clientfullNameResults, ...locationResultsClient];
 
-
     res.render("searchResults", {
       results: {
         engineers: engineerResults,
@@ -2426,11 +2531,13 @@ app.get("/search", async (req, res) => {
         clientfullNameResults: clientfullNameResults,
         locationResultsClient: locationResultsClient,
       },
-      user, 
+      user,
       userId,
-      isClient: req.session.user?.role === "Client",  
-    isEngineer: req.session.user?.role === "Engineer",
-    isAdmin: req.session.user?.role === "Admin"
+      isClient: req.session.user?.role === "Client",
+      isEngineer: req.session.user?.role === "Engineer",
+      isAdmin: req.session.user?.role === "Admin",
+      unreadNotificationCount,
+      unreadNotifications,
     });
   } catch (error) {
     console.error("Error in keyword search:", error);
@@ -2440,3 +2547,4 @@ app.get("/search", async (req, res) => {
     });
   }
 });
+

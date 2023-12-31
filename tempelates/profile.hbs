@@ -1,18 +1,18 @@
 <html lang="en">
 
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-    <title>EngrHire BD</title>
-    <meta content="" name="description" />
-    <meta content="" name="keywords" />
+  <title>EngrHire BD</title>
+  <meta content="" name="description" />
+  <meta content="" name="keywords" />
 
-    <!-- Logo -->
-    <link href="/img/logo.png" rel="icon" />
+  <!-- Logo -->
+  <link href="/img/logo.png" rel="icon" />
 
 
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <link
     href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
     rel="stylesheet" />
@@ -25,7 +25,8 @@
   <link href="/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
   <link href="/vendor/remixicon/remixicon.css" rel="stylesheet" />
   <link href="/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
   <link rel="stylesheet" href="/css/engineer_profile.css" />
 
@@ -33,234 +34,207 @@
 
 <body>
 
-   <!-- ======= Header ======= -->
-    <header id="header" class="fixed-top d-flex align-items-center">
-      <div class="container d-flex align-items-center justify-content-between">
-        <script src="https://unpkg.com/phosphor-icons"></script>
-        <div class="logo">
-          <h1><a href="/"><img src="/img/logo.png" alt="" />EngrHire BD</a></h1>
-        </div>
-
-        <nav id="navbar" class="navbar">
-          <ul>
-            <li><a class="nav-link scrollto active" href="/">Home</a></li>
-
-            {{#if user}}
-              {{#if isClient}}
-                <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
-              {{/if}}
-              {{#if isEngineer}}
-                <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
-              {{/if}}
-              {{#if isAdmin}}
-                <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
-              {{/if}}
-            {{else}}
-              <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
-            {{/if}}
-
-            <li class="dropdown">
-              <a href="#"><span>Explore</span><i
-                  class="bi bi-chevron-down"
-                ></i></a>
-              <ul>
-                {{#if user}}
-                  {{#if isEngineer}}
-                    <li><a
-                        class="nav-link scrollto"
-                        href="/#services"
-                      >Services</a></li>
-                    <li><a
-                        class="nav-link scrollto"
-                        href="/engineers"
-                      >Engineers</a></li>
-                  {{/if}}
-                  {{#if isClient}}
-                    <li><a
-                        class="nav-link scrollto"
-                        href="/#services"
-                      >Services</a></li>
-                    <li><a
-                        class="nav-link scrollto"
-                        href="/engineers"
-                      >Engineers</a></li>
-                  {{/if}}
-                {{else}}
-                  <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
-                  <li><a
-                      class="nav-link scrollto"
-                      href="/#services"
-                    >Services</a></li>
-                  <li><a
-                      class="nav-link scrollto"
-                      href="/engineers"
-                    >Engineers</a></li>
-                {{/if}}
-              </ul>
-            </li>
-
-            <li class="dropdown">
-              <a href="#"><span>Help</span><i
-                  class="bi bi-chevron-down"
-                ></i></a>
-              <ul>
-                <li><a class="nav-link scrollto" href="/#about">About</a></li>
-                <li><a
-                    class="nav-link scrollto"
-                    href="/#contact"
-                  >Contact</a></li>
-                <li><a class="nav-link scrollto" href="/#faq">FAQ</a></li>
-              </ul>
-            </li>
-
-            {{#unless user}}
-              <ul>
-                <li><a href="/login">Login</a></li>
-                <li><a href="/select" class="btn-signup">Sign Up</a></li>
-              </ul>
-            {{/unless}}
-
-            <li class="search-bar">
-              <form
-                action="/search"
-                method="GET"
-                onsubmit="return validateSearch()"
-              >
-                <input
-                  type="text"
-                  name="query"
-                  class="search-input"
-                  id="searchInput"
-                  placeholder="Search..."
-                  oninput="toggleSearchButton()"
-                />
-                <button
-                  type="submit"
-                  class="search-button"
-                  id="searchButton"
-                  disabled
-                ><i class="bi bi-search"></i></button>
-              </form>
-            </li>
-
-            {{#if isClient}}
-              <li>
-                <a
-                  class="getstarted scrollto"
-                  href="/client-profile/{{userId}}/1"
-                >
-                  <img
-                    src="{{user.profilePicPath}}"
-                    alt="Profile Picture"
-                    class="rounded-circle profile-picture"
-                  />
-                  <span class="profile-name">{{user.full_name}}</span>
-                </a>
-              </li>
-              <span class="material-symbols-outlined">
-                <a href="/logout">Logout</a>
-              </span>
-            {{/if}}
-
-            {{#if isEngineer}}
-              <li>
-                <a class="getstarted scrollto" href="/profile/{{userId}}/1">
-                  <img
-                    src="{{user.profilePicPath}}"
-                    alt="Profile Picture"
-                    class="rounded-circle profile-picture"
-                  />
-                  <span class="profile-name">{{user.full_name}}</span>
-                </a>
-              </li>
-              <span class="material-symbols-outlined">
-                <a href="/logout">Logout</a>
-              </span>
-            {{/if}}
-
-            {{#if isAdmin}}
-              <li>
-                <a class="getstarted scrollto" href="/admin-dashboard">
-                  <img
-                    src="{{user.profilePicPath}}"
-                    alt="Profile Picture"
-                    class="rounded-circle profile-picture"
-                  />
-                  <span class="profile-name">{{user.full_name}}</span>
-                </a>
-              </li>
-              <span class="material-symbols-outlined">
-                <a href="/logout">Logout</a>
-              </span>
-            {{/if}}
-
-          </ul>
-          <i class="bi bi-list mobile-nav-toggle"></i>
-        </nav><!-- .navbar -->
-
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+      <script src="https://unpkg.com/phosphor-icons"></script>
+      <div class="logo">
+        <h1><a href="/"><img src="/img/logo.png" alt="" />EngrHire BD</a></h1>
       </div>
-    </header><!-- End Header -->
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="/">Home</a></li>
+
+          {{#if user}}
+          {{#if isClient}}
+          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          {{/if}}
+          {{#if isEngineer}}
+          <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
+          {{/if}}
+          {{#if isAdmin}}
+          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          {{/if}}
+          {{else}}
+          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
+          {{/if}}
+
+          <li class="dropdown">
+            <a href="#"><span>Explore</span><i class="bi bi-chevron-down"></i></a>
+            <ul>
+
+              <li><a class="nav-link scrollto" href="/#services">Services</a></li>
+              <li><a class="nav-link scrollto" href="/engineers">Engineers</a></li>
+
+            </ul>
+          </li>
+
+          <li class="dropdown">
+            <a href="#"><span>Help</span><i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a class="nav-link scrollto" href="/#about">About</a></li>
+              <li><a class="nav-link scrollto" href="/#contact">Contact</a></li>
+              <li><a class="nav-link scrollto" href="/#faq">FAQ</a></li>
+            </ul>
+          </li>
+
+          {{#unless user}}
+          <ul>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/select" class="btn-signup">Sign Up</a></li>
+          </ul>
+          {{/unless}}
+
+          <li class="search-bar">
+            <form action="/search" method="GET" onsubmit="return validateSearch()">
+              <input type="text" name="query" class="search-input" id="searchInput" placeholder="Search..."
+                oninput="toggleSearchButton()" />
+              <button type="submit" class="search-button" id="searchButton" disabled><i
+                  class="bi bi-search"></i></button>
+            </form>
+          </li>
+
+          {{#if isClient}}
+          <li>
+            <a class="getstarted scrollto" href="/client-profile/{{userId}}/1">
+              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{user.full_name}}</span>
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="/profile/{{this.recipient}}/4" id="notificationsDropdown"
+              role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-bell" id="notificationIcon"></i>
+              <span class="badge bg-theme-color" id="notificationCount">{{unreadNotificationCount}}</span>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="notificationsDropdown" style="right: 0; left: auto; top: 40px;">
+              {{#if unreadNotificationCount}}
+              {{#each unreadNotifications}}
+              <li><a class="dropdown-item" href="/profile/{{this.recipient}}/4">{{this.content}}</a></li>
+              {{/each}}
+              {{else}}
+              <li><a class="dropdown-item" href="/profile/{{this.recipient}}/4">No unread notifications</a></li>
+              {{/if}}
+            </ul>
+          </li>
+          <span class="material-symbols-outlined">
+            <a href="/logout">Logout</a>
+          </span>
+          {{/if}}
+
+          {{#if isEngineer}}
+          <li>
+            <a class="getstarted scrollto" href="/profile/{{userId}}/1">
+              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{user.full_name}}</span>
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="/profile/{{this.recipient}}/4" id="notificationsDropdown"
+              role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-bell" id="notificationIcon"></i>
+              <span class="badge bg-theme-color" id="notificationCount">{{unreadNotificationCount}}</span>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="notificationsDropdown" style="right: 0; left: auto; top: 40px;">
+              {{#if unreadNotificationCount}}
+              {{#each unreadNotifications}}
+              <li><a class="dropdown-item" href="/profile/{{this.recipient}}/4">{{this.content}}</a></li>
+              {{/each}}
+              {{else}}
+              <li><a class="dropdown-item" href="/profile/{{this.recipient}}/4">No unread notifications</a></li>
+              {{/if}}
+            </ul>
+          </li>
+          <span class="material-symbols-outlined">
+            <a href="/logout">Logout</a>
+          </span>
+          {{/if}}
+
+          {{#if isAdmin}}
+          <li>
+            <a class="getstarted scrollto" href="/admin-dashboard">
+              <img src="{{user.profilePicPath}}" alt="Profile Picture" class="rounded-circle profile-picture" />
+              <span class="profile-name">{{user.full_name}}</span>
+            </a>
+          </li>
+          <span class="material-symbols-outlined">
+            <a href="/logout">Logout</a>
+          </span>
+          {{/if}}
+
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
   <br /><br /><br /><br />
 
 
-   <div class="sidebar open">
+  <div class="sidebar open">
     <div class="logo-details">
       <i class="bx bx-grid-alt icon"></i>
       <div class="logo_name">Dashboard</div>
       <i class="bx bx-menu" id="btn"></i>
     </div>
     <ul class="nav-list">
-      
+
       <li>
-        <a href="/profile/{{userId}}/1">
+        <a href="/profile/{{engineerId}}/1">
           <i class="bx bx-user"></i>
           <span class="links_name">My Profile</span>
         </a>
         <span class="tooltip">Profile</span>
       </li>
+      {{#if isEngineer}}
       <li>
-         <a href="/profile/{{userId}}/2">
-         <i class="bx bx-credit-card"></i>
+        <a href="/profile/{{engineerId}}/2">
+          <i class="bx bx-credit-card"></i>
           <span class="links_name">Card Info</span>
         </a>
         <span class="tooltip">Card Info</span>
       </li>
-      
+
       <li>
-       <a href="/my-bids/{{userId}}">
+        <a href="/my-bids/{{engineerId}}">
           <i class="bx bx-dollar"></i>
           <span class="links_name">My Bid’s</span>
         </a>
         <span class="tooltip">My Bid’s</span>
       </li>
-     
+
       <li>
-        <a href="/profile/{{userId}}/3">
+        <a href="/profile/{{engineerId}}/4">
+          <i class="bx bx-bell"></i>
+          <span class="links_name">Notifications</span>
+          {{#if unreadNotificationCount}}
+          <span class="unread-count">{{unreadNotificationCount}}</span>
+          {{/if}}
+        </a>
+        <span class="tooltip">Notifications</span>
+      </li>
+
+      {{/if}}
+
+      <li>
+        <a href="/profile/{{engineerId}}/3">
           <i class="bx bx-heart"></i>
           <span class="links_name">Rating & Reviews</span>
         </a>
         <span class="tooltip">Ratings</span>
       </li>
 
-       <li>
-  <a href="/profile/{{userId}}/4">
-    <i class="bx bx-bell"></i>
-    <span class="links_name">Notifications</span>
-    {{#if unreadNotificationCount}}
-      <span class="unread-count">{{unreadNotificationCount}}</span>
-    {{/if}}
-  </a>
-  <span class="tooltip">Notifications</span>
-</li>
-      
+
+
     </ul>
   </div>
 
-  
 
 
 
-{{#if notification}}
+
+  {{#if notification}}
   <section class="home-section">
     <div class="dcont container">
       <div class="main-body">
@@ -268,9 +242,9 @@
           <h2>Notifications</h2>
           <ul class="notification-list">
             {{#each engineerNotifications}}
-              <li class="notification-item {{#if this.read}}read{{else}}unread{{/if}}">
-                <div class="notification-content">{{this.content}}</div>
-              </li>
+            <li class="notification-item {{#if this.read}}read{{else}}unread{{/if}}">
+              <div class="notification-content">{{this.content}}</div>
+            </li>
             {{/each}}
           </ul>
         </div>
@@ -278,9 +252,9 @@
       </div>
     </div>
   </section>
-{{/if}}
+  {{/if}}
 
- {{#if engineerProfile }}
+  {{#if engineerProfile }}
   <section class="home-section">
 
     <div class="dcont container">
@@ -290,56 +264,42 @@
             <div class="card">
               <div class="card-body">
                 <div class="profile-container">
-                  <img
-                    src="{{engineer.profilePicPath}}"
-                    alt="Profile Picture"
-                    class="profile-image"
-                  />
+                  <img src="{{engineer.profilePicPath}}" alt="Profile Picture" class="profile-image" />
 
                   <div class="mt-3">
                     <h4>{{engineer.full_name}}</h4>
                     <p class="text-secondary mb-1">{{engineer.designation}}</p>
                     <p class="text-muted font-size-sm">{{engineer.location}}</p>
-                     <!-- Add this inside the <p> tag -->
-<div class="star-rating" style="font-size: 36px; color: #FFD700;">
-  {{engineerRating}}
-</div>
+                    <!-- Add this inside the <p> tag -->
+                    <div class="star-rating" style="font-size: 36px; color: #FFD700;">
+                      {{engineerRating}}
+                    </div>
 
 
-                    
+
                   </div>
                 </div>
               </div>
             </div>
             <div class="card mt-3">
               <ul class="list-group list-group-flush">
-                <li
-                  class="list-group-item d-flex justify-content-between align-items-center"
-                >
+                <li class="list-group-item d-flex justify-content-between align-items-center">
                   <h6 class="mb-0">Website</h6>
                   <span class="text-secondary">{{engineer.website}}</span>
                 </li>
-                <li
-                  class="list-group-item d-flex justify-content-between align-items-center"
-                >
+                <li class="list-group-item d-flex justify-content-between align-items-center">
                   <h6 class="mb-0">Github</h6>
                   <span class="text-secondary">{{engineer.github}}</span>
                 </li>
-                <li
-                  class="list-group-item d-flex justify-content-between align-items-center"
-                >
+                <li class="list-group-item d-flex justify-content-between align-items-center">
                   <h6 class="mb-0">Twitter</h6>
                   <span class="text-secondary">{{engineer.twitter}}</span>
                 </li>
-                <li
-                  class="list-group-item d-flex justify-content-between align-items-center"
-                >
+                <li class="list-group-item d-flex justify-content-between align-items-center">
                   <h6 class="mb-0">Instagram</h6>
                   <span class="text-secondary">{{engineer.instagram}}</span>
                 </li>
-                <li
-                  class="list-group-item d-flex justify-content-between align-items-center"
-                >
+                <li class="list-group-item d-flex justify-content-between align-items-center">
                   <h6 class="mb-0">Facebook</h6>
                   <span class="text-secondary">{{engineer.facebook}}</span>
                 </li>
@@ -371,7 +331,7 @@
                   </div>
                   <div class="col-sm-9 text-secondary">{{engineer.mobile}}</div>
                 </div>
-                
+
                 <hr />
                 <div class="row">
                   <div class="col-sm-3">
@@ -419,23 +379,19 @@
                 <hr />
 
 
-                
- 
-                {{#if isEngineer}}
-                
-                  {{#if canEdit}}
-                 
-                    <div class="row">
-                      <div class="col-sm-12">
-                        <a
-                          class="btn btn-info"
-                          target="__blank"
-                          href="/edit-engineer-profile/{{engineerId}}"
-                        >Edit</a>
-                      </div>
-                    </div>
 
-                  {{/if}}
+
+                {{#if isEngineer}}
+
+                {{#if canEdit}}
+
+                <div class="row">
+                  <div class="col-sm-12">
+                    <a class="btn btn-info" target="__blank" href="/edit-engineer-profile/{{engineerId}}">Edit</a>
+                  </div>
+                </div>
+
+                {{/if}}
                 {{/if}}
 
               </div>
@@ -443,125 +399,121 @@
           </div>
         </div>
       </div>
-             </div>
-</section>
-{{/if}}
+    </div>
+  </section>
+  {{/if}}
 
-{{#if cardInfo}}
- <section class="home-section">
-       
-        <div class="dcont container">
+  {{#if cardInfo}}
+  <section class="home-section">
+
+    <div class="dcont container">
       <div class="main-body">
-      <div class="row gutters-sm">
+        <div class="row gutters-sm">
 
-        <div class="main">
-      
-                 <div class="aka">
-      
-        <span class="akalogo">
-          <h5 class="akah5">Bank Card</h5>
-          <!-- <img src="images/logo.png" alt="" /> -->
-          
-          <img src="/img/akachip.png" alt="" class="chip" />
-        </span>
-        
-  
+          <div class="main">
 
-      <div class="card-details">
-        <div class="name-number">
-          <h6 class="akah6">Card Number</h6>
-          <h5 class="number akah5">{{engineer.cardNumber}}</h5>
-          <h6 class="akah6">Card CCV</h6>
-          <h5 class="name akah5">{{engineer.cardCVV}}</h5>
-          <h6 class="akah6">Balance</h6>
-          <h6 class="akah6">{{engineer.balance }}</h6>
-          <h5 class="name akah5">{{engineer.cardHolderName}}</h5>
-          
-          
-        </div>
-        <div class="valid-date">
-          <h6 class="akah6">Valid Thru</h6>
-          <h5 class="akah5"> {{engineer.cardExpMonth}} / {{engineer.cardExpYear}}</h5>
+            <div class="aka">
+
+              <span class="akalogo">
+                <h5 class="akah5">Bank Card</h5>
+                <!-- <img src="images/logo.png" alt="" /> -->
+
+                <img src="/img/akachip.png" alt="" class="chip" />
+              </span>
+
+
+
+              <div class="card-details">
+                <div class="name-number">
+                  <h6 class="akah6">Card Number</h6>
+                  <h5 class="number akah5">{{engineer.cardNumber}}</h5>
+                  <h6 class="akah6">Card CCV</h6>
+                  <h5 class="name akah5">{{engineer.cardCVV}}</h5>
+                  <h6 class="akah6">Balance</h6>
+                  <h6 class="akah6">{{engineer.balance }}</h6>
+                  <h5 class="name akah5">{{engineer.cardHolderName}}</h5>
+
+
+                </div>
+                <div class="valid-date">
+                  <h6 class="akah6">Valid Thru</h6>
+                  <h5 class="akah5"> {{engineer.cardExpMonth}} / {{engineer.cardExpYear}}</h5>
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
         </div>
       </div>
-    </div>
 
-    
-
-        </div>
-      </div>
-    </div>
-        
   </section>
 
   {{/if}}
 
 
-{{#if rating}}
+  {{#if rating}}
   <section class="home-section">
     {{#each works}}
-     
-              <section id="ccctestimonials">
-                <div class="ccctestimonial-box-container">
 
-                  <div class="ccctestimonial-box">
+    <section id="ccctestimonials">
+      <div class="ccctestimonial-box-container">
 
-                    <div class="cccbox-top">
+        <div class="ccctestimonial-box">
 
-                      <div class="cccprofile">
+          <div class="cccbox-top">
 
-                        <div class="cccprofile-img">
-                          <img
-                            src="/{{client.profilePicPath}}"
-                            width="250px" />
-                        </div>
+            <div class="cccprofile">
 
-                        <div class="cccname-user">
-                          <strong>{{client.full_name}}</strong>
-                          <span>{{client.email}}</span>
-                        </div>
-                      </div>
+              <div class="cccprofile-img">
+                <img src="/{{client.profilePicPath}}" width="250px" />
+              </div>
 
-                      <div class="cccreviews">
-                        {{generateStarRating this.engineerRating}}
-                      </div>
-                    </div>
+              <div class="cccname-user">
+                <strong>{{client.full_name}}</strong>
+                <span>{{client.email}}</span>
+              </div>
+            </div>
 
-                    <div class="cccclient-comment">
-                      <p>
-                        {{this.engineerFeedback}}
-                      </p>
-                    </div>
-                  </div>
-              </section>
+            <div class="cccreviews">
+              {{generateStarRating this.engineerRating}}
+            </div>
+          </div>
 
-          
+          <div class="cccclient-comment">
+            <p>
+              {{this.engineerFeedback}}
+            </p>
+          </div>
+        </div>
+    </section>
+
+
     {{/each}}
   </section>
-{{/if}}
+  {{/if}}
 
 
 
 
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"
-    ></script>
+  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script src="../bids.js"></script>
+  <script src="../bids.js"></script>
 
-    <script>
+  <script>
 
-    </script>
+  </script>
 
 
-    <script src="/vendor/purecounter/purecounter_vanilla.js"></script>
-    <script src="/vendor/aos/aos.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-    <script src="/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="/vendor/php-email-form/validate.js"></script>
+  <script src="/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="/vendor/aos/aos.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="/vendor/php-email-form/validate.js"></script>
 
 
   <script>
@@ -583,54 +535,53 @@
     }
   </script>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Assuming you have jQuery available
-    $('#mark-as-read').on('click', function () {
-      // Assuming there's a route to handle marking notifications as read
-      $.post('/mark-notifications-as-read', function (data) {
-        // Assuming you want to do something after marking notifications as read
-        // For example, you can reload the page
-        location.reload();
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+      $('#mark-as-read').on('click', function () {
+
+        $.post('/mark-notifications-as-read', function (data) {
+
+          location.reload();
+        });
       });
     });
-  });
-</script>
+  </script>
 
-    <script>
-function toggleSearchButton() {
-  var searchInput = document.getElementById('searchInput');
-  var searchButton = document.getElementById('searchButton');
-  
-  // Enable the button if the input is not empty, otherwise disable it
-  searchButton.disabled = searchInput.value.trim() === '';
-}
-
-function validateSearch() {
-  var searchInput = document.getElementById('searchInput');
-  
-  // Check if the input is not empty before form submission
-  return searchInput.value.trim() !== '';
-}
+  <script>
+    function toggleSearchButton() {
+      var searchInput = document.getElementById('searchInput');
+      var searchButton = document.getElementById('searchButton');
 
 
- </script>
+      searchButton.disabled = searchInput.value.trim() === '';
+    }
+
+    function validateSearch() {
+      var searchInput = document.getElementById('searchInput');
+
+
+      return searchInput.value.trim() !== '';
+    }
+
+
+  </script>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../bids.js"></script>
+  <script src="../bids.js"></script>
 
-    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-    <script src="assets/vendor/aos/aos.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
 
 
-    <script src="/js/main.js"></script>
-    <script src="/js/search.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/search.js"></script>
 
-  </body>
+</body>
 
 </html>

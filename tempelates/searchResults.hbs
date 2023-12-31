@@ -5,7 +5,7 @@
         href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
         rel="stylesheet" />
 
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link href="/vendor/aos/aos.css" rel="stylesheet" />
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
@@ -61,8 +61,7 @@
                   class="bi bi-chevron-down"
                 ></i></a>
               <ul>
-                {{#if user}}
-                  {{#if isEngineer}}
+            
                     <li><a
                         class="nav-link scrollto"
                         href="/#services"
@@ -71,28 +70,7 @@
                         class="nav-link scrollto"
                         href="/engineers"
                       >Engineers</a></li>
-                  {{/if}}
-                  {{#if isClient}}
-                    <li><a
-                        class="nav-link scrollto"
-                        href="/#services"
-                      >Services</a></li>
-                    <li><a
-                        class="nav-link scrollto"
-                        href="/engineers"
-                      >Engineers</a></li>
-                  {{/if}}
-                {{else}}
-                  <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
-                  <li><a
-                      class="nav-link scrollto"
-                      href="/#services"
-                    >Services</a></li>
-                  <li><a
-                      class="nav-link scrollto"
-                      href="/engineers"
-                    >Engineers</a></li>
-                {{/if}}
+               
               </ul>
             </li>
 
@@ -154,6 +132,21 @@
                   <span class="profile-name">{{user.full_name}}</span>
                 </a>
               </li>
+              <li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="/profile/{{this.recipient}}/4" id="notificationsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="fas fa-bell" id="notificationIcon"></i>
+    <span class="badge bg-theme-color" id="notificationCount">{{unreadNotificationCount}}</span>
+  </a>
+  <ul class="dropdown-menu" aria-labelledby="notificationsDropdown" style="right: 0; left: auto; top: 40px;">
+    {{#if unreadNotificationCount}}
+      {{#each unreadNotifications}}
+        <li><a class="dropdown-item" href="/profile/{{this.recipient}}/4">{{this.content}}</a></li>
+      {{/each}}
+    {{else}}
+      <li><a class="dropdown-item" href="/profile/{{this.recipient}}/4">No unread notifications</a></li>
+    {{/if}}
+  </ul>
+</li>
               <span class="material-symbols-outlined">
                 <a href="/logout">Logout</a>
               </span>
@@ -170,6 +163,21 @@
                   <span class="profile-name">{{user.full_name}}</span>
                 </a>
               </li>
+              <li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="/profile/{{this.recipient}}/4" id="notificationsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="fas fa-bell" id="notificationIcon"></i>
+    <span class="badge bg-theme-color" id="notificationCount">{{unreadNotificationCount}}</span>
+  </a>
+  <ul class="dropdown-menu" aria-labelledby="notificationsDropdown" style="right: 0; left: auto; top: 40px;">
+    {{#if unreadNotificationCount}}
+      {{#each unreadNotifications}}
+        <li><a class="dropdown-item" href="/profile/{{this.recipient}}/4">{{this.content}}</a></li>
+      {{/each}}
+    {{else}}
+      <li><a class="dropdown-item" href="/profile/{{this.recipient}}/4">No unread notifications</a></li>
+    {{/if}}
+  </ul>
+</li>
               <span class="material-symbols-outlined">
                 <a href="/logout">Logout</a>
               </span>
@@ -644,14 +652,14 @@ function toggleSearchButton() {
   var searchInput = document.getElementById('searchInput');
   var searchButton = document.getElementById('searchButton');
   
-  // Enable the button if the input is not empty, otherwise disable it
+
   searchButton.disabled = searchInput.value.trim() === '';
 }
 
 function validateSearch() {
   var searchInput = document.getElementById('searchInput');
   
-  // Check if the input is not empty before form submission
+
   return searchInput.value.trim() !== '';
 }
 

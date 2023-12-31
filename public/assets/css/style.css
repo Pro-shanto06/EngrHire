@@ -19,10 +19,7 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-  color: white;
-  text-decoration: none;
-}
+
 
 h1,
 h2,
@@ -863,9 +860,11 @@ section {
   display: flex;
   align-items: center;
   padding: 20px;
-  background: #f6f6f6;
+  background: #ffffff;
   transition: ease-in-out 0.3s;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add your desired shadow values */
 }
+
 
 .features .icon-box i {
   font-size: 32px;
@@ -1711,3 +1710,26 @@ section {
   text-decoration: none;
   font-size: 24px;
 }
+
+
+/* Add this CSS to your existing styles or in a separate stylesheet */
+
+/* Styling for the bell icon */
+#notificationIcon {
+  font-size: 1.5rem; /* Adjust the size as needed */
+  color: #4aa3df;  /* Replace with your theme color */
+  position: relative;
+}
+
+
+#notificationCount {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 0.7rem; /* Decrease the font size */
+  padding: 0.2em 0.4em;/* Decrease the padding to decrease the background size */
+  background-color: #d36262; /* Background color for the count */
+  color: #fff; /* Text color for the count */
+  border-radius: 50%; /* Make it round */
+}
+

@@ -794,19 +794,17 @@ body {
   }
   
   
-  /* styles.css */
   
-  /* Customize the star color and size */
   .star-rating {
-    color: #f39c12; /* Change to your preferred color */
-    font-size: 24px; /* Change to your preferred font size */
+    color: #f39c12; 
+    font-size: 24px; 
   }
   
-  /* Optional: Add additional styles for half-star */
+ 
   .star-rating .half-star {
-    font-size: 75%; /* Adjust the size of the half-star */
+    font-size: 75%; 
     position: relative;
-    top: -6px; /* Adjust the position to align with the full star */
+    top: -6px; 
   }
   
   

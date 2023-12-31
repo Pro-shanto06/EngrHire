@@ -35,7 +35,7 @@
 
 
 
-  
+
   <link rel="stylesheet" href="/css/admin.css" />
 
 
@@ -46,11 +46,13 @@
       padding: 30px 0;
       color: #fff;
     }
-   .sidebar li a.active {
-    background-color: #333; /* Set your desired background color */
-    color: #fff; /* Set your desired text color */
-  }
 
+    .sidebar li a.active {
+      background-color: #333;
+      /* Set your desired background color */
+      color: #fff;
+      /* Set your desired text color */
+    }
   </style>
 
 </head>
@@ -85,26 +87,11 @@
             <a href="#"><span>Explore</span>
             </a>
             <ul>
-              {{#if user}}
-              {{#if isEngineer}}
-              <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
-              <li><a class="nav-link scrollto" href="#services">Services</a></li>
-              {{/if}}
 
-              {{#if isClient}}
-              <li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
-              <li><a class="nav-link scrollto" href="#services">Services</a></li>
-              {{/if}}
-              {{#if isAdmin}}
               <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
-              <li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
-              <li><a class="nav-link scrollto" href="#services">Services</a></li>
-              {{/if}}
-              {{else}}
-              <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
-              <li><a class="nav-link scrollto" href="/job-list/all">Find Engineers</a></li>
-              <li><a class="nav-link scrollto" href="#services">Services</a></li>
-              {{/if}}
+              <li><a class="nav-link scrollto" href="/#services">Services</a></li>
+
+
 
             </ul>
 
@@ -117,9 +104,9 @@
             </a>
             <ul>
 
-              <li><a class="nav-link scrollto" href="#about">About</a></li>
-              <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-              <li><a class="nav-link scrollto" href="#faq">FAQ</a></li>
+              <li><a class="nav-link scrollto" href="/#about">About</a></li>
+              <li><a class="nav-link scrollto" href="/#contact">Contact</a></li>
+              <li><a class="nav-link scrollto" href="/#faq">FAQ</a></li>
 
             </ul>
 
@@ -137,12 +124,12 @@
           {{/unless}}
 
 
-         <li class="search-bar">
-  <form action="/search" method="GET">
-    <input type="text" name="query" class="search-input" placeholder="Search...">
-    <button type="submit" class="search-button"><i class="bi bi-search"></i></button>
-  </form>
-</li>
+          <li class="search-bar">
+            <form action="/search" method="GET">
+              <input type="text" name="query" class="search-input" placeholder="Search...">
+              <button type="submit" class="search-button"><i class="bi bi-search"></i></button>
+            </form>
+          </li>
 
           {{#if isClient}}
           <li>
@@ -265,7 +252,7 @@
       </li>
 
 
-    
+
 
       <!-- Support & Help Center -->
       <li>
@@ -277,13 +264,13 @@
       </li>
 
       <!-- Review and Rating Management -->
-    
+
 
     </ul>
   </div>
 
   {{!-- Main container Beside Sidebar --}}
-<section id="overview" class="home-section">
+  <section id="overview" class="home-section">
 
     <div class="dcont container">
       <div class="main-body">
@@ -298,13 +285,14 @@
             <div class="row">
               <!-- Engineers Count Card -->
               <div class="col-sm-6 col-md-3 mb-3">
-                <div class="card text-white bg-primary">
+                <div class="card border-primary">
                   <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-users"></i> Engineers</h5>
+                    <h5 class="card-title text-primary"><i class="fas fa-users"></i> Engineers</h5>
                     <p class="card-text">{{engineers.length}}</p>
                   </div>
                 </div>
               </div>
+
 
               <!-- Clients Count Card -->
               <div class="col-sm-6 col-md-3 mb-3">
@@ -340,241 +328,241 @@
           </div>
         </section>
 
-</section>
+  </section>
 
 
 
-        <br>
-<section id="job" class="home-section">
-        <!-- Clients Table -->
-        <div class="container mt-5">
-          <h2>Jobs</h2>
+  <br>
+  <section id="job" class="home-section">
+    <!-- Clients Table -->
+    <div class="container mt-5">
+      <h2>Jobs</h2>
 
-          <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-              <thead class="thead-light">
-                <tr style="font-size: 18px;">
-                  <th>Job ID</th>
-                  <th>Title</th>
-                  <th>Client Name</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {{#each jobs}}
-                <tr>
-                  <td>{{this._id}}</td>
-                  <td>{{this.jobTitle}}</td>
-                  <td>{{this.clientName}}</td>
-                  <td>
-                    <form method="POST" action="/admin/delete-job/{{this._id}}">
-                      <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                  </td>
-                </tr>
-                {{/each}}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        </section>
-
-<section id="client" class="home-section">
-        <!-- Clients Table -->
-        <div class="container mt-5">
-          <h2>Clients</h2>
-          <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-              <thead class="thead-light">
-                <tr style="font-size: 18px;">
-                  <th>Client ID</th>
-                  <th>Email</th>
-                  <th>Full Name</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {{#each clients}}
-                <tr>
-                  <td>{{this._id}}</td>
-                  <td>{{this.email}}</td>
-                  <td>{{this.full_name}}</td>
-                  <td>
-                    <form method="POST" action="/admin/delete-client/{{this._id}}">
-                      <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                  </td>
-                </tr>
-                {{/each}}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-
-</section>
-
-<section id="engineer" class="home-section">
-        <!-- Engineers Table -->
-        <div class="container mt-5">
-          <h2>Engineers</h2>
-          <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-              <thead class="thead-light">
-                <tr style=" font-size: 18px; ">
-          <th>Engineer ID</th>
-          <th>Email</th>
-          <th>Full Name</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each engineers}}
-        <tr>
-          <td>{{this._id}}</td>
-          <td>{{this.email}}</td>
-          <td>{{this.full_name}}</td>
-          <td>
-            <form method="POST" action="/admin/delete-engineer/{{this._id}}">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead class="thead-light">
+            <tr style="font-size: 18px;">
+              <th>Job ID</th>
+              <th>Title</th>
+              <th>Client Name</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each jobs}}
+            <tr>
+              <td>{{this._id}}</td>
+              <td>{{this.jobTitle}}</td>
+              <td>{{this.clientName}}</td>
+              <td>
+                <form method="POST" action="/admin/delete-job/{{this._id}}">
                   <button type="submit" class="btn btn-danger">Delete</button>
-                  </form>
-                  </td>
-                  </tr>
-                  {{/each}}
-                  </tbody>
-            </table>
-          </div>
-        </div>
+                </form>
+              </td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-</section>
+  </section>
 
-
-<section id="bids" class="home-section">
-        <!-- Bids Table -->
-        <div class="container mt-5">
-          <h2>Bids</h2>
-          <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-              <thead class="thead-light">
-                <tr style=" font-size: 18px; ">
-          <th>Bid ID</th>
-          <th>Job Title</th>
-          <th>Engineer Name</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each bids}}
-        <tr>
-          <td>{{this._id}}</td>
-          <td>{{this.jobTitle}}</td>
-          <td>{{this.engineerFullName}}</td>
-          <td>
-            <form method=" POST" action="/admin/delete-bid/{{this._id}}">
+  <section id="client" class="home-section">
+    <!-- Clients Table -->
+    <div class="container mt-5">
+      <h2>Clients</h2>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead class="thead-light">
+            <tr style="font-size: 18px;">
+              <th>Client ID</th>
+              <th>Email</th>
+              <th>Full Name</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each clients}}
+            <tr>
+              <td>{{this._id}}</td>
+              <td>{{this.email}}</td>
+              <td>{{this.full_name}}</td>
+              <td>
+                <form method="POST" action="/admin/delete-client/{{this._id}}">
                   <button type="submit" class="btn btn-danger">Delete</button>
-                  </form>
-                  </td>
-                  </tr>
-                  {{/each}}
-                  </tbody>
-            </table>
-          </div>
-        </div>
+                </form>
+              </td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-</section>
 
-<section id="works" class="home-section">
+  </section>
 
-        <!-- Works Table -->
-        <div class="container mt-5">
-          <h2>Works</h2>
-          <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-              <thead class="thead-light">
-                <tr style=" font-size: 18px; ">
-          <th>Work ID</th>
-          <th>Engineer Name</th>
-          <th>Job Title</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each works}}
-        <tr>
-          <td>{{this._id}}</td>
-          <td>{{this.engineer.email}}</td>
-          <td>{{this.job.jobTitle}}</td>
-          <td>
-            <form method=" POST" action="/admin/delete-work/{{this._id}}">
+  <section id="engineer" class="home-section">
+    <!-- Engineers Table -->
+    <div class="container mt-5">
+      <h2>Engineers</h2>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead class="thead-light">
+            <tr style=" font-size: 18px; ">
+              <th>Engineer ID</th>
+              <th>Email</th>
+              <th>Full Name</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each engineers}}
+            <tr>
+              <td>{{this._id}}</td>
+              <td>{{this.email}}</td>
+              <td>{{this.full_name}}</td>
+              <td>
+                <form method="POST" action="/admin/delete-engineer/{{this._id}}">
                   <button type="submit" class="btn btn-danger">Delete</button>
-                  </form>
-                  </td>
-                  </tr>
-                  {{/each}}
-                  </tbody>
-            </table>
-          </div>
-        </div>
+                </form>
+              </td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-        </section>
+  </section>
+
+
+  <section id="bids" class="home-section">
+    <!-- Bids Table -->
+    <div class="container mt-5">
+      <h2>Bids</h2>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead class="thead-light">
+            <tr style=" font-size: 18px; ">
+              <th>Bid ID</th>
+              <th>Job Title</th>
+              <th>Engineer Name</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each bids}}
+            <tr>
+              <td>{{this._id}}</td>
+              <td>{{this.jobTitle}}</td>
+              <td>{{this.engineerFullName}}</td>
+              <td>
+                <form method=" POST" action="/admin/delete-bid/{{this._id}}">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </section>
+
+  <section id="works" class="home-section">
+
+    <!-- Works Table -->
+    <div class="container mt-5">
+      <h2>Works</h2>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead class="thead-light">
+            <tr style=" font-size: 18px; ">
+              <th>Work ID</th>
+              <th>Engineer Name</th>
+              <th>Job Title</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each works}}
+            <tr>
+              <td>{{this._id}}</td>
+              <td>{{this.engineer.email}}</td>
+              <td>{{this.job.jobTitle}}</td>
+              <td>
+                <form method=" POST" action="/admin/delete-work/{{this._id}}">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </section>
 
 
 
-        <!-- Add this section at the end of your HTML file -->
-<section id="contact-messages" class="home-section">
-  <!-- Contact Messages Table -->
-  <div class="container mt-5">
-    <h2>Contact Messages</h2>
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover">
-        <thead class="thead-light">
-          <tr style="font-size: 18px;">
-            <th>Name</th>
-            <th>Email</th>
-            <th>Subject</th>
-            <th>Message</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each contactMessages}}
+  <!-- Add this section at the end of your HTML file -->
+  <section id="contact-messages" class="home-section">
+    <!-- Contact Messages Table -->
+    <div class="container mt-5">
+      <h2>Contact Messages</h2>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead class="thead-light">
+            <tr style="font-size: 18px;">
+              <th>Name</th>
+              <th>Email</th>
+              <th>Subject</th>
+              <th>Message</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each contactMessages}}
             <tr>
               <td>{{this.name}}</td>
               <td>{{this.email}}</td>
               <td>{{this.subject}}</td>
               <td>{{this.message}}</td>
             </tr>
-          {{/each}}
-        </tbody>
-      </table>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
 
-<!-- Add this section at the end of your HTML file -->
-<section id="payments" class="home-section">
-  <!-- Payments Table -->
-  <div class="container mt-5">
-    <h2>Payments</h2>
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover">
-        <thead class="thead-light">
-          <tr style="font-size: 18px;">
-            <th>Engineer Name</th>
-             <th>Engineer Email</th>
-            <th>Client Name</th>
+  <!-- Add this section at the end of your HTML file -->
+  <section id="payments" class="home-section">
+    <!-- Payments Table -->
+    <div class="container mt-5">
+      <h2>Payments</h2>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead class="thead-light">
+            <tr style="font-size: 18px;">
+              <th>Engineer Name</th>
+              <th>Engineer Email</th>
+              <th>Client Name</th>
               <th>Client Email</th>
-            <th>Work</th>
-            <th>Amount</th>
-            <th>Timestamp</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each payments}}
+              <th>Work</th>
+              <th>Amount</th>
+              <th>Timestamp</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each payments}}
             <tr>
               <td>{{this.engineer.full_name}}</td>
-              
+
               <td>{{this.engineer.email}}</td>
               <td>{{this.client.full_name}}</td>
               <td>{{this.client.email}}</td>
@@ -582,20 +570,20 @@
               <td>{{this.amount}}</td>
               <td>{{this.timestamp}}</td>
             </tr>
-          {{/each}}
-        </tbody>
-      </table>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
 
 
-<section id="profile" class="home-section">
+  <section id="profile" class="home-section">
 
 
 
-   <div class="dcont container">
+    <div class="dcont container">
       <div class="main-body">
         <div class="row gutters-sm">
           <div class="col-md-4 mb-3">
@@ -606,14 +594,14 @@
 
                   <div class="mt-3">
                     <h4>{{admin.full_name}}</h4>
-                     <div class="mt-3">{{admin.role}}</div>
-                     <div class="mt-3">{{admin.address}}</div>
-                   
+                    <div class="mt-3">{{admin.role}}</div>
+                    <div class="mt-3">{{admin.address}}</div>
+
                   </div>
                 </div>
               </div>
             </div>
-         
+
           </div>
           <div class="col-md-8 colmd8">
             <div class="card mb-3">
@@ -650,76 +638,93 @@
                 </div>
                 <hr />
 
-                
 
-           {{#if isAdmin}}
-  {{#if canEdit}}
-    <div class="row">
-      <div class="col-sm-12">
-        <a class="btn btn-info" href="/edit-admin-profile/{{admin._id}}">Edit</a>
-      </div>
-    </div>
-  {{/if}}
-{{/if}}
+
+                {{#if isAdmin}}
+                {{#if canEdit}}
+                <div class="row">
+                  <div class="col-sm-12">
+                    <a class="btn btn-info" href="/edit-admin-profile/{{admin._id}}">Edit</a>
+                  </div>
+                </div>
+                {{/if}}
+                {{/if}}
 
 
               </div>
             </div>
           </div>
-           </div>
-            </div>
-             </div>
-</section>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    // Get all list items
-    const tabs = document.querySelectorAll(".sidebar li a");
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
 
-    // Add click event listener to each tab
-    tabs.forEach((tab) => {
-      tab.addEventListener("click", function () {
-        // Remove "active" class from all tabs
-        tabs.forEach((t) => t.classList.remove("active"));
+      const tabs = document.querySelectorAll(".sidebar li a");
 
-        // Add "active" class to the clicked tab
-        this.classList.add("active");
+
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", function () {
+
+          tabs.forEach((t) => t.classList.remove("active"));
+
+
+          this.classList.add("active");
+        });
       });
     });
-  });
-</script>
+  </script>
 
 
-<script>
-  const navLinks = document.querySelectorAll('.nav-list a');
-  const contentSections = document.querySelectorAll('.home-section');
+  <script>
+    const navLinks = document.querySelectorAll('.nav-list a');
+    const contentSections = document.querySelectorAll('.home-section');
 
-  contentSections.forEach((section, index) => {
-    if (index > 0) {
-      section.style.display = 'none';
-    }
-  });
-
-  navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-
-      contentSections.forEach(section => {
+    contentSections.forEach((section, index) => {
+      if (index > 0) {
         section.style.display = 'none';
-      });
-
-      const targetSectionId = link.getAttribute('href').substring(1); 
-      const activeSection = document.getElementById(targetSectionId);
-
-      if (activeSection) {
-        activeSection.style.display = 'block';
       }
     });
-  });
-</script>
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        contentSections.forEach(section => {
+          section.style.display = 'none';
+        });
+
+        const targetSectionId = link.getAttribute('href').substring(1);
+        const activeSection = document.getElementById(targetSectionId);
+
+        if (activeSection) {
+          activeSection.style.display = 'block';
+        }
+      });
+    });
+  </script>
 
 
+  <script>
+    function toggleSearchButton() {
+      var searchInput = document.getElementById('searchInput');
+      var searchButton = document.getElementById('searchButton');
 
+
+      searchButton.disabled = searchInput.value.trim() === '';
+    }
+
+    function validateSearch() {
+      var searchInput = document.getElementById('searchInput');
+
+
+      return searchInput.value.trim() !== '';
+    }
+
+
+  </script>
 
 
   <script>
@@ -753,7 +758,7 @@
 
 
   <script src="assets/js/main.js"></script>
- 
+
 
 
 </body>
