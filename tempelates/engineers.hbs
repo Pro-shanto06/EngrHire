@@ -90,9 +90,8 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const expertiseFilter = document.getElementById('expertise-filter');
-      const selectedExpertise = "{{ selectedExpertise }}"; // Use the Handlebars syntax to get the server's value
+      const selectedExpertise = "{{ selectedExpertise }}";
 
-      // Set the selected option in the expertise filter dropdown
       for (let i = 0; i < expertiseFilter.options.length; i++) {
         if (expertiseFilter.options[i].value === selectedExpertise) {
           expertiseFilter.options[i].selected = true;
@@ -105,10 +104,10 @@
       const expertiseFilter = document.getElementById('expertise-filter');
       const selectedExpertise = expertiseFilter.value;
 
-      // Build the URL with the selected filters
+
       const url = `/engineers?field_of_expertise=${selectedExpertise}`;
 
-      // Redirect to the updated URL
+
       window.location.href = url;
     }
   </script>
@@ -300,17 +299,6 @@
     <br>
     <button class="button" onclick="applyFilters()">Apply Filters</button>
   </div>
-
-
-
-
-
-
-
-
-
-
-
 
 
 
