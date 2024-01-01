@@ -70,33 +70,7 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li><a class="nav-link scrollto active" href="/">Home</a></li>
-          {{#if user}}
-          {{#if isClient}}
-          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
-          {{/if}}
-          {{#if isEngineer}}
-          <li><a class="nav-link scrollto" href="/engineer-post">Post Jobs</a></li>
-          {{/if}}
-          {{#if isAdmin}}
-          <li><a class="nav-link scrollto" href="/engineer-post">Post Jobs</a></li>
-          {{/if}}
-          {{else}}
-          <li><a class="nav-link scrollto" href="/post-job">Post Jobs</a></li>
-          {{/if}}
-          <li class="dropdown">
-            <a href="#"><span>Explore</span>
-            </a>
-            <ul>
 
-              <li><a class="nav-link scrollto" href="/job-list/all">Find Job</a></li>
-              <li><a class="nav-link scrollto" href="/#services">Services</a></li>
-
-
-
-            </ul>
-
-
-          </li>
 
           <li class="dropdown">
             <a href="#"><span>Help</span>
