@@ -85,7 +85,7 @@ body {
 .outgoing {
   background: #128C7E;  /* A teal color for outgoing messages */
   border-radius: 10px;
-  color: #000000;
+  color: #ffffff;
   margin-left: auto;
   margin-top: 10px;
 }
@@ -155,7 +155,7 @@ body {
   border-radius: 50px;
   outline: none;
   background-color: rgb(255, 255, 255);
-  color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
   display: inline-block;
 }
 
